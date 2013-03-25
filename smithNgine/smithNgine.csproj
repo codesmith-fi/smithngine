@@ -96,6 +96,7 @@
     <Compile Include="IMovableObject2D.cs" />
     <Compile Include="IOrderableObject.cs" />
     <Compile Include="IRotatableObject.cs" />
+    <Compile Include="ITransitionSource.cs" />
     <Compile Include="PositionEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Input\InputManager.cs" />

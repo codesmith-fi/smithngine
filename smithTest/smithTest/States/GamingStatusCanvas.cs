@@ -4,12 +4,13 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Codesmith.SmithNgine.GameState;
+using Codesmith.SmithNgine.Gfx;
 
 namespace Codesmith.SmithTest
 {
     class GamingStatusCanvas : GameCanvas
     {
-        private Texture2D bitmap;
+        private List<Sprite> sprites = new List<Sprite>();
         Vector2 textPos;
         Rectangle area;
         Vector2 moveDelta;
@@ -23,7 +24,18 @@ namespace Codesmith.SmithTest
             this.area = StateManager.GraphicsDevice.Viewport.Bounds;
             this.textPos = new Vector2(this.area.Width / 2, 10);
             this.moveDelta = new Vector2(0, 2);
-            //            this.bitmap = StateManager.Game.Content.Load<Texture2D>("");
+            sprites.Add(new Sprite(StateManager.Content.Load<Texture2D>("Images/j1")));
+            sprites.Add(new Sprite(StateManager.Content.Load<Texture2D>("Images/j2")));
+            sprites.Add(new Sprite(StateManager.Content.Load<Texture2D>("Images/j3")));
+
+            int i = 20;
+            foreach (Sprite s in sprites)
+            {
+                s.TransitionSource = this.State;
+                s.Position = new Vector2(i, 80);
+                i += 60;
+
+            }
         }
 
         public override void Update(GameTime gameTime)
@@ -47,6 +59,10 @@ namespace Codesmith.SmithTest
             textPos.X = this.area.Width / 2 - origin.X / 2;
             spriteBatch.Begin();
             spriteBatch.DrawString(StateManager.Font, text, textPos, Color.Green * this.State.TransitionValue );
+            foreach (Sprite sprite in this.sprites)
+            {
+                sprite.Draw(spriteBatch);
+            }
             spriteBatch.End();
         }
     }

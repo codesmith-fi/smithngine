@@ -45,7 +45,7 @@ namespace Codesmith.SmithNgine.GameState
     public delegate void GameStatusChangedEventHandler(object sender, GameStatusEventArgs e);
     #endregion 
 
-    public abstract class GameState : IEquatable<GameState>
+    public abstract class GameState : IEquatable<GameState>, ITransitionSource
     {
         #region Attributes/Fields
         private List<GameCanvas> canvasList = new List<GameCanvas>();
@@ -313,5 +313,6 @@ namespace Codesmith.SmithNgine.GameState
         }
 
         #endregion
+
     }
 }

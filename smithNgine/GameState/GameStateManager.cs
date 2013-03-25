@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Codesmith.SmithNgine.Input;
+using Microsoft.Xna.Framework.Content;
 #endregion
 
 namespace Codesmith.SmithNgine.GameState
@@ -31,6 +32,13 @@ namespace Codesmith.SmithNgine.GameState
             { 
                 return this.input; 
             }
+        }
+
+        public ContentManager Content
+        {
+            get;
+            internal set;
+
         }
 
         public SpriteBatch SpriteBatch
@@ -83,6 +91,11 @@ namespace Codesmith.SmithNgine.GameState
 
         protected override void LoadContent()
         {
+            if (Content == null)
+            {
+                Content = Game.Content;
+            }
+
             this.spriteBatch = new SpriteBatch(GraphicsDevice);
             // Unless set from outside, load the default font which is shared for all states
             if (this.Font == null)

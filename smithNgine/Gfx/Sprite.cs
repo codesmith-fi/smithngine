@@ -15,13 +15,6 @@ namespace Codesmith.SmithNgine.Gfx
         private float order;
         #endregion
 
-        #region Constructors
-        public Sprite(Texture2D texture)
-        {
-            this.texture = texture;                 
-        }
-        #endregion
-
         #region Properties
         public Vector2 Position
         {
@@ -43,6 +36,21 @@ namespace Codesmith.SmithNgine.Gfx
             get;
             set;
         }
+
+        public ITransitionSource TransitionSource
+        {
+            get;
+            set;
+        }
+
+        #endregion
+
+        #region Constructors
+        public Sprite(Texture2D texture)
+        {
+            this.texture = texture;
+            TransitionSource = null;
+        }
         #endregion
 
         #region Events
@@ -51,9 +59,14 @@ namespace Codesmith.SmithNgine.Gfx
         #endregion
 
         #region Public virtual methods
-        public virtual void Draw(SpriteBatch spriteBatch, Color color)
+        public virtual void Draw(SpriteBatch spriteBatch)
         {
             Rectangle pos = new Rectangle((int)Position.X, (int)Position.Y, texture.Width, texture.Height);
+            Color color = Color.White;
+            if (TransitionSource != null)
+            {
+                color = Color.White * TransitionSource.TransitionValue;
+            }
             spriteBatch.Draw(this.texture, pos, color);
         }
         #endregion
