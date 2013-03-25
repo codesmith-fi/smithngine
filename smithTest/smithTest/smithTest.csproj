@@ -112,7 +112,7 @@
     <Compile Include="SmithGame.cs" />
     <Compile Include="States\GamingState.cs" />
     <Compile Include="States\GamingStatusCanvas.cs" />
-    <Compile Include="States\LoadingState.cs" />
+    <Compile Include="States\MainMenuState.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

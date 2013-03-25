@@ -23,8 +23,8 @@ namespace Codesmith.SmithTest
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         GameStateManager stateManager;
-        GamingState state1;
-        LoadingState state2;
+        GamingState state2;
+        MainMenuState state1;
 
         public SmithGame()
         {
@@ -48,12 +48,13 @@ namespace Codesmith.SmithTest
         {
             stateManager = new GameStateManager(this);
             Components.Add(stateManager);
-            state1 = new GamingState("Game");
-            state2 = new LoadingState("Loading");
+            state1 = new MainMenuState("Loading");
+            state2 = new GamingState("Game");
             stateManager.AddGameState(state1);
             stateManager.AddGameState(state2);
 
             state1.StatusChanged += new GameStatusChangedEventHandler(this.TestStateStatusChanged);
+            state2.StatusChanged += new GameStatusChangedEventHandler(this.TestStateStatusChanged);
             base.Initialize();
         }
 

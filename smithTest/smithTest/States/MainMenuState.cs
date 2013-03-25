@@ -1,19 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 
 using Codesmith.SmithNgine.GameState;
 
 namespace Codesmith.SmithTest
 {
-    class GamingState : GameState
+    class MainMenuState : GameState
     {
         private Texture2D image;
-        private GamingStatusCanvas canvas1;
 
-        public GamingState(String name)
+        public MainMenuState(String name)
             : base(name)
         {
             this.EnterStateInterval = TimeSpan.FromSeconds(0.5f);
@@ -22,32 +20,8 @@ namespace Codesmith.SmithTest
 
         public override void LoadContent()
         {
-            this.AddCanvas(new GamingStatusCanvas());
-            image = StateManager.Game.Content.Load<Texture2D>("Images/snowmountain");
-
+            image = StateManager.Game.Content.Load<Texture2D>("Images/desert");
             base.LoadContent();
-        }
-
-        public override void Initialize()
-        {
-            base.Initialize();
-        }
-
-        public override void HandleInput()
-        {
-            PlayerIndex source;
-            if (StateManager.Input.IsKeyPressed(Keys.Pause,null,out source))
-            {
-                if (IsActive)
-                {
-                    Pause();
-                }
-                else if (IsPaused)
-                {
-                    UnPause();
-                }
-            }
-            base.HandleInput();
         }
 
         public override void Draw(GameTime gameTime)
@@ -58,6 +32,7 @@ namespace Codesmith.SmithTest
             spriteBatch.Begin();
             spriteBatch.Draw(image, new Rectangle(0, 0, viewport.Width, viewport.Height), Color.White * this.TransitionValue);
             spriteBatch.End();
+
             base.Draw(gameTime);
         }
     }

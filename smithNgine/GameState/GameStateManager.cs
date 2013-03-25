@@ -129,7 +129,7 @@ namespace Codesmith.SmithNgine.GameState
             {
                 CurrentState.Update(gameTime);
                 // Handle input on current state only when it's running 
-                if (CurrentState.Status == GameStateStatus.Running)
+                if (CurrentState.IsActive || CurrentState.IsPaused)
                 {
                     CurrentState.HandleInput();
                 }

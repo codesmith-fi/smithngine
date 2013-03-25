@@ -85,14 +85,25 @@ namespace Codesmith.SmithNgine.GameState
             }
         }
 
+        public bool IsPaused
+        {
+            get
+            {
+                return (Status == GameStateStatus.Paused);
+            }
+        }
+
         public GameStateStatus Status
         {
             get { return status; }
             private set
             {
                 GameStateStatus oldStatus = status;
-                status = value;
-                OnStatusChanged(new GameStatusEventArgs(oldStatus, value));
+                if (oldStatus != value)
+                {
+                    status = value;
+                    OnStatusChanged(new GameStatusEventArgs(oldStatus, value));
+                }
             }
         }
 
@@ -217,6 +228,22 @@ namespace Codesmith.SmithNgine.GameState
         {
             this.Status = GameStateStatus.Exiting;
             this.transitionValue = 1.0f;
+        }
+
+        public virtual void Pause()
+        {
+            if (this.Status == GameStateStatus.Running)
+            {
+                this.Status = GameStateStatus.Paused;
+            }
+        }
+
+        public virtual void UnPause()
+        {
+            if (this.Status == GameStateStatus.Paused)
+            {
+                this.Status = GameStateStatus.Running;
+            }
         }
         #endregion
 
