@@ -9,17 +9,22 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
-namespace SmithTest
+using Codesmith.SmithNgine.GameState;
+
+namespace Codesmith.SmithTest
 {
     /// <summary>
     /// This is the main type for your game
     /// </summary>
-    public class SmithTest : Microsoft.Xna.Framework.Game
+    public class SmithGame : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        GameStateManager stateManager;
+        GamingState state1;
+        LoadingState state2;
 
-        public SmithTest()
+        public SmithGame()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -33,7 +38,12 @@ namespace SmithTest
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            stateManager = new GameStateManager(this);
+            Components.Add(stateManager);
+            state1 = new GamingState("Game");
+            state2 = new LoadingState("Loading");
+            stateManager.AddGameState(state1);
+            stateManager.AddGameState(state2);
 
             base.Initialize();
         }
@@ -70,7 +80,7 @@ namespace SmithTest
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            // TODO: Add your update logic here
+            HandleKeyboard(Keyboard.GetState(PlayerIndex.One));
 
             base.Update(gameTime);
         }
@@ -86,6 +96,18 @@ namespace SmithTest
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);
+        }
+
+        private void HandleKeyboard(KeyboardState keyState)
+        {
+            if (keyState.IsKeyDown(Keys.Right))
+            {
+                stateManager.SwitchToState(state2);   
+            }
+            else if (keyState.IsKeyDown(Keys.Left))
+            {
+                stateManager.SwitchToState(state1);
+            }
         }
     }
 }

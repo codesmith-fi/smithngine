@@ -1,6 +1,6 @@
 using System;
 
-namespace smithTest
+namespace Codesmith.SmithTest
 {
 #if WINDOWS || XBOX
     static class Program
@@ -10,7 +10,7 @@ namespace smithTest
         /// </summary>
         static void Main(string[] args)
         {
-            using (Game1 game = new Game1())
+            using (SmithGame game = new SmithGame())
             {
                 game.Run();
             }

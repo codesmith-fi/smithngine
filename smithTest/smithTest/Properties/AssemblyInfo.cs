@@ -7,9 +7,9 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 [assembly: AssemblyTitle("smithTest")]
 [assembly: AssemblyProduct("smithTest")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyCopyright("Copyright ©  2013")]
+[assembly: AssemblyDescription("Test game project for smithNgine")]
+[assembly: AssemblyCompany("Codesmith (www.codesmith.fi)")]
+[assembly: AssemblyCopyright("Copyright ©  2013 by Codesmith (Erno Pakarinen)")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

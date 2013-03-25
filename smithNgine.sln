@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "smithNgine", "smithNgine\smithNgine.csproj", "{034E0336-746C-4F85-83CF-35F713A32891}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "smithTest", "smithTest\smithTest\smithTest.csproj", "{913C3418-45D6-4C0D-86AF-F7EF539BF59B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{034E0336-746C-4F85-83CF-35F713A32891} = {034E0336-746C-4F85-83CF-35F713A32891}
+	EndProjectSection
 EndProject
 Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "smithTestContent", "smithTest\smithTestContent\smithTestContent.contentproj", "{6DEC47B0-E551-45F3-ACFD-B578AED53EBA}"
 EndProject
