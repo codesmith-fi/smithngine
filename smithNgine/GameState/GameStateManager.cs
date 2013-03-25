@@ -1,5 +1,5 @@
 ﻿// ***************************************************************************
-// ** GameStateManagement.GameStateManager                                  **
+// ** SmithNgine.GameState.GameStateManager                                 **
 // **                                                                       **
 // ** Copyright (C) 2013 by Erno Pakarinen. All Rights Reserved.            **
 // ** Contact: erno(at)codesmith(dot)fi                                     **
@@ -114,7 +114,7 @@ namespace Codesmith.SmithNgine.GameState
             // Update exiting state if it is exiting
             if (ExitingState != null)
             {
-                if (ExitingState.Status == GameState.StateStatus.Exiting)
+                if (ExitingState.Status == GameStateStatus.Exiting)
                 {
                     ExitingState.Update(gameTime);
                 }
@@ -129,7 +129,7 @@ namespace Codesmith.SmithNgine.GameState
             {
                 CurrentState.Update(gameTime);
                 // Handle input on current state only when it's running 
-                if (CurrentState.Status == GameState.StateStatus.Running)
+                if (CurrentState.Status == GameStateStatus.Running)
                 {
                     CurrentState.HandleInput();
                 }
@@ -143,7 +143,7 @@ namespace Codesmith.SmithNgine.GameState
             // Update exiting state if it is exiting
             if (ExitingState != null)
             {
-                if (ExitingState.Status == GameState.StateStatus.Exiting)
+                if (ExitingState.Status == GameStateStatus.Exiting)
                 {
                     ExitingState.Draw(gameTime);
                 }

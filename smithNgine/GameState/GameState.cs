@@ -16,29 +16,45 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Codesmith.SmithNgine.GameState
 {
+    #region Types
+    public enum GameStateStatus
+    {
+        Hidden,
+        Entering,
+        Running,
+        Paused,
+        Exiting,
+        Dead
+    }
+
+    public class GameStatusEventArgs : EventArgs
+    {
+        public GameStateStatus oldStatus;
+        public GameStateStatus newStatus;
+        public GameStatusEventArgs(GameStateStatus oldStatus, GameStateStatus newStatus)
+        {
+            this.oldStatus = oldStatus;
+            this.newStatus = newStatus;
+        }
+    }
+    #endregion
+
+    #region Event delegates
+    // Event delegate for state status changed event
+    public delegate void GameStatusChangedEventHandler(object sender, GameStatusEventArgs e);
+    #endregion 
+
     public abstract class GameState : IEquatable<GameState>
     {
-        #region Types
-        public enum StateStatus
-        {
-            Hidden,
-            Entering,
-            Running,
-            Paused,
-            Exiting,
-            Dead
-        }
-        #endregion
-
         #region Attributes/Fields
         private List<GameCanvas> canvasList = new List<GameCanvas>();
         private TimeSpan enterStateInterval = TimeSpan.Zero;
         private TimeSpan exitStateInterval = TimeSpan.Zero;
         private bool isInitialized = false;
         private Texture2D blankTexture;
-        private float transitionValue = 1.0f;        
+        private float transitionValue = 1.0f;
+        private GameStateStatus status;
         protected Game game;
-        protected StateStatus status = StateStatus.Hidden;
         #endregion
 
         #region Properties
@@ -63,17 +79,20 @@ namespace Codesmith.SmithNgine.GameState
         {
             get
             {
-                return (status == StateStatus.Running ||
-                    status == StateStatus.Entering ||
-                    status == StateStatus.Exiting);
+                return (Status == GameStateStatus.Running ||
+                    Status == GameStateStatus.Entering ||
+                    Status == GameStateStatus.Exiting);
             }
         }
 
-        public StateStatus Status
+        public GameStateStatus Status
         {
-            get
+            get { return status; }
+            private set
             {
-                return this.status;
+                GameStateStatus oldStatus = status;
+                status = value;
+                OnStatusChanged(new GameStatusEventArgs(oldStatus, value));
             }
         }
 
@@ -96,13 +115,17 @@ namespace Codesmith.SmithNgine.GameState
         }
         #endregion
 
+        #region Events
+        public event GameStatusChangedEventHandler StatusChanged;
+        #endregion
+
         #region Constructors
         public GameState(String name)
         {
             this.Name = name;
             this.isInitialized = false;
             this.IsSlowLoadingState = false;
-            this.status = StateStatus.Hidden;
+            this.Status = GameStateStatus.Hidden;
         }
         #endregion
 
@@ -136,18 +159,18 @@ namespace Codesmith.SmithNgine.GameState
         public virtual void Update(GameTime gameTime)
         {
             // If the state is exiting, update state transition
-            if (this.status == StateStatus.Exiting)
+            if (Status == GameStateStatus.Exiting)
             {
                 if (!TransitionOut(gameTime, this.exitStateInterval))
                 {
-                    this.status = StateStatus.Hidden;
+                    Status = GameStateStatus.Hidden;
                 }
             }
-            else if (this.status == StateStatus.Entering)
+            else if (Status == GameStateStatus.Entering)
             {
                 if (!TransitionIn(gameTime, this.enterStateInterval))
                 {
-                    this.status = StateStatus.Running;
+                    Status = GameStateStatus.Running;
                 }
             }
 
@@ -163,7 +186,7 @@ namespace Codesmith.SmithNgine.GameState
 
         public virtual void Draw(GameTime gameTime)
         {
-            if (this.status == StateStatus.Exiting)
+            if (Status == GameStateStatus.Exiting)
             {
                 // Fade out
             }
@@ -183,9 +206,21 @@ namespace Codesmith.SmithNgine.GameState
                 canvas.HandleInput();
             }
         }
+
+        public virtual void EnterState()
+        {
+            this.transitionValue = 0.0f;
+            this.Status = GameStateStatus.Entering;
+        }
+
+        public virtual void ExitState()
+        {
+            this.Status = GameStateStatus.Exiting;
+            this.transitionValue = 1.0f;
+        }
         #endregion
 
-        #region New methods - non virtual      
+        #region New public methods 
         public void AddCanvas(GameCanvas canvas)
         {
             // Set owning state and state manager for new state
@@ -195,21 +230,19 @@ namespace Codesmith.SmithNgine.GameState
 
         }
 
-        public virtual void EnterState()
-        {
-            this.status = StateStatus.Entering;
-            this.transitionValue = 0.0f;
-        }
-
-        public virtual void ExitState()
-        {
-            this.status = StateStatus.Exiting;
-            this.transitionValue = 1.0f;
-        }
-
         public bool Equals(GameState other)
         {
             return this.Name.Equals(other.Name);
+        }
+        #endregion
+
+        #region Private and protected methods
+        private void OnStatusChanged(GameStatusEventArgs args)
+        {
+            if (StatusChanged != null)
+            {
+                StatusChanged(this, args);
+            }
         }
 
         private bool TransitionIn(GameTime gameTime, TimeSpan transitionTime)

@@ -1,5 +1,5 @@
 ﻿// ***************************************************************************
-// ** GameStateManagement.GameStateCanvas                                   **
+// ** SmithNgine.GameState.GameCanvas                                       **
 // **                                                                       **
 // ** Copyright (C) 2013 by Erno Pakarinen. All Rights Reserved.            **
 // ** Contact: erno(at)codesmith(dot)fi                                     **

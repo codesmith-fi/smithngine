@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Linq;
+using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -30,6 +32,12 @@ namespace Codesmith.SmithTest
             Content.RootDirectory = "Content";
         }
 
+        public void TestStateStatusChanged(object sender, GameStatusEventArgs args)
+        {
+            String text = "State changed from " + args.oldStatus.ToString() + " to " + args.newStatus.ToString();
+            Debug.WriteLine(sender, text);
+        }
+
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
         /// This is where it can query for any required services and load any non-graphic
@@ -45,6 +53,7 @@ namespace Codesmith.SmithTest
             stateManager.AddGameState(state1);
             stateManager.AddGameState(state2);
 
+            state1.StatusChanged += new GameStatusChangedEventHandler(this.TestStateStatusChanged);
             base.Initialize();
         }
 
@@ -109,5 +118,6 @@ namespace Codesmith.SmithTest
                 stateManager.SwitchToState(state1);
             }
         }
+
     }
 }
