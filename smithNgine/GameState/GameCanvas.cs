@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Codesmith.SmithNgine.Input;
 #endregion
 
 namespace Codesmith.SmithNgine.GameState
@@ -60,7 +61,7 @@ namespace Codesmith.SmithNgine.GameState
         {
         }
 
-        public virtual void HandleInput()
+        public virtual void HandleInput(InputManager input)
         {
         }
     }

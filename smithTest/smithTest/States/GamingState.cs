@@ -5,13 +5,13 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 
 using Codesmith.SmithNgine.GameState;
+using Codesmith.SmithNgine.Input;
 
 namespace Codesmith.SmithTest
 {
     class GamingState : GameState
     {
         private Texture2D image;
-        private GamingStatusCanvas canvas1;
 
         public GamingState(String name)
             : base(name)
@@ -33,10 +33,10 @@ namespace Codesmith.SmithTest
             base.Initialize();
         }
 
-        public override void HandleInput()
+        public override void HandleInput(InputManager input)
         {
             PlayerIndex source;
-            if (StateManager.Input.IsKeyPressed(Keys.Pause,null,out source))
+            if (input.IsKeyPressed(Keys.Pause,null,out source))
             {
                 if (IsActive)
                 {
@@ -47,7 +47,7 @@ namespace Codesmith.SmithTest
                     UnPause();
                 }
             }
-            base.HandleInput();
+            base.HandleInput(input);
         }
 
         public override void Draw(GameTime gameTime)

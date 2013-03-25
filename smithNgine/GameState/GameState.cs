@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Codesmith.SmithNgine.Input;
 #endregion
 
 namespace Codesmith.SmithNgine.GameState
@@ -208,13 +209,13 @@ namespace Codesmith.SmithNgine.GameState
             }
         }
 
-        public virtual void HandleInput()
+        public virtual void HandleInput(InputManager input)
         {
             // Allow each canvas to handle input, e.g. if the state 
             // has multiple player fields with separate controlling players
             foreach (GameCanvas canvas in canvasList)
             {
-                canvas.HandleInput();
+                canvas.HandleInput(input);
             }
         }
 

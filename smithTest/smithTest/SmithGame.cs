@@ -48,7 +48,7 @@ namespace Codesmith.SmithTest
         {
             stateManager = new GameStateManager(this);
             Components.Add(stateManager);
-            state1 = new MainMenuState("Loading");
+            state1 = new MainMenuState("Main Menu");
             state2 = new GamingState("Game");
             stateManager.AddGameState(state1);
             stateManager.AddGameState(state2);
