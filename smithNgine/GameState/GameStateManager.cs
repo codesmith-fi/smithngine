@@ -207,11 +207,11 @@ namespace Codesmith.SmithNgine.GameState
             }
         }
 
-        protected void DimWithAlpha(float alpha)
+        public void DimWithAlpha(float alpha, Rectangle area)
         {
             Viewport viewport = GraphicsDevice.Viewport;
             SpriteBatch.Begin();
-            SpriteBatch.Draw(this.blankTexture, new Rectangle(0, 0, viewport.Width, viewport.Height), Color.Black * alpha);
+            SpriteBatch.Draw(this.blankTexture, area, Color.Black * alpha);
             SpriteBatch.End();
         }
         #endregion

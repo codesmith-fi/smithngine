@@ -14,7 +14,7 @@ using Codesmith.SmithNgine.Input;
 
 namespace Codesmith.SmithNgine.GameState
 {
-    public abstract class GameCanvas
+    public abstract class GameCanvas : ObjectBase
     {
         #region Fields/Attributes
         private bool isInitialized;
@@ -38,6 +38,7 @@ namespace Codesmith.SmithNgine.GameState
             get;
             set;
         }
+
         #endregion
 
         public GameCanvas()

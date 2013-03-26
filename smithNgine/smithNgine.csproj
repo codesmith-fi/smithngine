@@ -92,6 +92,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DefaultTransitionSource.cs" />
     <Compile Include="GameState\GameStatusEventArgs.cs" />
     <Compile Include="Gfx\Sprite.cs" />
     <Compile Include="IMovableObject2D.cs" />
@@ -100,6 +101,7 @@
     <Compile Include="Input\MouseWheelEventArgs.cs" />
     <Compile Include="IOrderableObject.cs" />
     <Compile Include="IRotatableObject.cs" />
+    <Compile Include="ObjectBase.cs" />
     <Compile Include="OrderEventArgs.cs" />
     <Compile Include="RotationEventArgs.cs" />
     <Compile Include="ITransitionSource.cs" />

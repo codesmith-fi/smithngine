@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Codesmith.SmithNgine.Gfx
 {
-    public class Sprite : IMovableObject2D, IOrderableObject, IRotatableObject
+    public class Sprite : ObjectBase, IMovableObject2D, IOrderableObject, IRotatableObject
     {
         #region Fields
         private Texture2D texture;
@@ -71,23 +71,16 @@ namespace Codesmith.SmithNgine.Gfx
                 }
             }
         }
-
-        public ITransitionSource TransitionSource
-        {
-            get;
-            set;
-        }
-
         #endregion
 
         #region Constructors
         public Sprite(Texture2D texture)
         {
             this.texture = texture;
-            TransitionSource = null;
             // By default, sprite origin is the center
             Origin = new Vector2(this.texture.Bounds.Width / 2, this.texture.Bounds.Height / 2);
             Scale = 1.0f;
+            TransitionSource = new DefaultTransitionSource();
         }
         #endregion
 

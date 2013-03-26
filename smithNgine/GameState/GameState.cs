@@ -37,7 +37,6 @@ namespace Codesmith.SmithNgine.GameState
         private TimeSpan enterStateInterval = TimeSpan.Zero;
         private TimeSpan exitStateInterval = TimeSpan.Zero;
         private bool isInitialized = false;
-        private Texture2D blankTexture;
         private float transitionValue = 1.0f;
         private GameStateStatus status;
         protected Game game;
