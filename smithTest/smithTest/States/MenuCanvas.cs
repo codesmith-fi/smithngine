@@ -11,7 +11,7 @@ namespace Codesmith.SmithTest
     class MenuCanvas : GameCanvas
     {
         Vector2 textPos;
-        Rectangle area;
+        Vector2 moveDelta;
 
         public MenuCanvas()
         {
@@ -19,13 +19,22 @@ namespace Codesmith.SmithTest
 
         public override void LoadContent()
         {
-            this.area = StateManager.GraphicsDevice.Viewport.Bounds;
-            this.textPos = new Vector2(this.area.Width / 2, 10);
             base.LoadContent();
+            this.textPos = new Vector2(Bounds.Width / 2, 10);
+            moveDelta.Y = 6;
         }
 
         public override void Update(GameTime gameTime)
         {
+            this.textPos += this.moveDelta;
+            if (textPos.Y >= Bounds.Height - 20)
+            {
+                this.moveDelta.Y = -4;
+            }
+            if (textPos.Y <= 20)
+            {
+                this.moveDelta.Y = 4;
+            }
         }
 
         public override void Draw(GameTime gameTime)
@@ -33,7 +42,7 @@ namespace Codesmith.SmithTest
             SpriteBatch spriteBatch = StateManager.SpriteBatch;
             String text = "Hello world from " + this.GetType().ToString();
             Vector2 origin = StateManager.Font.MeasureString(text);
-            textPos.X = this.area.Width / 2 - origin.X / 2;
+            textPos.X = Bounds.Width / 2 - origin.X / 2;
 
             StateManager.DimWithAlpha(0.5f*TransitionSource.TransitionValue, Bounds);
 

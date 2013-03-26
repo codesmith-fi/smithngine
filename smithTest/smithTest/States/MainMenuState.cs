@@ -8,7 +8,7 @@ using Codesmith.SmithNgine.Input;
 
 namespace Codesmith.SmithTest
 {
-    class MainMenuState : GameState
+    public class MainMenuState : GameState
     {
         private Texture2D image;
         private GameCanvas menuCanvas;

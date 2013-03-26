@@ -7,7 +7,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CodeSmith.SmithTest</RootNamespace>
+    <RootNamespace>Codesmith.SmithTest</RootNamespace>
     <AssemblyName>smithTest</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
@@ -114,6 +114,7 @@
     <Compile Include="States\GamingStatusCanvas.cs" />
     <Compile Include="States\MainMenuState.cs" />
     <Compile Include="States\MenuCanvas.cs" />
+    <Compile Include="States\PauseState.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

@@ -50,6 +50,11 @@ namespace Codesmith.SmithTest
             {
                 this.moveDelta.Y = 4;
             }
+
+            foreach (Sprite s in sprites)
+            {
+                s.Rotation += 0.05f;
+            }
         }
 
         public override void Draw(GameTime gameTime)
@@ -63,7 +68,6 @@ namespace Codesmith.SmithTest
             foreach (Sprite sprite in this.sprites)
             {
                 sprite.Draw(spriteBatch);
-                sprite.Rotation += 0.05f;
             }
             spriteBatch.End();
         }

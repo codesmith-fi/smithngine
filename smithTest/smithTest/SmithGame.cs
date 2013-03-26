@@ -25,6 +25,7 @@ namespace Codesmith.SmithTest
         GameStateManager stateManager;
         GamingState state2;
         MainMenuState state1;
+        PauseState pauseState;
 
         public SmithGame()
         {
@@ -34,6 +35,10 @@ namespace Codesmith.SmithTest
 
         public void TestStateStatusChanged(object sender, GameStatusEventArgs args)
         {
+            if (sender == state2 && args.newStatus == GameStateStatus.Paused)
+            {
+                Debug.WriteLine("Gaming state was paused");
+            }
             String text = "State changed from " + args.oldStatus.ToString() + " to " + args.newStatus.ToString();
             Debug.WriteLine(sender, text);
         }
@@ -49,10 +54,13 @@ namespace Codesmith.SmithTest
             stateManager = new GameStateManager(this);
             state1 = new MainMenuState("Main Menu");
             state2 = new GamingState("Game");
+            pauseState = new PauseState("Paused");
             stateManager.AddGameState(state1);
             stateManager.AddGameState(state2);
+            stateManager.AddGameState(pauseState, true);
             state1.StatusChanged += this.TestStateStatusChanged;
             state2.StatusChanged += this.TestStateStatusChanged;
+            pauseState.StatusChanged += this.TestStateStatusChanged;
             Components.Add(stateManager);
 
             this.IsMouseVisible = true;

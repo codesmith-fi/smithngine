@@ -9,7 +9,7 @@ using Codesmith.SmithNgine.Input;
 
 namespace Codesmith.SmithTest
 {
-    class GamingState : GameState
+    public class GamingState : GameState
     {
         private Texture2D image;
 
@@ -18,6 +18,7 @@ namespace Codesmith.SmithTest
         {
             this.EnterStateInterval = TimeSpan.FromSeconds(2.0f);
             this.ExitStateInterval = TimeSpan.FromSeconds(2.0f);
+            this.PauseStateInterval = TimeSpan.FromSeconds(0.5f);
         }
 
         public override void LoadContent()
