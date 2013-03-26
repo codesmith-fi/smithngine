@@ -234,9 +234,12 @@ namespace Codesmith.SmithNgine.GameState
         {
             // Allow each canvas to handle input, e.g. if the state 
             // has multiple player fields with separate controlling players
-            foreach (GameCanvas canvas in canvasList)
+            if (IsActive)
             {
-                canvas.HandleInput(input);
+                foreach (GameCanvas canvas in canvasList)
+                {
+                    canvas.HandleInput(input);
+                }
             }
         }
 
