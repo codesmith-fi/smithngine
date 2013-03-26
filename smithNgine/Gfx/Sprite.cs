@@ -4,12 +4,14 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
+using Codesmith.SmithNgine.Input;
 
 namespace Codesmith.SmithNgine.Gfx
 {
     public class Sprite : ObjectBase, IMovableObject2D, IOrderableObject, IRotatableObject
     {
         #region Fields
+        private IMouseEventSource mouseSource;
         private Texture2D texture;
         private Vector2 position;
         private float rotation = 0.0f;
@@ -86,6 +88,36 @@ namespace Codesmith.SmithNgine.Gfx
             }
         }
 
+        public IMouseEventSource MouseEventSource
+        {
+            get { return mouseSource; }
+            set
+            {
+                mouseSource = value;
+                if (value == null)
+                {
+                    mouseSource.MouseButtonPressed -= mouseSource_MouseButtonPressed;
+                }
+                else
+                {
+                    mouseSource.MouseButtonPressed += mouseSource_MouseButtonPressed;
+                }
+            }
+        }
+
+        private void mouseSource_MouseButtonPressed(object sender, MouseButtonEventArgs e)
+        {
+            if (ObjectIsActive)
+            {
+                Point p = new Point(e.X,e.Y);
+                if(BoundingBox.Contains(p))
+                {
+                    OnMouseButtonPress(e);
+                }
+            }
+        }
+
+        protected virtual void OnMouseButtonPress(MouseButtonEventArgs args) { }
         #endregion
 
         #region Constructors

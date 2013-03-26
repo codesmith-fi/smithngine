@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Microsoft.Xna.Framework;
 
 namespace Codesmith.SmithNgine.Input
 {
@@ -10,6 +8,8 @@ namespace Codesmith.SmithNgine.Input
         public bool left;
         public bool right;
         public bool middle;
+        public int X;
+        public int Y;
 
         public MouseButtonEventArgs()
         {

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Text;
-
 using Microsoft.Xna.Framework;
-using Codesmith.SmithNgine.GameState;
 using Microsoft.Xna.Framework.Graphics;
+using Codesmith.SmithNgine.GameState;
+using Codesmith.SmithNgine.Gfx;
 
 namespace Codesmith.SmithTest
 {
@@ -11,6 +11,8 @@ namespace Codesmith.SmithTest
     {
         private Texture2D image;
         private Vector2 imagePos;
+        private SpriteButton button;
+
         public PauseState(String name) 
             : base(name)
         {
@@ -28,6 +30,17 @@ namespace Codesmith.SmithTest
             base.LoadContent();
             image = StateManager.Game.Content.Load<Texture2D>("Images/paused");
             imagePos = new Vector2(Bounds.Width / 2 - image.Width / 2, Bounds.Height / 2 - image.Height / 2);
+
+            button = new SpriteButton(StateManager.Game.Content.Load<Texture2D>("Images/j1"));
+            button.MouseEventSource = StateManager.Input;
+            button.TransitionSource = this;
+            AddChild(button);
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+            button.Animate(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
@@ -37,6 +50,7 @@ namespace Codesmith.SmithTest
 
             spriteBatch.Begin();
             spriteBatch.Draw(image, imagePos, Color.White * this.TransitionValue);
+            button.Draw(spriteBatch);
             spriteBatch.End();
             base.Draw(gameTime);
         }

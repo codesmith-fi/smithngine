@@ -17,6 +17,7 @@ namespace Codesmith.SmithNgine.GameState
     public abstract class GameCanvas : ObjectBase
     {
         #region Fields/Attributes
+        private List<IActivatableObject> children = new List<IActivatableObject>();
         private bool isInitialized;
         #endregion
 
@@ -41,9 +42,37 @@ namespace Codesmith.SmithNgine.GameState
 
         #endregion
 
+        #region Constructor
         public GameCanvas()
         {
             this.isInitialized = false;
+        }
+        #endregion
+
+        #region Methods from ObjectBase
+        public override void ActivateObject()
+        {
+            base.ActivateObject();
+            foreach (IActivatableObject obj in children)
+            {
+                obj.ActivateObject();
+            }
+        }
+
+        public override void DeactivateObject()
+        {
+            base.DeactivateObject();
+            foreach (IActivatableObject obj in children)
+            {
+                obj.DeactivateObject();
+            }
+        }
+        #endregion
+
+        #region New methods
+        public void AddObject(IActivatableObject obj)
+        {
+            this.children.Add(obj);
         }
 
         public virtual void LoadContent()
@@ -75,5 +104,6 @@ namespace Codesmith.SmithNgine.GameState
         public virtual void HandleInput(InputManager input)
         {
         }
+        #endregion
     }
 }

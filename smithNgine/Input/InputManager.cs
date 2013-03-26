@@ -23,7 +23,7 @@ namespace Codesmith.SmithNgine.Input
     }
     #endregion
 
-    public class InputManager
+    public class InputManager : IMouseEventSource
     {
         #region Fields/Attributes
         private const int MaxPlayers = 4;
@@ -189,6 +189,8 @@ namespace Codesmith.SmithNgine.Input
                 args.middle = IsMouseButtonPressed(MouseButton.Middle);
                 if (args.left || args.middle || args.right)
                 {
+                    args.X = mouseState.X;
+                    args.Y = mouseState.Y;
                     MouseButtonPressed(this, args);
                 }
             }

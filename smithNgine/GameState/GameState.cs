@@ -32,10 +32,11 @@ namespace Codesmith.SmithNgine.GameState
 
     #endregion
 
-    public abstract class GameState : IEquatable<GameState>, ITransitionSource
+    public abstract class GameState : ObjectBase, IEquatable<GameState>, ITransitionSource
     {
         #region Attributes/Fields
         private List<GameCanvas> canvasList = new List<GameCanvas>();
+        private List<IActivatableObject> children = new List<IActivatableObject>();
         private TimeSpan enterStateInterval = TimeSpan.Zero;
         private TimeSpan exitStateInterval = TimeSpan.Zero;
         private TimeSpan pauseStateInterval = TimeSpan.Zero;
@@ -148,7 +149,27 @@ namespace Codesmith.SmithNgine.GameState
         }
         #endregion
 
-        #region New methods - Virtual 
+        #region Methods from ObjectBase
+        public override void ActivateObject()
+        {
+            base.ActivateObject();
+            foreach (IActivatableObject obj in children)
+            {
+                obj.ActivateObject();
+            }
+        }
+
+        public override void DeactivateObject()
+        {
+            base.DeactivateObject();
+            foreach (IActivatableObject obj in children)
+            {
+                obj.DeactivateObject();
+            }
+        }
+        #endregion
+
+        #region New methods - Virtual
         public virtual void LoadContent()
         {
             // Set bounds by default to the viewport bounds if it is not already set
@@ -247,6 +268,7 @@ namespace Codesmith.SmithNgine.GameState
         {
             this.transitionValue = 0.0f;
             this.Status = GameStateStatus.Entering;
+            ActivateObject();
         }
 
         public virtual void ExitState()
@@ -254,6 +276,7 @@ namespace Codesmith.SmithNgine.GameState
             this.Status = GameStateStatus.Exiting;
             this.transitionValue = 1.0f;
             this.transitionBottomLimit = 0.0f;
+            DeactivateObject();
         }
 
         // Causes this state to transition into paused state, by default transition 50% off
@@ -263,6 +286,7 @@ namespace Codesmith.SmithNgine.GameState
             {
                 this.Status = GameStateStatus.EnteringPause;
                 this.transitionBottomLimit = limit;
+                DeactivateObject();
             }
         }
 
@@ -272,6 +296,7 @@ namespace Codesmith.SmithNgine.GameState
             if (this.Status == GameStateStatus.Paused)
             {
                 this.Status = GameStateStatus.ExitingPause;
+                ActivateObject();
             }
         }
         #endregion
@@ -283,7 +308,7 @@ namespace Codesmith.SmithNgine.GameState
             canvas.StateManager = this.StateManager;
             canvas.State = this;
             this.canvasList.Add(canvas);
-
+            AddChild(canvas);
         }
 
         public bool Equals(GameState other)
@@ -331,6 +356,11 @@ namespace Codesmith.SmithNgine.GameState
             }
 
             return true;
+        }
+
+        protected void AddChild(IActivatableObject obj)
+        {
+            children.Add(obj);
         }
         #endregion
     }
