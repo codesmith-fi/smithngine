@@ -71,6 +71,21 @@ namespace Codesmith.SmithNgine.Gfx
                 }
             }
         }
+
+        // Return rectangular boundingbox of the sprite, taking account of origin and scale
+        public Rectangle BoundingBox
+        {
+            get
+            {
+                Vector2 pos = Position - ( Origin * Scale );
+                float width = texture != null ? (float)texture.Bounds.Width : 0.0f;
+                float height = texture != null ? (float)texture.Bounds.Height : 0.0f;
+                width *= Scale;
+                height *= Scale;
+                return new Rectangle((int)pos.X, (int)pos.Y, (int)width, (int)height);
+            }
+        }
+
         #endregion
 
         #region Constructors
@@ -80,7 +95,6 @@ namespace Codesmith.SmithNgine.Gfx
             // By default, sprite origin is the center
             Origin = new Vector2(this.texture.Bounds.Width / 2, this.texture.Bounds.Height / 2);
             Scale = 1.0f;
-            TransitionSource = new DefaultTransitionSource();
         }
         #endregion
 
@@ -95,10 +109,7 @@ namespace Codesmith.SmithNgine.Gfx
         {
             Rectangle pos = new Rectangle((int)Position.X, (int)Position.Y, texture.Width, texture.Height);
             Color color = Color.White;
-            if (TransitionSource != null)
-            {
-                color = Color.White * TransitionSource.TransitionValue;
-            }
+            color = Color.White * TransitionSource.TransitionValue;
             spriteBatch.Draw(this.texture, Position, null, color, Rotation, Origin, Scale, SpriteEffects.None, Order);
         }
         #endregion
