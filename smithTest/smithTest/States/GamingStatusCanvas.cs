@@ -29,12 +29,13 @@ namespace Codesmith.SmithTest
             sprites.Add(new Sprite(StateManager.Content.Load<Texture2D>("Images/j3")));
 
             int i = 100;
+            float scale = 1.0f;
             foreach (Sprite s in sprites)
             {
                 s.TransitionSource = this.State;
                 s.Position = new Vector2(i, 80);
+                s.Scale = scale;
                 i += 200;
-
             }
             base.LoadContent();
         }
@@ -51,9 +52,14 @@ namespace Codesmith.SmithTest
                 this.moveDelta.Y = 4;
             }
 
+            int i=0;
             foreach (Sprite s in sprites)
             {
                 s.Rotation += 0.05f;
+                s.Rotation = MathHelper.WrapAngle(s.Rotation);
+                s.Scale = (MathHelper.Pi + (float)Math.Sin(s.Rotation + i * MathHelper.Pi / 6));
+                s.Scale = s.Scale / ( MathHelper.Pi * 2 ) ;
+                i++;
             }
         }
 

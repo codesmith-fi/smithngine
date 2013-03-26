@@ -42,12 +42,13 @@ namespace Codesmith.SmithTest
             SpriteBatch spriteBatch = StateManager.SpriteBatch;
             String text = "Hello world from " + this.GetType().ToString();
             Vector2 origin = StateManager.Font.MeasureString(text);
-            textPos.X = Bounds.Width / 2 - origin.X / 2;
+            textPos.X = Bounds.X + ( Bounds.Width / 2 - origin.X / 2 );
 
-            StateManager.DimWithAlpha(0.5f*TransitionSource.TransitionValue, Bounds);
+            Vector2 transPos = textPos + new Vector2(Bounds.X,Bounds.Y);
+            StateManager.DimWithAlpha(0.5f * TransitionSource.TransitionValue, Bounds);
 
             spriteBatch.Begin();
-            spriteBatch.DrawString(StateManager.Font, text, textPos, Color.Green * TransitionSource.TransitionValue);
+            spriteBatch.DrawString(StateManager.Font, text, transPos, Color.Green * TransitionSource.TransitionValue);
             spriteBatch.End();
         }
     }
