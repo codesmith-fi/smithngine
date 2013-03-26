@@ -21,6 +21,7 @@ namespace Codesmith.SmithTest
         {
             this.area = StateManager.GraphicsDevice.Viewport.Bounds;
             this.textPos = new Vector2(this.area.Width / 2, 10);
+            base.LoadContent();
         }
 
         public override void Update(GameTime gameTime)
@@ -33,8 +34,11 @@ namespace Codesmith.SmithTest
             String text = "Hello world from " + this.GetType().ToString();
             Vector2 origin = StateManager.Font.MeasureString(text);
             textPos.X = this.area.Width / 2 - origin.X / 2;
+
+            StateManager.DimWithAlpha(0.5f*TransitionSource.TransitionValue, Bounds);
+
             spriteBatch.Begin();
-            spriteBatch.DrawString(StateManager.Font, text, textPos, Color.Green * this.State.TransitionValue);
+            spriteBatch.DrawString(StateManager.Font, text, textPos, Color.Green * TransitionSource.TransitionValue);
             spriteBatch.End();
         }
     }

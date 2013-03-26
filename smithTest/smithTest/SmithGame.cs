@@ -47,14 +47,13 @@ namespace Codesmith.SmithTest
         protected override void Initialize()
         {
             stateManager = new GameStateManager(this);
-            Components.Add(stateManager);
             state1 = new MainMenuState("Main Menu");
             state2 = new GamingState("Game");
             stateManager.AddGameState(state1);
             stateManager.AddGameState(state2);
-
             state1.StatusChanged += this.TestStateStatusChanged;
             state2.StatusChanged += this.TestStateStatusChanged;
+            Components.Add(stateManager);
 
             this.IsMouseVisible = true;
             base.Initialize();

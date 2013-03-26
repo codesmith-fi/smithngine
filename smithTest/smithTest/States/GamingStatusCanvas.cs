@@ -36,6 +36,7 @@ namespace Codesmith.SmithTest
                 i += 200;
 
             }
+            base.LoadContent();
         }
 
         public override void Update(GameTime gameTime)

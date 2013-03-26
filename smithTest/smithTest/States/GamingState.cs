@@ -22,7 +22,6 @@ namespace Codesmith.SmithTest
 
         public override void LoadContent()
         {
-            this.AddCanvas(new GamingStatusCanvas());
             image = StateManager.Game.Content.Load<Texture2D>("Images/snowmountain");
 
             base.LoadContent();
@@ -30,6 +29,7 @@ namespace Codesmith.SmithTest
 
         public override void Initialize()
         {
+            this.AddCanvas(new GamingStatusCanvas());
             base.Initialize();            
         }
 

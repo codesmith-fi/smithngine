@@ -11,6 +11,7 @@ namespace Codesmith.SmithTest
     class MainMenuState : GameState
     {
         private Texture2D image;
+        private GameCanvas menuCanvas;
 
         public MainMenuState(String name)
             : base(name)
@@ -19,12 +20,19 @@ namespace Codesmith.SmithTest
             this.ExitStateInterval = TimeSpan.FromSeconds(2.0f);
         }
 
+        public override void Initialize()
+        {
+            menuCanvas = new MenuCanvas();
+            menuCanvas.TransitionSource = this;
+            AddCanvas(menuCanvas);
+            base.Initialize();
+        }
         public override void LoadContent()
         {
-            AddCanvas(new MenuCanvas());
+            base.LoadContent();
             StateManager.Input.MousePositionChanged += Input_MousePositionChanged;
             image = StateManager.Game.Content.Load<Texture2D>("Images/desert");
-            base.LoadContent();
+            menuCanvas.Bounds = new Rectangle(20, 20, Bounds.Width - 40, 200);
         }
 
         public override void Draw(GameTime gameTime)
