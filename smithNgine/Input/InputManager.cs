@@ -56,6 +56,7 @@ namespace Codesmith.SmithNgine.Input
         #region Events
         public event EventHandler<MousePositionEventArgs> MousePositionChanged;
         public event EventHandler<MouseWheelEventArgs> MouseWheelChanged;
+        public event EventHandler<MouseButtonEventArgs> MouseButtonPressed;
         #endregion
 
         #region Constructors
@@ -78,34 +79,14 @@ namespace Codesmith.SmithNgine.Input
             previousGamepadStates = new List<GamePadState>(gamepadStates);
             previousMouseState = mouseState;
             
-            // Do we need to inform any listener about mouse position changes
-            if (MousePositionChanged != null)
-            {
-                if (!(previousMouseState.X == mouseState.X && previousMouseState.Y == mouseState.Y))
-                {
-                    MousePositionEventArgs args = new MousePositionEventArgs(
-                        previousMouseState.X, previousMouseState.Y,
-                        mouseState.X, mouseState.Y);
-                    MousePositionChanged(this, args);
-                }
-            }
-
-            if (MouseWheelChanged != null)
-            {
-                if (previousMouseState.ScrollWheelValue != mouseState.ScrollWheelValue)
-                {
-                    MouseWheelEventArgs args = new MouseWheelEventArgs(
-                        previousMouseState.ScrollWheelValue, mouseState.ScrollWheelValue);
-                    MouseWheelChanged(this, args);
-                }
-            }
-
             for (int i = 0; i < MaxPlayers; i++)
             {
                 keyboardStates[i] = Keyboard.GetState((PlayerIndex)i);
                 gamepadStates[i] = GamePad.GetState((PlayerIndex)i);
             }
             mouseState = Mouse.GetState();
+
+            HandleEvents();
         }
 
         public bool IsKeyPressed(Keys key, PlayerIndex? playerInControl, out PlayerIndex keySource)
@@ -195,5 +176,47 @@ namespace Codesmith.SmithNgine.Input
             return (mouseState.ScrollWheelValue != previousMouseState.ScrollWheelValue);
         }
         #endregion 
+
+        #region Private new methods
+        private void HandleEvents()
+        {
+            // Notify mouse button listeners
+            if (MouseButtonPressed != null)
+            {
+                MouseButtonEventArgs args = new MouseButtonEventArgs();
+                args.left = IsMouseButtonPressed(MouseButton.Left);
+                args.right = IsMouseButtonPressed(MouseButton.Right);
+                args.middle = IsMouseButtonPressed(MouseButton.Middle);
+                if (args.left || args.middle || args.right)
+                {
+                    MouseButtonPressed(this, args);
+                }
+            }
+
+            // Notify mouse position listeners
+            if (MousePositionChanged != null)
+            {
+                if (!(previousMouseState.X == mouseState.X && previousMouseState.Y == mouseState.Y))
+                {
+                    MousePositionEventArgs args = new MousePositionEventArgs(
+                        previousMouseState.X, previousMouseState.Y,
+                        mouseState.X, mouseState.Y);
+                    MousePositionChanged(this, args);
+                }
+            }
+
+            // Notify mouse wheel rotation listeners
+            if (MouseWheelChanged != null)
+            {
+                if (previousMouseState.ScrollWheelValue != mouseState.ScrollWheelValue)
+                {
+                    MouseWheelEventArgs args = new MouseWheelEventArgs(
+                        previousMouseState.ScrollWheelValue, mouseState.ScrollWheelValue);
+                    MouseWheelChanged(this, args);
+                }
+            }
+
+        }
+        #endregion
     }
 }
