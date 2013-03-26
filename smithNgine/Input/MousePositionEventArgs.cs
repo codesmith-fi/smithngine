@@ -1,5 +1,11 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿// ***************************************************************************
+// ** SmithNgine.Input.MousePositionEventArgs                               **
+// **                                                                       **
+// ** Copyright (C) 2013 by Erno Pakarinen. All Rights Reserved.            **
+// ** Contact: erno(at)codesmith(dot)fi                                     **
+// ***************************************************************************
+
+using System;
 
 namespace Codesmith.SmithNgine.Input
 {

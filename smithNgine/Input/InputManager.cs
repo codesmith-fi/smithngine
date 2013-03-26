@@ -13,13 +13,15 @@ using Microsoft.Xna.Framework.Input;
 #endregion
 
 namespace Codesmith.SmithNgine.Input
-{    
+{
+    #region Types and Enums
     public enum MouseButton
     {
         Left = 0,
         Middle,
         Right
     }
+    #endregion
 
     public class InputManager
     {
@@ -51,8 +53,10 @@ namespace Codesmith.SmithNgine.Input
         }
         #endregion
 
+        #region Events
         public event EventHandler<MousePositionEventArgs> MousePositionChanged;
         public event EventHandler<MouseWheelEventArgs> MouseWheelChanged;
+        #endregion
 
         #region Constructors
         public InputManager()
