@@ -23,7 +23,9 @@ namespace Codesmith.SmithNgine.GameState
         Hidden,
         Entering,
         Running,
+        EnteringPause,
         Paused,
+        ExitingPause,
         Exiting,
         Dead
     }
@@ -36,8 +38,11 @@ namespace Codesmith.SmithNgine.GameState
         private List<GameCanvas> canvasList = new List<GameCanvas>();
         private TimeSpan enterStateInterval = TimeSpan.Zero;
         private TimeSpan exitStateInterval = TimeSpan.Zero;
+        private TimeSpan pauseStateInterval = TimeSpan.Zero;
         private bool isInitialized = false;
         private float transitionValue = 1.0f;
+        private float transitionBottomLimit = 0.0f;
+        private float transitionUpperLimit = 1.0f;
         private GameStateStatus status;
         protected Game game;
         #endregion
@@ -54,12 +59,21 @@ namespace Codesmith.SmithNgine.GameState
             get { return this.transitionValue; }
         }
 
+        // Time interval for how long the pause transition takes
+        public TimeSpan PauseStateInterval
+        {
+            get { return this.pauseStateInterval; }
+            protected set { this.pauseStateInterval = value; }
+        }
+
+        // Time interval for how long state takes to enter
         public TimeSpan EnterStateInterval
         {
             get { return this.enterStateInterval; }
             protected set { this.enterStateInterval = value; }
         }
 
+        // Time interval for how long the state takes to exit
         public TimeSpan ExitStateInterval
         {
             get { return this.exitStateInterval; }
@@ -80,7 +94,9 @@ namespace Codesmith.SmithNgine.GameState
         {
             get
             {
-                return (Status == GameStateStatus.Paused);
+                return (Status == GameStateStatus.Paused ||
+                    Status == GameStateStatus.EnteringPause ||
+                    Status == GameStateStatus.ExitingPause );
             }
         }
 
@@ -128,6 +144,7 @@ namespace Codesmith.SmithNgine.GameState
             this.isInitialized = false;
             this.IsSlowLoadingState = false;
             this.Status = GameStateStatus.Hidden;
+            this.transitionUpperLimit = 1.0f;
         }
         #endregion
 
@@ -180,6 +197,20 @@ namespace Codesmith.SmithNgine.GameState
                     Status = GameStateStatus.Running;
                 }
             }
+            else if (Status == GameStateStatus.EnteringPause)
+            {
+                if (!TransitionOut(gameTime, this.pauseStateInterval))
+                {
+                    Status = GameStateStatus.Paused;
+                }
+            }
+            else if (Status == GameStateStatus.ExitingPause)
+            {
+                if (!TransitionIn(gameTime, this.pauseStateInterval))
+                {
+                    Status = GameStateStatus.Running;
+                }
+            }
 
             // Do not update canvases if we are not active
             if (this.IsActive)
@@ -193,11 +224,6 @@ namespace Codesmith.SmithNgine.GameState
 
         public virtual void Draw(GameTime gameTime)
         {
-            if (Status == GameStateStatus.Exiting)
-            {
-                // Fade out
-            }
-            // TODO: draw all canvases in correct order and such
             foreach (GameCanvas canvas in canvasList)
             {
                 canvas.Draw(gameTime);
@@ -224,21 +250,25 @@ namespace Codesmith.SmithNgine.GameState
         {
             this.Status = GameStateStatus.Exiting;
             this.transitionValue = 1.0f;
+            this.transitionBottomLimit = 0.0f;
         }
 
-        public virtual void Pause()
+        // Causes this state to transition into paused state, by default transition 50% off
+        public virtual void Pause( float limit = 0.5f )
         {
             if (this.Status == GameStateStatus.Running)
             {
-                this.Status = GameStateStatus.Paused;
+                this.Status = GameStateStatus.EnteringPause;
+                this.transitionBottomLimit = limit;
             }
         }
 
+        // Causes this state to transition into running state from paused state
         public virtual void UnPause()
         {
             if (this.Status == GameStateStatus.Paused)
             {
-                this.Status = GameStateStatus.Running;
+                this.Status = GameStateStatus.ExitingPause;
             }
         }
         #endregion
@@ -288,11 +318,12 @@ namespace Codesmith.SmithNgine.GameState
             float delta = (float)(elapsedMs / transitionMs);
             this.transitionValue += delta * direction;
             // Ensure that the transition value is kept in: 0.0f <= transitionValue <= 1.0f
-            if (((direction > 0) && (this.transitionValue > 1.0f)) ||
-                ((direction < 0) && (this.transitionValue < 0.0f)))
+            if (((direction > 0) && (this.transitionValue > this.transitionUpperLimit)) ||
+                ((direction < 0) && (this.transitionValue < this.transitionBottomLimit)))
             {
                 // We are done transitioning in or out, clamp the value and end transition
-                this.transitionValue = MathHelper.Clamp(this.transitionValue, 0.0f, 1.0f);
+                this.transitionValue = MathHelper.Clamp(
+                    this.transitionValue, this.transitionBottomLimit, this.transitionUpperLimit);
                 return false;
             }
 

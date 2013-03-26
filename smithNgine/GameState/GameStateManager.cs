@@ -56,16 +56,27 @@ namespace Codesmith.SmithNgine.GameState
             set;
         }
 
+        // State which is currently exiting (ExitState() was called)
+        // This will be drawn and updated before CurrentState
         public GameState ExitingState
         {
             get;
             private set;
         }
 
+        // The current state which gets input and is drawn and updated last
         public GameState CurrentState
         {
             get;
             private set;
+        }
+
+        // Pause state is activated when a running state enters pause status
+        // If left unset, no state is active when current state is paused
+        public GameState PauseState
+        {
+            get;
+            set;
         }
         #endregion
 
@@ -149,6 +160,12 @@ namespace Codesmith.SmithNgine.GameState
                 {
                     CurrentState.HandleInput(this.Input);
                 }
+
+                if (PauseState != null && PauseState.IsActive)
+                {
+                    PauseState.Update(gameTime);
+                }
+
             }
         }
 
@@ -172,17 +189,24 @@ namespace Codesmith.SmithNgine.GameState
             if (CurrentState != null)
             {
                 CurrentState.Draw(gameTime);
+                if (PauseState != null && PauseState.IsActive)
+                {
+                    PauseState.Draw(gameTime);
+                }
             }
         }
         #endregion
 
         #region New public methods
-        public void AddGameState(GameState state)
+        public void AddGameState(GameState state, bool isPauseState=false)
         {            
             if (!gameStates.Contains(state))
             {
                 state.StateManager = this;
+                state.StatusChanged += StateStatusChanged;
+
                 gameStates.Add(state);
+                PauseState = state;
                 if (CurrentState == null)
                 {
                     CurrentState = state;
@@ -193,6 +217,11 @@ namespace Codesmith.SmithNgine.GameState
 
         public void SwitchToState(GameState nextState)
         {
+            if (PauseState.IsActive)
+            {
+                PauseState.ExitState();
+            }
+
             if (nextState != CurrentState && gameStates.Contains(nextState))
             {
                 // switch to next state
@@ -217,6 +246,22 @@ namespace Codesmith.SmithNgine.GameState
         #endregion
 
         #region Private new methods
+        public void StateStatusChanged(object sender, GameStatusEventArgs args)
+        {
+            if (PauseState != null )
+            {
+                // Listen for child states on pause event. Cause PauseState to enter/exit in this case.
+                if (args.oldStatus == GameStateStatus.Running && args.newStatus == GameStateStatus.EnteringPause)
+                {
+                    PauseState.EnterState();
+                }
+                else if (args.oldStatus == GameStateStatus.Paused && args.newStatus == GameStateStatus.ExitingPause)
+                {
+                    PauseState.ExitState();
+                }
+                
+            }
+        }
         #endregion
     }
 }
