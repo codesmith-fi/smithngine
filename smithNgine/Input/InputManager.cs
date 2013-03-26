@@ -52,6 +52,7 @@ namespace Codesmith.SmithNgine.Input
         #endregion
 
         public event EventHandler<MousePositionEventArgs> MousePositionChanged;
+        public event EventHandler<MouseWheelEventArgs> MouseWheelChanged;
 
         #region Constructors
         public InputManager()
@@ -82,6 +83,16 @@ namespace Codesmith.SmithNgine.Input
                         previousMouseState.X, previousMouseState.Y,
                         mouseState.X, mouseState.Y);
                     MousePositionChanged(this, args);
+                }
+            }
+
+            if (MouseWheelChanged != null)
+            {
+                if (previousMouseState.ScrollWheelValue != mouseState.ScrollWheelValue)
+                {
+                    MouseWheelEventArgs args = new MouseWheelEventArgs(
+                        previousMouseState.ScrollWheelValue, mouseState.ScrollWheelValue);
+                    MouseWheelChanged(this, args);
                 }
             }
 
