@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Codesmith.SmithNgine.GameState;
 using Codesmith.SmithNgine.Gfx;
+using Codesmith.SmithNgine.Input;
 
 namespace Codesmith.SmithTest
 {
@@ -14,9 +15,23 @@ namespace Codesmith.SmithTest
         Vector2 textPos;
         Rectangle area;
         Vector2 moveDelta;
+        Point mouseLoc;
 
         public GamingStatusCanvas()
         {
+        }
+
+        public override void HandleInput(InputManager input)
+        {
+            if (input.IsMouseButtonPressed(MouseButton.Left))
+            {
+                mouseLoc = new Point(input.MouseX, input.MouseY);
+            }
+        }
+
+        public override void Initialize()
+        {
+            base.Initialize();
         }
 
         public override void LoadContent()
@@ -71,6 +86,14 @@ namespace Codesmith.SmithTest
             textPos.X = this.area.Width / 2 - origin.X / 2;
             spriteBatch.Begin();
             spriteBatch.DrawString(StateManager.Font, text, textPos, Color.Green * TransitionSource.TransitionValue );
+
+            String mouseText = "X:" + mouseLoc.X + " Y:" + mouseLoc.Y;
+            if (sprites[1].BoundingBox.Contains(mouseLoc))
+            {
+                mouseText += " - " + sprites[1].ToString();
+            }
+            spriteBatch.DrawString(StateManager.Font, mouseText, new Vector2(10, 10), Color.Red);
+
             foreach (Sprite sprite in this.sprites)
             {
                 sprite.Draw(spriteBatch);
