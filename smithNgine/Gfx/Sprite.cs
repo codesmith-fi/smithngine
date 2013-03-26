@@ -23,9 +23,12 @@ namespace Codesmith.SmithNgine.Gfx
             set
             {
                 Vector2 oldPos = this.position;
-                this.position = value;
-                // Call event after changing the position
-                this.OnPositionChanged(oldPos, this.position);
+                if (oldPos != value)
+                {
+                    this.position = value;
+                    // Call event after changing the position
+                    this.OnPositionChanged(oldPos, this.position);
+                }
             }
         }
 
@@ -35,8 +38,11 @@ namespace Codesmith.SmithNgine.Gfx
             set
             {
                 float oldRotation = this.rotation;
-                this.rotation = value;
-                this.OnRotationChanged(oldRotation, this.rotation);
+                if (oldRotation != value)
+                {
+                    this.rotation = value;
+                    this.OnRotationChanged(oldRotation, this.rotation);
+                }
             }
         }
 
@@ -46,8 +52,11 @@ namespace Codesmith.SmithNgine.Gfx
             set
             {
                 float oldOrder = this.order;
-                this.order = value;
-                this.OnOrderChanged(oldOrder, this.order);
+                if (oldOrder != value)
+                {
+                    this.order = value;
+                    this.OnOrderChanged(oldOrder, this.order);
+                }
             }
         }
 
