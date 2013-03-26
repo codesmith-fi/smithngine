@@ -30,11 +30,6 @@ namespace Codesmith.SmithNgine.GameState
 
     #endregion
 
-    #region Event delegates
-    // Event delegate for state status changed event
-    public delegate void GameStatusChangedEventHandler(object sender, GameStatusEventArgs e);
-    #endregion 
-
     public abstract class GameState : IEquatable<GameState>, ITransitionSource
     {
         #region Attributes/Fields
@@ -118,7 +113,7 @@ namespace Codesmith.SmithNgine.GameState
         #endregion
 
         #region Events
-        public event GameStatusChangedEventHandler StatusChanged;
+        public event EventHandler<GameStatusEventArgs> StatusChanged;
         #endregion
 
         #region Constructors

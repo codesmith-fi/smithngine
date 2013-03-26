@@ -53,8 +53,8 @@ namespace Codesmith.SmithTest
             stateManager.AddGameState(state1);
             stateManager.AddGameState(state2);
 
-            state1.StatusChanged += new GameStatusChangedEventHandler(this.TestStateStatusChanged);
-            state2.StatusChanged += new GameStatusChangedEventHandler(this.TestStateStatusChanged);
+            state1.StatusChanged += this.TestStateStatusChanged;
+            state2.StatusChanged += this.TestStateStatusChanged;
 
             this.IsMouseVisible = true;
             base.Initialize();
