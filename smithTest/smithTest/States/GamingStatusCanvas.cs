@@ -59,7 +59,7 @@ namespace Codesmith.SmithTest
             Vector2 origin = StateManager.Font.MeasureString(text);
             textPos.X = this.area.Width / 2 - origin.X / 2;
             spriteBatch.Begin();
-            spriteBatch.DrawString(StateManager.Font, text, textPos, Color.Green * this.State.TransitionValue );
+            spriteBatch.DrawString(StateManager.Font, text, textPos, Color.Green * TransitionSource.TransitionValue );
             foreach (Sprite sprite in this.sprites)
             {
                 sprite.Draw(spriteBatch);

@@ -29,7 +29,9 @@ namespace Codesmith.SmithTest
 
         public override void Initialize()
         {
-            this.AddCanvas(new GamingStatusCanvas());
+            GameCanvas canvas = new GamingStatusCanvas();
+            canvas.TransitionSource = this;
+            this.AddCanvas(canvas);
             base.Initialize();            
         }
 
