@@ -18,7 +18,5 @@ namespace Codesmith.SmithNgine
             this.oldPosition = oldPosition;
             this.newPosition = newPosition;
         }
-
-        private PositionEventArgs() { }
     }
 }
