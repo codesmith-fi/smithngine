@@ -13,6 +13,6 @@ namespace Codesmith.SmithNgine
             set;
         }
 
-        event EventHandler<EventArgs> RotationChanged;
+        event EventHandler<RotationEventArgs> RotationChanged;
     }
 }

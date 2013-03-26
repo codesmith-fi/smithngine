@@ -15,6 +15,6 @@ namespace Codesmith.SmithNgine
         }
 
         // Event triggered when the order changes
-        event EventHandler<EventArgs> OrderChanged;
+        event EventHandler<OrderEventArgs> OrderChanged;
     }
 }

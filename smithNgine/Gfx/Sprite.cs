@@ -7,21 +7,19 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Codesmith.SmithNgine.Gfx
 {
-    public class Sprite : IMovableObject2D, IOrderableObject
+    public class Sprite : IMovableObject2D, IOrderableObject, IRotatableObject
     {
         #region Fields
         private Texture2D texture;
         private Vector2 position;
-        private float order;
+        private float rotation = 0.0f;
+        private float order = 1.0f;
         #endregion
 
         #region Properties
         public Vector2 Position
         {
-            get
-            {
-                return this.position;
-            }
+            get { return this.position; }
             set
             {
                 Vector2 oldPos = this.position;
@@ -31,10 +29,26 @@ namespace Codesmith.SmithNgine.Gfx
             }
         }
 
+        public float Rotation
+        {
+            get { return this.rotation; }
+            set
+            {
+                float oldRotation = this.rotation;
+                this.rotation = value;
+                this.OnRotationChanged(oldRotation, this.rotation);
+            }
+        }
+
         public float Order
         {
-            get;
-            set;
+            get { return this.order; }
+            set
+            {
+                float oldOrder = this.order;
+                this.order = value;
+                this.OnOrderChanged(oldOrder, this.order);
+            }
         }
 
         public ITransitionSource TransitionSource
@@ -55,7 +69,8 @@ namespace Codesmith.SmithNgine.Gfx
 
         #region Events
         public event EventHandler<PositionEventArgs> PositionChanged;
-        public event EventHandler<EventArgs> OrderChanged;
+        public event EventHandler<OrderEventArgs> OrderChanged;
+        public event EventHandler<RotationEventArgs> RotationChanged;
         #endregion
 
         #region Public virtual methods
@@ -81,8 +96,22 @@ namespace Codesmith.SmithNgine.Gfx
             }
         }
 
+        private void OnRotationChanged(float oldRotation, float newRotation)
+        {
+            if (RotationChanged != null)
+            {
+                RotationEventArgs args = new RotationEventArgs(oldRotation, newRotation);
+                RotationChanged(this, args);
+            }
+        }
+
         private void OnOrderChanged(float oldOrder, float newOrder)
         {
+            if (OrderChanged != null)
+            {
+                OrderEventArgs args = new OrderEventArgs(oldOrder, newOrder);
+                OrderChanged(this, args);
+            }
         }
         #endregion
     }
