@@ -92,6 +92,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameState\GameStatusEventArgs.cs" />
     <Compile Include="Gfx\Sprite.cs" />
     <Compile Include="IMovableObject2D.cs" />
     <Compile Include="Input\MouseButtonEventArgs.cs" />

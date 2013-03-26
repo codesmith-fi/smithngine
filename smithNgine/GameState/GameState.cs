@@ -28,16 +28,6 @@ namespace Codesmith.SmithNgine.GameState
         Dead
     }
 
-    public class GameStatusEventArgs : EventArgs
-    {
-        public GameStateStatus oldStatus;
-        public GameStateStatus newStatus;
-        public GameStatusEventArgs(GameStateStatus oldStatus, GameStateStatus newStatus)
-        {
-            this.oldStatus = oldStatus;
-            this.newStatus = newStatus;
-        }
-    }
     #endregion
 
     #region Event delegates
