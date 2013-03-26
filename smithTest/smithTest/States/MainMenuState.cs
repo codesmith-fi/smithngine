@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 
 using Codesmith.SmithNgine.GameState;
+using Codesmith.SmithNgine.Input;
 
 namespace Codesmith.SmithTest
 {
@@ -20,6 +21,8 @@ namespace Codesmith.SmithTest
 
         public override void LoadContent()
         {
+            AddCanvas(new MenuCanvas());
+            StateManager.Input.MousePositionChanged += Input_MousePositionChanged;
             image = StateManager.Game.Content.Load<Texture2D>("Images/desert");
             base.LoadContent();
         }
@@ -34,6 +37,10 @@ namespace Codesmith.SmithTest
             spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        private void Input_MousePositionChanged(object sender, MousePositionEventArgs args)
+        {
         }
     }
 }

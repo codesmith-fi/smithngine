@@ -30,7 +30,7 @@ namespace Codesmith.SmithTest
 
         public override void Initialize()
         {
-            base.Initialize();
+            base.Initialize();            
         }
 
         public override void HandleInput(InputManager input)
