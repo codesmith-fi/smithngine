@@ -44,6 +44,12 @@ namespace Codesmith.SmithNgine.GameState
         #endregion
 
         #region Properties
+        public Rectangle Bounds
+        {
+            get;
+            set;
+        }
+
         public float TransitionValue
         {
             get { return this.transitionValue; }
@@ -129,7 +135,12 @@ namespace Codesmith.SmithNgine.GameState
         #region New methods - Virtual 
         public virtual void LoadContent()
         {
-            this.blankTexture = StateManager.Game.Content.Load<Texture2D>("Images/blank");
+            // Set bounds by default to the viewport bounds if it is not already set
+            if (Bounds.IsEmpty)
+            {
+                Bounds = StateManager.GraphicsDevice.Viewport.Bounds;
+            }
+
             foreach (GameCanvas canvas in canvasList)
             {
                 canvas.LoadContent();
@@ -288,16 +299,6 @@ namespace Codesmith.SmithNgine.GameState
 
             return true;
         }
-
-        protected void DimWithAlpha(float alpha)
-        {
-            Viewport viewport = StateManager.GraphicsDevice.Viewport;
-            StateManager.SpriteBatch.Begin();
-            StateManager.SpriteBatch.Draw(this.blankTexture, new Rectangle(0, 0, viewport.Width, viewport.Height), Color.Black * alpha);
-            StateManager.SpriteBatch.End();
-        }
-
         #endregion
-
     }
 }

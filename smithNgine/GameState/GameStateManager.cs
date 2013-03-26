@@ -22,6 +22,7 @@ namespace Codesmith.SmithNgine.GameState
         private InputManager input = new InputManager();
         private List<GameState> gameStates = new List<GameState>();
         private SpriteBatch spriteBatch;
+        private Texture2D blankTexture;
         private bool isInitialized;
         #endregion
 
@@ -102,6 +103,8 @@ namespace Codesmith.SmithNgine.GameState
             {
                 this.Font = Game.Content.Load<SpriteFont>("defaultfont");
             }
+
+            this.blankTexture = Game.Content.Load<Texture2D>("Images/blank");
 
             // Load each games state as well
             foreach (GameState state in gameStates)
@@ -202,6 +205,14 @@ namespace Codesmith.SmithNgine.GameState
                 ExitingState = CurrentState;
                 CurrentState = nextState;
             }
+        }
+
+        protected void DimWithAlpha(float alpha)
+        {
+            Viewport viewport = GraphicsDevice.Viewport;
+            SpriteBatch.Begin();
+            SpriteBatch.Draw(this.blankTexture, new Rectangle(0, 0, viewport.Width, viewport.Height), Color.Black * alpha);
+            SpriteBatch.End();
         }
         #endregion
 

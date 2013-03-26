@@ -33,6 +33,11 @@ namespace Codesmith.SmithNgine.GameState
             internal set;
         }
 
+        public Rectangle Bounds
+        {
+            get;
+            set;
+        }
         #endregion
 
         public GameCanvas()
@@ -42,6 +47,11 @@ namespace Codesmith.SmithNgine.GameState
 
         public virtual void LoadContent()
         {
+            // Set bounds by default to the viewport bounds if it is not already set
+            if (Bounds.IsEmpty)
+            {
+                Bounds = StateManager.GraphicsDevice.Viewport.Bounds;
+            }
         }
 
         public virtual void UnloadContent()
