@@ -17,6 +17,18 @@ namespace Codesmith.SmithNgine.Gfx
         #endregion
 
         #region Properties
+        public Vector2 Origin
+        {
+            get;
+            set;
+        }
+
+        public float Scale
+        {
+            get;
+            set;
+        }
+
         public Vector2 Position
         {
             get { return this.position; }
@@ -73,6 +85,9 @@ namespace Codesmith.SmithNgine.Gfx
         {
             this.texture = texture;
             TransitionSource = null;
+            // By default, sprite origin is the center
+            Origin = new Vector2(this.texture.Bounds.Width / 2, this.texture.Bounds.Height / 2);
+            Scale = 1.0f;
         }
         #endregion
 
@@ -91,7 +106,7 @@ namespace Codesmith.SmithNgine.Gfx
             {
                 color = Color.White * TransitionSource.TransitionValue;
             }
-            spriteBatch.Draw(this.texture, pos, color);
+            spriteBatch.Draw(this.texture, Position, null, color, Rotation, Origin, Scale, SpriteEffects.None, Order);
         }
         #endregion
 

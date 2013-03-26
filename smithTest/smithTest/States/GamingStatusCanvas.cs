@@ -28,12 +28,12 @@ namespace Codesmith.SmithTest
             sprites.Add(new Sprite(StateManager.Content.Load<Texture2D>("Images/j2")));
             sprites.Add(new Sprite(StateManager.Content.Load<Texture2D>("Images/j3")));
 
-            int i = 20;
+            int i = 100;
             foreach (Sprite s in sprites)
             {
                 s.TransitionSource = this.State;
                 s.Position = new Vector2(i, 80);
-                i += 60;
+                i += 200;
 
             }
         }
@@ -62,6 +62,7 @@ namespace Codesmith.SmithTest
             foreach (Sprite sprite in this.sprites)
             {
                 sprite.Draw(spriteBatch);
+                sprite.Rotation += 0.05f;
             }
             spriteBatch.End();
         }
