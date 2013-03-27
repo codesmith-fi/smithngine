@@ -94,7 +94,6 @@
   <ItemGroup>
     <Compile Include="DefaultTransitionSource.cs" />
     <Compile Include="GameState\GameStatusEventArgs.cs" />
-    <Compile Include="Gfx\IAnimatedObject.cs" />
     <Compile Include="Gfx\Sprite.cs" />
     <Compile Include="Gfx\SpriteButton.cs" />
     <Compile Include="IActivatableObject.cs" />

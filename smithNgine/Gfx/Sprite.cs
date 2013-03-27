@@ -215,5 +215,8 @@ namespace Codesmith.SmithNgine.Gfx
         }
         #endregion
 
+        public override void Update(GameTime gameTime)
+        {            
+        }
     }
 }

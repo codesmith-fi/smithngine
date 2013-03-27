@@ -6,7 +6,7 @@ using Codesmith.SmithNgine.MathUtil;
 
 namespace Codesmith.SmithNgine.Gfx
 {
-    public class SpriteButton : Sprite, IAnimatedObject
+    public class SpriteButton : Sprite
     {
         #region Fields
         TimeSpan clickTimeSpan;
@@ -31,14 +31,7 @@ namespace Codesmith.SmithNgine.Gfx
         #endregion
 
         #region New public methods
-        public void ResetAnimation()
-        {
-            direction = 1;
-            idleAnimValue = -MathHelper.Pi;
-            clickAnimValue = 0.0f;
-        }
-
-        public void Animate(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             if (this.direction != 0)
             {
@@ -73,9 +66,28 @@ namespace Codesmith.SmithNgine.Gfx
         public override void LooseFocus()
         {
             base.LooseFocus();
-            this.direction = 1;
+            this.direction = 0;
         }
+
+        public override void Dismiss()
+        {
+            this.direction = 0;
+            this.Scale = 1.0f;
+        }
+
         #endregion
+
+        public override void DeactivateObject()
+        {
+            base.DeactivateObject();
+        }
+
+        private void ResetAnimation()
+        {
+            direction = 1;
+            idleAnimValue = -MathHelper.Pi;
+            clickAnimValue = 0.0f;
+        }
 
     }
 }

@@ -93,9 +93,6 @@ namespace Codesmith.SmithNgine.GameState
             this.isInitialized = true;
         }
 
-        public virtual void Update(GameTime gameTime)
-        {
-        }
 
         public virtual void Draw(GameTime gameTime)
         {
@@ -103,6 +100,23 @@ namespace Codesmith.SmithNgine.GameState
 
         public virtual void HandleInput(InputManager input)
         {
+        }
+
+        public override void Dismiss()
+        {
+            foreach (IActivatableObject obj in children)
+            {
+                obj.Dismiss();
+            }
+            base.Dismiss();
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            foreach (IActivatableObject obj in children)
+            {
+                obj.Update(gameTime);
+            }
         }
         #endregion
     }

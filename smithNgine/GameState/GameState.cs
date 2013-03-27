@@ -167,41 +167,17 @@ namespace Codesmith.SmithNgine.GameState
                 obj.DeactivateObject();
             }
         }
-        #endregion
 
-        #region New methods - Virtual
-        public virtual void LoadContent()
+        public override void Dismiss()
         {
-            // Set bounds by default to the viewport bounds if it is not already set
-            if (Bounds.IsEmpty)
+            foreach (IActivatableObject obj in children)
             {
-                Bounds = StateManager.GraphicsDevice.Viewport.Bounds;
+                obj.Dismiss();
             }
-
-            foreach (GameCanvas canvas in canvasList)
-            {
-                canvas.LoadContent();
-            }
+            base.Dismiss();
         }
 
-        public virtual void UnloadContent()
-        {
-            foreach (GameCanvas canvas in canvasList)
-            {
-                canvas.UnloadContent();
-            }
-        }
-
-        public virtual void Initialize()
-        {
-            foreach (GameCanvas canvas in canvasList)
-            {
-                canvas.Initialize();
-            }
-            this.isInitialized = true;
-        }
-
-        public virtual void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             // If the state is exiting, update state transition
             if (Status == GameStateStatus.Exiting)
@@ -236,18 +212,54 @@ namespace Codesmith.SmithNgine.GameState
             // Do not update canvases if we are not active
             if (this.IsActive)
             {
-                foreach (GameCanvas canvas in canvasList)
+                foreach (IActivatableObject child in children)
                 {
-                    canvas.Update(gameTime);
+                    child.Update(gameTime);
                 }
             }
+        }
+        #endregion
+
+        #region New methods - Virtual
+        public virtual void LoadContent()
+        {
+            // Set bounds by default to the viewport bounds if it is not already set
+            if (Bounds.IsEmpty)
+            {
+                Bounds = StateManager.GraphicsDevice.Viewport.Bounds;
+            }
+
+            foreach (GameCanvas canvas in canvasList)
+            {
+                canvas.LoadContent();
+            }
+        }
+
+        public virtual void UnloadContent()
+        {
+            foreach (GameCanvas canvas in canvasList)
+            {
+                canvas.UnloadContent();
+            }
+        }
+
+        public virtual void Initialize()
+        {
+            foreach (GameCanvas canvas in canvasList)
+            {
+                canvas.Initialize();
+            }
+            this.isInitialized = true;
         }
 
         public virtual void Draw(GameTime gameTime)
         {
             foreach (GameCanvas canvas in canvasList)
             {
-                canvas.Draw(gameTime);
+                if (canvas.ObjectIsActive)
+                {
+                    canvas.Draw(gameTime);
+                }
             }
         }
 

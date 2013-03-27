@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -51,6 +52,14 @@ namespace Codesmith.SmithNgine
                 ObjectDeactivated(this, EventArgs.Empty);
             }
             objectIsActive = false;
+        }
+
+        public virtual void Update(GameTime gameTime)
+        {
+        }
+
+        public virtual void Dismiss()
+        {
         }
     }
 }

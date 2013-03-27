@@ -31,10 +31,10 @@ namespace Codesmith.SmithTest
             image = StateManager.Game.Content.Load<Texture2D>("Images/paused");
             imagePos = new Vector2(Bounds.Width / 2 - image.Width / 2, Bounds.Height / 2 - image.Height / 2);
 
-            button = new SpriteButton(StateManager.Game.Content.Load<Texture2D>("Images/j1"));
+            button = new SpriteButton(StateManager.Game.Content.Load<Texture2D>("Images/unpause"));
             button.MouseEventSource = StateManager.Input;
             button.TransitionSource = this;
-            button.Position = new Vector2( Bounds.Width / 2, Bounds.Height / 2 + 50);
+            button.Position = new Vector2( Bounds.Width / 2, Bounds.Height / 2 + 80);
             button.ButtonClicked += button_ButtonClicked;
             AddChild(button);
         }
@@ -50,7 +50,6 @@ namespace Codesmith.SmithTest
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            button.Animate(gameTime);
         }
 
         public override void Draw(GameTime gameTime)

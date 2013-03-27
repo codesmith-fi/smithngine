@@ -62,9 +62,10 @@ namespace Codesmith.SmithTest
             state2.StatusChanged += this.TestStateStatusChanged;
             pauseState.StatusChanged += this.TestStateStatusChanged;
             Components.Add(stateManager);
-
             this.IsMouseVisible = true;
             base.Initialize();
+
+            stateManager.SwitchToState(state1);
         }
 
         /// <summary>

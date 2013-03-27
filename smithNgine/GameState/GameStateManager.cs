@@ -207,11 +207,6 @@ namespace Codesmith.SmithNgine.GameState
 
                 gameStates.Add(state);
                 PauseState = state;
-                if (CurrentState == null)
-                {
-                    CurrentState = state;
-                    CurrentState.EnterState();
-                }
             }
         }
 
@@ -225,7 +220,10 @@ namespace Codesmith.SmithNgine.GameState
             if (nextState != CurrentState && gameStates.Contains(nextState))
             {
                 // switch to next state
-                CurrentState.ExitState();
+                if (CurrentState != null)
+                {
+                    CurrentState.ExitState();
+                }
                 nextState.EnterState();
                 if (nextState.IsSlowLoadingState)
                 {
@@ -260,23 +258,15 @@ namespace Codesmith.SmithNgine.GameState
         #region Private new methods
         public void StateStatusChanged(object sender, GameStatusEventArgs args)
         {
-            // TODO: Not needed anymore, atleast in case state wanting to pause calls StateManager.PauseCurrentState()
-/*
             if (PauseState != null )
             {
                 // Listen for child states on pause event. Cause PauseState to enter/exit in this case.
-                if (args.oldStatus == GameStateStatus.Running && 
-                    args.newStatus == GameStateStatus.EnteringPause )
+                if (args.oldStatus == GameStateStatus.Exiting && 
+                    args.newStatus == GameStateStatus.Hidden && sender == PauseState)
                 {
-                    PauseState.EnterState();
+                    PauseState.Dismiss();
                 }
-                else if (args.oldStatus == GameStateStatus.Paused && 
-                    args.newStatus == GameStateStatus.ExitingPause )
-                {
-                    PauseState.ExitState();
-                }              
             }
- */ 
         }
         #endregion
     }
