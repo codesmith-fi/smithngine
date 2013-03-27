@@ -13,6 +13,7 @@ namespace Codesmith.SmithNgine.Gfx
         float clickAnimValue;
         float idleAnimValue;
         int direction;
+        float hoverScale;
         float[] points = { 1.0f, 1.2f, 0.8f, 1.0f };
         float[] amounts = { 0.0f, 0.1f, 0.8f, 1.0f };
         #endregion
@@ -40,11 +41,11 @@ namespace Codesmith.SmithNgine.Gfx
         {
             if (IsHovered)
             {
-                this.Color = Color.White * 0.50f;
+                this.hoverScale = 1.1f;
             }
             else
             {
-                this.Color = Color.White;
+                this.hoverScale = 1.0f;
             }
 
             if (this.direction != 0)
@@ -61,7 +62,7 @@ namespace Codesmith.SmithNgine.Gfx
             {
                 idleAnimValue += 0.15f;
                 idleAnimValue = MathHelper.WrapAngle(idleAnimValue);
-                Scale = 1.0f + ( (float)Math.Sin(idleAnimValue) / 70) ;
+                Scale = hoverScale * (1.0f + ( (float)Math.Sin(idleAnimValue) / 70) );
             }
         }
         #endregion
