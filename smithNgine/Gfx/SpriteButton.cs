@@ -31,8 +31,22 @@ namespace Codesmith.SmithNgine.Gfx
         #endregion
 
         #region New public methods
+        protected override void OnHover(Vector2 position)
+        {
+            base.OnHover(position);
+        }
+
         public override void Update(GameTime gameTime)
         {
+            if (IsHovered)
+            {
+                this.Color = Color.White * 0.50f;
+            }
+            else
+            {
+                this.Color = Color.White;
+            }
+
             if (this.direction != 0)
             {
                 if (!TransitionMath.LinearTransition(

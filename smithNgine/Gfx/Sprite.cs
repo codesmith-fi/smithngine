@@ -8,7 +8,7 @@ using Codesmith.SmithNgine.Input;
 
 namespace Codesmith.SmithNgine.Gfx
 {
-    public class Sprite : ObjectBase, IMovableObject2D, IOrderableObject, IRotatableObject, IFocusableObject
+    public class Sprite : ObjectBase, IMovableObject2D, IOrderableObject, IRotatableObject, IFocusableObject, IHoverableObject
     {
         #region Fields
         private IMouseEventSource mouseSource;
@@ -16,6 +16,15 @@ namespace Codesmith.SmithNgine.Gfx
         private Vector2 position;
         private float rotation = 0.0f;
         private float order = 1.0f;
+        #endregion
+
+        #region Events
+        public event EventHandler<PositionEventArgs> PositionChanged;
+        public event EventHandler<OrderEventArgs> OrderChanged;
+        public event EventHandler<RotationEventArgs> RotationChanged;
+        public event EventHandler<EventArgs> FocusGained;
+        public event EventHandler<EventArgs> FocusLost;
+        public event EventHandler<HoverEventArgs> BeingHovered;
         #endregion
 
         #region Properties
@@ -32,6 +41,12 @@ namespace Codesmith.SmithNgine.Gfx
         }
 
         public float Scale
+        {
+            get;
+            set;
+        }
+
+        public Color Color
         {
             get;
             set;
@@ -80,6 +95,12 @@ namespace Codesmith.SmithNgine.Gfx
             }
         }
 
+        public bool IsHovered
+        {
+            get;
+            private set;
+        }
+
         // Return rectangular boundingbox of the sprite, taking account of origin and scale
         public Rectangle BoundingBox
         {
@@ -103,10 +124,31 @@ namespace Codesmith.SmithNgine.Gfx
                 if (value == null)
                 {
                     mouseSource.MouseButtonPressed -= mouseSource_MouseButtonPressed;
+                    mouseSource.MousePositionChanged -= mouseSource_MousePositionChanged;
                 }
                 else
                 {
                     mouseSource.MouseButtonPressed += mouseSource_MouseButtonPressed;
+                    mouseSource.MousePositionChanged += mouseSource_MousePositionChanged;
+                }
+            }
+        }
+
+        void mouseSource_MousePositionChanged(object sender, MousePositionEventArgs e)
+        {
+            if (ObjectIsActive)
+            {
+                Point p = new Point((int)e.newPosition.X, (int)e.newPosition.Y);
+                if (BoundingBox.Contains(p))
+                {
+                    // Handle hovering, coords are relative to the object
+                    Vector2 innerPos = new Vector2(p.X - BoundingBox.X, p.Y - BoundingBox.Y);
+                    OnHover(innerPos);
+                    this.IsHovered = true;
+                }
+                else
+                {
+                    this.IsHovered = false;
                 }
             }
         }
@@ -147,23 +189,15 @@ namespace Codesmith.SmithNgine.Gfx
             Position = Vector2.Zero;
             Origin = new Vector2(this.texture.Bounds.Width / 2, this.texture.Bounds.Height / 2);
             Scale = 1.0f;
+            this.Color = Color.White;
         }
-        #endregion
-
-        #region Events
-        public event EventHandler<PositionEventArgs> PositionChanged;
-        public event EventHandler<OrderEventArgs> OrderChanged;
-        public event EventHandler<RotationEventArgs> RotationChanged;
-        public event EventHandler<EventArgs> FocusGained;
-        public event EventHandler<EventArgs> FocusLost;
         #endregion
 
         #region Public virtual methods
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             Rectangle pos = new Rectangle((int)Position.X, (int)Position.Y, texture.Width, texture.Height);
-            Color color = Color.White;
-            color = Color.White * TransitionSource.TransitionValue;
+            Color color = this.Color * TransitionSource.TransitionValue;
             spriteBatch.Draw(this.texture, Position, null, color, Rotation, Origin, Scale, SpriteEffects.None, Order);
         }
 
@@ -184,6 +218,17 @@ namespace Codesmith.SmithNgine.Gfx
             }
             HasFocus = false;
         }
+
+        protected virtual void OnHover(Vector2 position)
+        {
+            if (this.BeingHovered != null)
+            {
+                HoverEventArgs args = new HoverEventArgs();
+                args.position = position;
+                BeingHovered(this, args);
+            }
+        }
+
         #endregion
 
         #region Private methods

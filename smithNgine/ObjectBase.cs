@@ -60,6 +60,7 @@ namespace Codesmith.SmithNgine
 
         public virtual void Dismiss()
         {
+            objectIsActive = false;
         }
     }
 }

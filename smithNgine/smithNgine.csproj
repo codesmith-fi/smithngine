@@ -96,8 +96,10 @@
     <Compile Include="GameState\GameStatusEventArgs.cs" />
     <Compile Include="Gfx\Sprite.cs" />
     <Compile Include="Gfx\SpriteButton.cs" />
+    <Compile Include="HoverEventArgs.cs" />
     <Compile Include="IActivatableObject.cs" />
     <Compile Include="IFocusableObject.cs" />
+    <Compile Include="IHoverableObject.cs" />
     <Compile Include="IMovableObject2D.cs" />
     <Compile Include="Input\IMouseEventSource.cs" />
     <Compile Include="Input\MouseButtonEventArgs.cs" />
