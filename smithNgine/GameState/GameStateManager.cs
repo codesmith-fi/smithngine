@@ -212,7 +212,7 @@ namespace Codesmith.SmithNgine.GameState
 
         public void SwitchToState(GameState nextState)
         {
-            if (PauseState.IsActive)
+            if (PauseState != null && PauseState.IsActive)
             {
                 PauseState.ExitState();
             }
@@ -236,13 +236,19 @@ namespace Codesmith.SmithNgine.GameState
 
         public void PauseCurrentState()
         {
-            PauseState.EnterState();
+            if (PauseState != null)
+            {
+                PauseState.EnterState();
+            }
             CurrentState.Pause();
         }
 
         public void UnPauseCurrentState()
         {
-            PauseState.ExitState();
+            if (PauseState != null)
+            {
+                PauseState.ExitState();
+            }
             CurrentState.UnPause();
         }
 
@@ -258,14 +264,10 @@ namespace Codesmith.SmithNgine.GameState
         #region Private new methods
         public void StateStatusChanged(object sender, GameStatusEventArgs args)
         {
-            if (PauseState != null )
+            if (args.newStatus == GameStateStatus.Hidden)
             {
-                // Listen for child states on pause event. Cause PauseState to enter/exit in this case.
-                if (args.oldStatus == GameStateStatus.Exiting && 
-                    args.newStatus == GameStateStatus.Hidden && sender == PauseState)
-                {
-                    PauseState.Dismiss();
-                }
+                GameState state = (GameState)sender;
+                state.Dismiss();
             }
         }
         #endregion

@@ -17,8 +17,8 @@ namespace Codesmith.SmithTest
         public MainMenuState(String name)
             : base(name)
         {
-            this.EnterStateInterval = TimeSpan.FromSeconds(2.0f);
-            this.ExitStateInterval = TimeSpan.FromSeconds(2.0f);
+            this.EnterStateInterval = TimeSpan.FromSeconds(1.0f);
+            this.ExitStateInterval = TimeSpan.FromSeconds(1.0f);
         }
 
         public override void Initialize()

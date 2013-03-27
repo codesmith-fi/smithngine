@@ -256,10 +256,7 @@ namespace Codesmith.SmithNgine.GameState
         {
             foreach (GameCanvas canvas in canvasList)
             {
-                if (canvas.ObjectIsActive)
-                {
-                    canvas.Draw(gameTime);
-                }
+                canvas.Draw(gameTime);
             }
         }
 
@@ -294,7 +291,7 @@ namespace Codesmith.SmithNgine.GameState
         // Causes this state to transition into paused state, by default transition 50% off
         public virtual void Pause( float limit = 0.5f )
         {
-            if (this.Status == GameStateStatus.Running)
+            if (IsActive)
             {
                 this.Status = GameStateStatus.EnteringPause;
                 this.transitionBottomLimit = limit;
@@ -305,7 +302,7 @@ namespace Codesmith.SmithNgine.GameState
         // Causes this state to transition into running state from paused state
         public virtual void UnPause()
         {
-            if (this.Status == GameStateStatus.Paused)
+            if (IsPaused)
             {
                 this.Status = GameStateStatus.ExitingPause;
                 ActivateObject();

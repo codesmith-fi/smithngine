@@ -16,9 +16,9 @@ namespace Codesmith.SmithTest
         public GamingState(String name)
             : base(name)
         {
-            this.EnterStateInterval = TimeSpan.FromSeconds(2.0f);
-            this.ExitStateInterval = TimeSpan.FromSeconds(2.0f);
-            this.PauseStateInterval = TimeSpan.FromSeconds(0.5f);
+            this.EnterStateInterval = TimeSpan.FromSeconds(1.0f);
+            this.ExitStateInterval = TimeSpan.FromSeconds(1.0f);
+            this.PauseStateInterval = TimeSpan.FromSeconds(0.25f);
         }
 
         public override void LoadContent()
