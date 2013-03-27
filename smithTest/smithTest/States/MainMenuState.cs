@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 
 using Codesmith.SmithNgine.GameState;
 using Codesmith.SmithNgine.Input;
+using Microsoft.Xna.Framework.Input;
 
 namespace Codesmith.SmithTest
 {
@@ -50,6 +51,16 @@ namespace Codesmith.SmithTest
             spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        public override void HandleInput(InputManager input)
+        {
+            PlayerIndex source;
+            if (input.IsKeyPressed(Keys.Escape, null, out source))
+            {
+                StateManager.Game.Exit();
+            }
+            base.HandleInput(input);
         }
 
         private void Input_MousePositionChanged(object sender, MousePositionEventArgs args)

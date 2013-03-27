@@ -16,8 +16,8 @@ namespace Codesmith.SmithTest
         public PauseState(String name) 
             : base(name)
         {
-            this.EnterStateInterval = TimeSpan.FromSeconds(0.3f);
-            this.ExitStateInterval = TimeSpan.FromSeconds(0.3f);
+            this.EnterStateInterval = TimeSpan.FromSeconds(0.25f);
+            this.ExitStateInterval = TimeSpan.FromSeconds(0.25f);
         }
 
         public override void Initialize()

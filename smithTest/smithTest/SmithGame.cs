@@ -30,6 +30,9 @@ namespace Codesmith.SmithTest
         public SmithGame()
         {
             graphics = new GraphicsDeviceManager(this);
+            graphics.IsFullScreen = true;
+            graphics.PreferredBackBufferWidth = 1280;
+            graphics.PreferredBackBufferHeight = 1024;
             Content.RootDirectory = "Content";
         }
 
