@@ -106,6 +106,7 @@
     <Compile Include="Input\MouseWheelEventArgs.cs" />
     <Compile Include="IOrderableObject.cs" />
     <Compile Include="IRotatableObject.cs" />
+    <Compile Include="MathUtil\TransitionMath.cs" />
     <Compile Include="ObjectBase.cs" />
     <Compile Include="OrderEventArgs.cs" />
     <Compile Include="RotationEventArgs.cs" />

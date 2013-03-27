@@ -130,12 +130,12 @@ namespace Codesmith.SmithNgine.Gfx
         // Handles mouseclick on this button
         protected virtual void HandleMouseInsideClick(MouseButtonEventArgs args) 
         {
-            GainFocus();
+            if(args.left ) GainFocus();
         }
 
         protected virtual void HandleMouseOutsideClick(MouseButtonEventArgs args)
         {
-            LooseFocus();
+            if(args.left && HasFocus) LooseFocus();
         }
         #endregion
 

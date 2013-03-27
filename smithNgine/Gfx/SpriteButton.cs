@@ -1,69 +1,56 @@
 ﻿using System;
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Codesmith.SmithNgine.Input;
+using Codesmith.SmithNgine.MathUtil;
 
 namespace Codesmith.SmithNgine.Gfx
 {
     public class SpriteButton : Sprite, IAnimatedObject
     {
-        TimeSpan animTime;
-        float targetScale;
-        float animTransitionValue;
+        TimeSpan clickTimeSpan;
+        float clickAnimValue;
+        float idleAnimValue;
         int direction;
+        float[] points = { 1.0f, 1.2f, 0.8f, 1.0f };
+        float[] amounts = { 0.0f, 0.1f, 0.8f, 1.0f };
 
         public SpriteButton(Texture2D texture) 
             : base(texture)
         {
-            animTime = TimeSpan.FromSeconds(1.0f);
+            clickTimeSpan = TimeSpan.FromSeconds(0.9f);
         }
 
         public void ResetAnimation()
         {
-            targetScale = 0.50f;
-            animTransitionValue = 1.0f;
-            direction = -1;
+            direction = 1;
+            idleAnimValue = -MathHelper.Pi;
+            clickAnimValue = 0.0f;
         }
 
         public void Animate(GameTime gameTime)
         {
             if (this.direction != 0)
             {
-                if (!UpdateAnimation(gameTime))
+                if (!TransitionMath.LinearTransition(
+                    gameTime.ElapsedGameTime, clickTimeSpan,
+                    direction, ref clickAnimValue))
                 {
                     this.direction = 0;
                 }
-                Scale = animTransitionValue;
+                Scale = TransitionMath.SmoothTransition(points, amounts, clickAnimValue);
             }
-        }
-
-        private bool UpdateAnimation(GameTime gameTime)
-        {
-            direction = (direction > 0) ? 1 : -1;
-            double elapsedMs = gameTime.ElapsedGameTime.TotalMilliseconds;
-            double transitionMs = animTime.TotalMilliseconds;
-
-            float delta = (float)(elapsedMs / transitionMs);
-            this.animTransitionValue += delta * direction;
-
-            // Ensure that the transition value is kept in: 0.0f <= transitionValue <= 1.0f
-            if (((direction > 0) && (this.animTransitionValue > 1.0f)) ||
-                ((direction < 0) && (this.animTransitionValue < this.targetScale)))
+            else
             {
-                // We are done transitioning in or out, clamp the value and end transition
-                this.animTransitionValue = MathHelper.Clamp(
-                    this.animTransitionValue, this.targetScale, 1.0f);
-                return false;
+                idleAnimValue += 0.15f;
+                idleAnimValue = MathHelper.WrapAngle(idleAnimValue);
+                Scale = 1.0f + ( (float)Math.Sin(idleAnimValue) / 70) ;
             }
-            // Still animating
-            return true;
         }
 
         public override void GainFocus()
         {
             base.GainFocus();
-            this.direction = -1;
             ResetAnimation();
         }
 
@@ -71,7 +58,6 @@ namespace Codesmith.SmithNgine.Gfx
         {
             base.LooseFocus();
             this.direction = 1;
-            targetScale = 1.0f;
         }
 
     }
