@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Codesmith.SmithNgine.Input;
 using Codesmith.SmithNgine.MathUtil;
+using Microsoft.Xna.Framework.Input;
 
 namespace Codesmith.SmithNgine.Gfx
 {
@@ -16,6 +17,7 @@ namespace Codesmith.SmithNgine.Gfx
         float hoverScale;
         float[] points = { 1.0f, 1.2f, 0.8f, 1.0f };
         float[] amounts = { 0.0f, 0.1f, 0.8f, 1.0f };
+        Keys activationKey;
         #endregion
 
         #region Constructors
@@ -31,7 +33,30 @@ namespace Codesmith.SmithNgine.Gfx
         public event EventHandler<EventArgs> ButtonClicked;
         #endregion
 
-        #region New public methods
+        #region New methods 
+        // Causes this button to listen for the defined key. Acts like Mouse click
+        public void BindKey(Keys key)
+        {
+            activationKey = key;
+            InputEventSource.KeysPressed += keySource_KeysPressed;
+        }
+
+        void keySource_KeysPressed(object sender, KeyboardEventArgs e)
+        {
+            if (ObjectIsActive && e.keys.Length > 0)
+            {
+                foreach (Keys k in e.keys)
+                {
+                    if (k == activationKey)
+                    {
+                        GainFocus();
+                    }
+                }
+            }
+        }
+        #endregion
+
+        #region Methods overridden from base
         protected override void OnHover(Vector2 position)
         {
             base.OnHover(position);
@@ -65,9 +90,7 @@ namespace Codesmith.SmithNgine.Gfx
                 Scale = hoverScale * (1.0f + ( (float)Math.Sin(idleAnimValue) / 70) );
             }
         }
-        #endregion
 
-        #region From IFocusableObject
         public override void GainFocus()
         {
             base.GainFocus();
@@ -90,12 +113,11 @@ namespace Codesmith.SmithNgine.Gfx
             this.Scale = 1.0f;
         }
 
-        #endregion
-
         public override void DeactivateObject()
         {
             base.DeactivateObject();
         }
+        #endregion
 
         private void ResetAnimation()
         {

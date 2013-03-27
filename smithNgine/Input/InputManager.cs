@@ -23,7 +23,7 @@ namespace Codesmith.SmithNgine.Input
     }
     #endregion
 
-    public class InputManager : IMouseEventSource
+    public class InputManager : IInputEventSource
     {
         #region Fields/Attributes
         private const int MaxPlayers = 4;
@@ -57,6 +57,7 @@ namespace Codesmith.SmithNgine.Input
         public event EventHandler<MousePositionEventArgs> MousePositionChanged;
         public event EventHandler<MouseWheelEventArgs> MouseWheelChanged;
         public event EventHandler<MouseButtonEventArgs> MouseButtonPressed;
+        public event EventHandler<KeyboardEventArgs> KeysPressed;
         #endregion
 
         #region Constructors
@@ -78,10 +79,19 @@ namespace Codesmith.SmithNgine.Input
             previousKeyboardStates = new List<KeyboardState>(keyboardStates);
             previousGamepadStates = new List<GamePadState>(gamepadStates);
             previousMouseState = mouseState;
-            
+
             for (int i = 0; i < MaxPlayers; i++)
             {
                 keyboardStates[i] = Keyboard.GetState((PlayerIndex)i);
+                if (KeysPressed != null)
+                {
+                    Keys[] keys = keyboardStates[i].GetPressedKeys();
+                    if (keys.Length > 0)
+                    {
+                        KeyboardEventArgs args = new KeyboardEventArgs(keys, (PlayerIndex)i);
+                        KeysPressed(this, args);
+                    }
+                }
                 gamepadStates[i] = GamePad.GetState((PlayerIndex)i);
             }
             mouseState = Mouse.GetState();
@@ -220,5 +230,6 @@ namespace Codesmith.SmithNgine.Input
 
         }
         #endregion
+
     }
 }

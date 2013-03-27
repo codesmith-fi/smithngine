@@ -11,7 +11,7 @@ namespace Codesmith.SmithNgine.Gfx
     public class Sprite : ObjectBase, IMovableObject2D, IOrderableObject, IRotatableObject, IFocusableObject, IHoverableObject
     {
         #region Fields
-        private IMouseEventSource mouseSource;
+        private IInputEventSource inputSource;
         private Texture2D texture;
         private Vector2 position;
         private float rotation = 0.0f;
@@ -115,21 +115,21 @@ namespace Codesmith.SmithNgine.Gfx
             }
         }
 
-        public IMouseEventSource MouseEventSource
+        public IInputEventSource InputEventSource
         {
-            get { return mouseSource; }
+            get { return inputSource; }
             set
             {
-                mouseSource = value;
+                inputSource = value;
                 if (value == null)
                 {
-                    mouseSource.MouseButtonPressed -= mouseSource_MouseButtonPressed;
-                    mouseSource.MousePositionChanged -= mouseSource_MousePositionChanged;
+                    inputSource.MouseButtonPressed -= mouseSource_MouseButtonPressed;
+                    inputSource.MousePositionChanged -= mouseSource_MousePositionChanged;
                 }
                 else
                 {
-                    mouseSource.MouseButtonPressed += mouseSource_MouseButtonPressed;
-                    mouseSource.MousePositionChanged += mouseSource_MousePositionChanged;
+                    inputSource.MouseButtonPressed += mouseSource_MouseButtonPressed;
+                    inputSource.MousePositionChanged += mouseSource_MousePositionChanged;
                 }
             }
         }

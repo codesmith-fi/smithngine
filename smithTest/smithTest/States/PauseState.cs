@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Codesmith.SmithNgine.GameState;
 using Codesmith.SmithNgine.Gfx;
+using Microsoft.Xna.Framework.Input;
 
 namespace Codesmith.SmithTest
 {
@@ -32,10 +33,11 @@ namespace Codesmith.SmithTest
             imagePos = new Vector2(Bounds.Width / 2 - image.Width / 2, Bounds.Height / 2 - image.Height / 2);
 
             button = new SpriteButton(StateManager.Game.Content.Load<Texture2D>("Images/unpause"));
-            button.MouseEventSource = StateManager.Input;
+            button.InputEventSource = StateManager.Input;
             button.TransitionSource = this;
             button.Position = new Vector2( Bounds.Width / 2, Bounds.Height / 2 + 80);
             button.ButtonClicked += button_ButtonClicked;
+            button.BindKey(Keys.P);
             AddChild(button);
         }
 
