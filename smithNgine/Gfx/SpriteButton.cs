@@ -6,7 +6,7 @@ using Codesmith.SmithNgine.Input;
 
 namespace Codesmith.SmithNgine.Gfx
 {
-    public class SpriteButton : Sprite, IFocusableObject, IAnimatedObject
+    public class SpriteButton : Sprite, IAnimatedObject
     {
         TimeSpan animTime;
         float targetScale;
@@ -17,32 +17,6 @@ namespace Codesmith.SmithNgine.Gfx
             : base(texture)
         {
             animTime = TimeSpan.FromSeconds(1.0f);
-        }
-
-        public bool HasFocus
-        {
-            get;
-            protected set;
-        }
-
-        public void GainFocus()
-        {
-            if (!HasFocus)
-            {
-                this.HasFocus = true;
-                this.direction = -1;
-                ResetAnimation();
-            }
-        }
-
-        public void LooseFocus()
-        {
-            if (HasFocus)
-            {
-                this.direction = 1;
-                this.HasFocus = false;
-                targetScale = 1.0f;
-            }
         }
 
         public void ResetAnimation()
@@ -86,9 +60,18 @@ namespace Codesmith.SmithNgine.Gfx
             return true;
         }
 
-        protected override void OnMouseButtonPress(MouseButtonEventArgs args) 
+        public override void GainFocus()
         {
-            this.GainFocus();   
+            base.GainFocus();
+            this.direction = -1;
+            ResetAnimation();
+        }
+
+        public override void LooseFocus()
+        {
+            base.LooseFocus();
+            this.direction = 1;
+            targetScale = 1.0f;
         }
 
     }

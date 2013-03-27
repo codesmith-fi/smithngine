@@ -34,6 +34,7 @@ namespace Codesmith.SmithTest
             button = new SpriteButton(StateManager.Game.Content.Load<Texture2D>("Images/j1"));
             button.MouseEventSource = StateManager.Input;
             button.TransitionSource = this;
+            button.Position = new Vector2( Bounds.Width / 2, Bounds.Height / 2 + 50);
             AddChild(button);
         }
 

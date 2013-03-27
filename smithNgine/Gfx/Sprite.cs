@@ -8,7 +8,7 @@ using Codesmith.SmithNgine.Input;
 
 namespace Codesmith.SmithNgine.Gfx
 {
-    public class Sprite : ObjectBase, IMovableObject2D, IOrderableObject, IRotatableObject
+    public class Sprite : ObjectBase, IMovableObject2D, IOrderableObject, IRotatableObject, IFocusableObject
     {
         #region Fields
         private IMouseEventSource mouseSource;
@@ -19,6 +19,12 @@ namespace Codesmith.SmithNgine.Gfx
         #endregion
 
         #region Properties
+        public bool HasFocus
+        {
+            get;
+            protected set;
+        }
+
         public Vector2 Origin
         {
             get;
@@ -112,12 +118,25 @@ namespace Codesmith.SmithNgine.Gfx
                 Point p = new Point(e.X,e.Y);
                 if(BoundingBox.Contains(p))
                 {
-                    OnMouseButtonPress(e);
+                    HandleMouseInsideClick(e);
+                }
+                else if (HasFocus)
+                {
+                    HandleMouseOutsideClick(e);
                 }
             }
         }
 
-        protected virtual void OnMouseButtonPress(MouseButtonEventArgs args) { }
+        // Handles mouseclick on this button
+        protected virtual void HandleMouseInsideClick(MouseButtonEventArgs args) 
+        {
+            GainFocus();
+        }
+
+        protected virtual void HandleMouseOutsideClick(MouseButtonEventArgs args)
+        {
+            LooseFocus();
+        }
         #endregion
 
         #region Constructors
@@ -125,6 +144,7 @@ namespace Codesmith.SmithNgine.Gfx
         {
             this.texture = texture;
             // By default, sprite origin is the center
+            Position = Vector2.Zero;
             Origin = new Vector2(this.texture.Bounds.Width / 2, this.texture.Bounds.Height / 2);
             Scale = 1.0f;
         }
@@ -134,6 +154,8 @@ namespace Codesmith.SmithNgine.Gfx
         public event EventHandler<PositionEventArgs> PositionChanged;
         public event EventHandler<OrderEventArgs> OrderChanged;
         public event EventHandler<RotationEventArgs> RotationChanged;
+        public event EventHandler<EventArgs> FocusGained;
+        public event EventHandler<EventArgs> FocusLost;
         #endregion
 
         #region Public virtual methods
@@ -143,6 +165,24 @@ namespace Codesmith.SmithNgine.Gfx
             Color color = Color.White;
             color = Color.White * TransitionSource.TransitionValue;
             spriteBatch.Draw(this.texture, Position, null, color, Rotation, Origin, Scale, SpriteEffects.None, Order);
+        }
+
+        public virtual void GainFocus()
+        {
+            if (FocusGained != null && !HasFocus)
+            {
+                FocusGained(this, EventArgs.Empty);
+            }
+            HasFocus = true;
+        }
+
+        public virtual void LooseFocus()
+        {
+            if (FocusLost != null && HasFocus)
+            {
+                FocusLost(this, EventArgs.Empty);
+            }
+            HasFocus = false;
         }
         #endregion
 
@@ -174,5 +214,6 @@ namespace Codesmith.SmithNgine.Gfx
             }
         }
         #endregion
+
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Codesmith.SmithNgine
 {
-    interface IFocusableObject
+    public interface IFocusableObject
     {
         bool HasFocus
         {
@@ -14,5 +14,8 @@ namespace Codesmith.SmithNgine
 
         void GainFocus();
         void LooseFocus();
+
+        event EventHandler<EventArgs> FocusGained;
+        event EventHandler<EventArgs> FocusLost;
     }
 }
