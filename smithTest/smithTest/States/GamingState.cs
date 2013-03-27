@@ -43,11 +43,11 @@ namespace Codesmith.SmithTest
             {
                 if (IsActive)
                 {
-                    Pause();
+                    StateManager.PauseCurrentState();
                 }
                 else if (IsPaused)
                 {
-                    UnPause();
+                    StateManager.UnPauseCurrentState();
                 }
             }
             base.HandleInput(input);

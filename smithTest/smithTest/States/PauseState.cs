@@ -35,7 +35,16 @@ namespace Codesmith.SmithTest
             button.MouseEventSource = StateManager.Input;
             button.TransitionSource = this;
             button.Position = new Vector2( Bounds.Width / 2, Bounds.Height / 2 + 50);
+            button.ButtonClicked += button_ButtonClicked;
             AddChild(button);
+        }
+
+        private void button_ButtonClicked(object sender, EventArgs e)
+        {
+            if (sender == button)
+            {
+                StateManager.UnPauseCurrentState();
+            }
         }
 
         public override void Update(GameTime gameTime)
