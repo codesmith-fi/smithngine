@@ -25,8 +25,8 @@ namespace Codesmith.SmithTest
 
         public override void LoadContent()
         {
-            image = StateManager.Game.Content.Load<Texture2D>("Images/snowmountain");
-            postEffect = StateManager.Game.Content.Load<Effect>("Effects/Wiggle2d");
+            image = StateManager.Content.Load<Texture2D>("Images/snowmountain");
+            postEffect = StateManager.FrameworkContent.Load<Effect>("Effects/Wiggle2d");
             this.PostProcessingEffect = postEffect;
             effectTimer = 0.0f;
             base.LoadContent();

@@ -42,11 +42,11 @@ namespace Codesmith.SmithTest
         {
             base.LoadContent();
             StateManager.Input.MousePositionChanged += Input_MousePositionChanged;
-            image = StateManager.Game.Content.Load<Texture2D>("Images/desert");
+            image = StateManager.Content.Load<Texture2D>("Images/desert");
             menuCanvas1.Bounds = new Rectangle(20, 20, Bounds.Width - 40, 200);
             menuCanvas2.Bounds = new Rectangle(20, menuCanvas1.Bounds.Y + menuCanvas1.Bounds.Height + 20, Bounds.Width - 40, 200);
 
-            postEffect = StateManager.Game.Content.Load<Effect>("Effects/GaussianBlur");
+            postEffect = StateManager.FrameworkContent.Load<Effect>("Effects/GaussianBlur");
             PostProcessingEffect = postEffect;
         }
 
