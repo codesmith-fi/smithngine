@@ -23,6 +23,8 @@ namespace Codesmith.SmithNgine.GameState
         private List<GameState> gameStates = new List<GameState>();
         private SpriteBatch spriteBatch;
         private Texture2D blankTexture;
+        private Effect postEffect;
+        private RenderTarget2D renderTarget;
         private bool isInitialized;
         #endregion
 
@@ -77,6 +79,19 @@ namespace Codesmith.SmithNgine.GameState
         {
             get;
             set;
+        }
+
+        public Effect PostProcessingEffect
+        {
+            get
+            {
+                return this.postEffect;
+            }
+            set
+            {
+                this.postEffect = value;
+                MakeRenderTarget();
+            }
         }
         #endregion
 
@@ -165,12 +180,17 @@ namespace Codesmith.SmithNgine.GameState
                 {
                     PauseState.Update(gameTime);
                 }
-
             }
         }
 
         public override void Draw(GameTime gameTime)
         {
+            // If we have a post processing effect, render everything to texture first
+            if (PostProcessingEffect != null && renderTarget != null)
+            {
+                GraphicsDevice.SetRenderTarget(renderTarget);
+            }
+
             GraphicsDevice.Clear(Color.Black);
 
             // Update exiting state if it is exiting
@@ -193,6 +213,18 @@ namespace Codesmith.SmithNgine.GameState
                 {
                     PauseState.Draw(gameTime);
                 }
+            }
+
+            if (PostProcessingEffect != null && renderTarget != null)
+            {
+                // drop render target
+                GraphicsDevice.SetRenderTarget(null);
+
+                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend,
+                    SamplerState.LinearClamp, DepthStencilState.Default,
+                    RasterizerState.CullNone, postEffect);
+                spriteBatch.Draw(renderTarget, renderTarget.Bounds, Color.White);
+                spriteBatch.End();
             }
         }
         #endregion
@@ -262,7 +294,7 @@ namespace Codesmith.SmithNgine.GameState
         #endregion
 
         #region Private new methods
-        public void StateStatusChanged(object sender, GameStatusEventArgs args)
+        private void StateStatusChanged(object sender, GameStatusEventArgs args)
         {
             if (args.newStatus == GameStateStatus.Hidden)
             {
@@ -270,6 +302,22 @@ namespace Codesmith.SmithNgine.GameState
                 state.Dismiss();
             }
         }
+
+        private void MakeRenderTarget()
+        {
+            if (PostProcessingEffect != null)
+            {
+                PresentationParameters pp = GraphicsDevice.PresentationParameters;
+                this.renderTarget = new RenderTarget2D(
+                    GraphicsDevice,
+                    pp.BackBufferWidth, pp.BackBufferHeight,
+                    false, pp.BackBufferFormat, DepthFormat.Depth24);
+            }
+            else
+            {
+                this.renderTarget = null;
+            }
+        }      
         #endregion
     }
 }
