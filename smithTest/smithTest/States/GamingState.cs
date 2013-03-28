@@ -40,7 +40,7 @@ namespace Codesmith.SmithTest
         {
             if (Status == GameStateStatus.Running)
             {
-                StateManager.PostProcessingEffect = null;
+                //StateManager.PostProcessingEffect = null;
             }
             base.Update(gameTime);
         }

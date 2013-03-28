@@ -45,7 +45,7 @@ namespace Codesmith.SmithTest
             menuCanvas1.Bounds = new Rectangle(20, 20, Bounds.Width - 40, 200);
             menuCanvas2.Bounds = new Rectangle(20, menuCanvas1.Bounds.Y + menuCanvas1.Bounds.Height + 20, Bounds.Width - 40, 200);
 
-            postEffect = StateManager.Game.Content.Load<Effect>("Effects/Wiggle2d");
+            postEffect = StateManager.Game.Content.Load<Effect>("Effects/GaussianBlur");
         }
 
         public override void EnterState()
@@ -59,8 +59,7 @@ namespace Codesmith.SmithTest
             if (StateManager.PostProcessingEffect != null)
             {
                 this.effectTimer += (float)gameTime.ElapsedGameTime.Milliseconds / 500;
-                StateManager.PostProcessingEffect.Parameters["timer"].SetValue(effectTimer);
-                StateManager.PostProcessingEffect.Parameters["intensity"].SetValue(TransitionValue);
+                StateManager.PostProcessingEffect.Parameters["intensity"].SetValue(1.0f - TransitionValue);
                 base.Update(gameTime);
             }
         }
