@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "smithTest", "smithTest\smit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "smithTestContent", "smithTest\smithTestContent\smithTestContent.contentproj", "{6DEC47B0-E551-45F3-ACFD-B578AED53EBA}"
 EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "FrameworkContent", "smithNgine\FrameworkContent\FrameworkContent.contentproj", "{898E8AFD-7314-47E4-996C-9F6C2440A900}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,6 +36,10 @@ Global
 		{6DEC47B0-E551-45F3-ACFD-B578AED53EBA}.Debug|x86.ActiveCfg = Debug|x86
 		{6DEC47B0-E551-45F3-ACFD-B578AED53EBA}.Release|Any CPU.ActiveCfg = Release|x86
 		{6DEC47B0-E551-45F3-ACFD-B578AED53EBA}.Release|x86.ActiveCfg = Release|x86
+		{898E8AFD-7314-47E4-996C-9F6C2440A900}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{898E8AFD-7314-47E4-996C-9F6C2440A900}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{898E8AFD-7314-47E4-996C-9F6C2440A900}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{898E8AFD-7314-47E4-996C-9F6C2440A900}.Release|x86.ActiveCfg = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

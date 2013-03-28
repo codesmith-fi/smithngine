@@ -23,7 +23,7 @@ namespace Codesmith.SmithNgine.GameState
         private List<GameState> gameStates = new List<GameState>();
         private SpriteBatch spriteBatch;
         private Texture2D blankTexture;
-//        private Effect postEffect;
+        //        private Effect postEffect;
         private bool isInitialized;
         #endregion
 
@@ -36,11 +36,18 @@ namespace Codesmith.SmithNgine.GameState
             }
         }
 
+        // Framework content
         public ContentManager Content
         {
             get;
             internal set;
 
+        }
+
+        public ContentManager FrameworkContent
+        {
+            get;
+            internal set;
         }
 
         public SpriteBatch SpriteBatch
@@ -118,19 +125,18 @@ namespace Codesmith.SmithNgine.GameState
 
         protected override void LoadContent()
         {
-            if (Content == null)
-            {
-                Content = Game.Content;
-            }
+            FrameworkContent = new ContentManager(Game.Services, "FrameworkContent");
+            Content = Game.Content;
 
             this.spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            this.blankTexture = FrameworkContent.Load<Texture2D>("Images/blank");
+
             // Unless set from outside, load the default font which is shared for all states
             if (this.Font == null)
             {
-                this.Font = Game.Content.Load<SpriteFont>("defaultfont");
+                this.Font = FrameworkContent.Load<SpriteFont>("Fonts/defaultfont");
             }
-
-            this.blankTexture = Game.Content.Load<Texture2D>("Images/blank");
 
             // Load each games state as well
             foreach (GameState state in gameStates)
@@ -185,7 +191,6 @@ namespace Codesmith.SmithNgine.GameState
 
         public override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Black);
             // Update exiting state if it is exiting
             List<GameState> statesToDraw = new List<GameState>();
             if (ExitingState != null)
@@ -212,29 +217,20 @@ namespace Codesmith.SmithNgine.GameState
                 }
             }
 
+            GraphicsDevice.Clear(Color.Transparent);
             foreach (GameState state in statesToDraw)
             {
                 spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend,
-                    SamplerState.LinearClamp, DepthStencilState.Default,
+                    SamplerState.AnisotropicClamp, DepthStencilState.Default,
                     RasterizerState.CullNone, state.PostProcessingEffect);
-                spriteBatch.Draw(state.RenderTarget, state.RenderTarget.Bounds, Color.White);
+                Color color = new Color( 1.0f, 1.0f, 1.0f, state.TransitionValue );
+                Rectangle t = state.RenderTarget.Bounds;
+//                t.Inflate(-100, -100);
+                spriteBatch.Draw((Texture2D)state.RenderTarget, t, Color.White * state.TransitionValue);
                 spriteBatch.End();
             }
-
-/*
-            if (PostProcessingEffect != null && renderTarget != null)
-            {
-                // drop render target
-                GraphicsDevice.SetRenderTarget(null);
-
-                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend,
-                    SamplerState.LinearClamp, DepthStencilState.Default,
-                    RasterizerState.CullNone, postEffect);
-                spriteBatch.Draw(renderTarget, renderTarget.Bounds, Color.White);
-                spriteBatch.End();
-            }
- */ 
         }
+
         private void DrawGameState(GameState state, GameTime gameTime)
         {
             GraphicsDevice.SetRenderTarget(state.RenderTarget);
@@ -316,16 +312,6 @@ namespace Codesmith.SmithNgine.GameState
                 state.Dismiss();
             }
         }
-
-        private RenderTarget2D MakeRenderTarget(GameState gameState)
-        {
-            PresentationParameters pp = GraphicsDevice.PresentationParameters;
-            RenderTarget2D renderTarget = new RenderTarget2D(
-                GraphicsDevice,
-                pp.BackBufferWidth, pp.BackBufferHeight,
-                false, pp.BackBufferFormat, DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents);
-            return renderTarget;
-        }      
         #endregion
     }
 }

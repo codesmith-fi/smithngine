@@ -237,8 +237,12 @@ namespace Codesmith.SmithNgine.GameState
             PresentationParameters pp = StateManager.GraphicsDevice.PresentationParameters;
             this.RenderTarget = new RenderTarget2D(
                 StateManager.GraphicsDevice,
-                pp.BackBufferWidth, pp.BackBufferHeight,
-                false, pp.BackBufferFormat, DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents);
+                pp.BackBufferWidth, 
+                pp.BackBufferHeight);
+
+//                false, //No mip-mapping
+//                pp.BackBufferFormat, //Same colour format
+//                pp.DepthStencilFormat); //Same depth stencil                );
 
             // Set bounds by default to the viewport bounds if it is not already set
             if (Bounds.IsEmpty)

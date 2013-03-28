@@ -120,6 +120,13 @@
     <Compile Include="GameState\GameCanvas.cs" />
     <Compile Include="GameState\GameStateManager.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="FrameworkContent\FrameworkContent.contentproj">
+      <Project>{898E8AFD-7314-47E4-996C-9F6C2440A900}</Project>
+      <Name>FrameworkContent</Name>
+      <XnaReferenceType>Content</XnaReferenceType>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
   <!--
