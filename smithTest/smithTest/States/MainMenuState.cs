@@ -46,22 +46,19 @@ namespace Codesmith.SmithTest
             menuCanvas2.Bounds = new Rectangle(20, menuCanvas1.Bounds.Y + menuCanvas1.Bounds.Height + 20, Bounds.Width - 40, 200);
 
             postEffect = StateManager.Game.Content.Load<Effect>("Effects/GaussianBlur");
+            PostProcessingEffect = postEffect;
         }
 
         public override void EnterState()
         {
-            StateManager.PostProcessingEffect = postEffect;
             base.EnterState();
         }
 
         public override void Update(GameTime gameTime)
         {
-            if (StateManager.PostProcessingEffect != null)
-            {
-                this.effectTimer += (float)gameTime.ElapsedGameTime.Milliseconds / 500;
-                StateManager.PostProcessingEffect.Parameters["intensity"].SetValue(1.0f - TransitionValue);
-                base.Update(gameTime);
-            }
+            this.effectTimer += (float)gameTime.ElapsedGameTime.Milliseconds / 500;
+            postEffect.Parameters["intensity"].SetValue(1.0f - TransitionValue);
+            base.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)

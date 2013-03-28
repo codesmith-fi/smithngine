@@ -16,16 +16,13 @@ float4 PS_BlurHorizontal(in float2 uv : TEXCOORD) : COLOR
 { 
     float4 Color = tex2D(input, uv);
 	float mult = 1;
-	if( intensity != 0.0f )
+	for(int i=0; i<WEIGHT_COUNT; i++)
 	{
-		for(int i=0; i<WEIGHT_COUNT; i++)
-		{
-			Color += tex2D(input, float2(uv.x-(intensity*pixelAspect.x*mult), uv.y)) * weight[i];
-			Color += tex2D(input, float2(uv.x+(intensity*pixelAspect.x*mult), uv.y)) * weight[i];
-			mult = mult + 4;
-		}
-	    Color /= WEIGHT_COUNT;
+		Color += tex2D(input, float2(uv.x-(intensity*pixelAspect.x*mult), uv.y)) * weight[i];
+		Color += tex2D(input, float2(uv.x+(intensity*pixelAspect.x*mult), uv.y)) * weight[i];
+		mult = mult + 4;
 	}
+	Color /= WEIGHT_COUNT;
 	return Color; 
 }
 
@@ -33,16 +30,13 @@ float4 PS_BlurVertical(in float2 uv : TEXCOORD) : COLOR
 { 
 	float4 Color = tex2D(input, uv);
  	float mult = 1;
-	if( intensity != 0.0f )
+	for(int i=0; i<WEIGHT_COUNT; i++)
 	{
-		for(int i=0; i<WEIGHT_COUNT; i++)
-		{
-			Color += tex2D(input, float2(uv.x, uv.y-(intensity*pixelAspect.y*mult))) * weight[i];
-			Color += tex2D(input, float2(uv.x, uv.y+(intensity*pixelAspect.y*mult))) * weight[i];
-			mult = mult + 4;
-		}
-		Color /= WEIGHT_COUNT;
-	} 
+		Color += tex2D(input, float2(uv.x, uv.y-(intensity*pixelAspect.y*mult))) * weight[i];
+		Color += tex2D(input, float2(uv.x, uv.y+(intensity*pixelAspect.y*mult))) * weight[i];
+		mult = mult + 4;
+	}
+	Color /= WEIGHT_COUNT;
  
 	return Color;
 }

@@ -8,8 +8,6 @@
 #region Using statements
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Codesmith.SmithNgine.Input;
@@ -132,6 +130,19 @@ namespace Codesmith.SmithNgine.GameState
             get;
             private set;
         }
+
+        public Effect PostProcessingEffect
+        {
+            get;
+            set;
+        }
+
+        public RenderTarget2D RenderTarget
+        {
+            get;
+            internal set;
+        }
+
         #endregion
 
         #region Events
@@ -223,6 +234,12 @@ namespace Codesmith.SmithNgine.GameState
         #region New methods - Virtual
         public virtual void LoadContent()
         {
+            PresentationParameters pp = StateManager.GraphicsDevice.PresentationParameters;
+            this.RenderTarget = new RenderTarget2D(
+                StateManager.GraphicsDevice,
+                pp.BackBufferWidth, pp.BackBufferHeight,
+                false, pp.BackBufferFormat, DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents);
+
             // Set bounds by default to the viewport bounds if it is not already set
             if (Bounds.IsEmpty)
             {
@@ -371,6 +388,7 @@ namespace Codesmith.SmithNgine.GameState
         {
             children.Add(obj);
         }
+
         #endregion
     }
 }

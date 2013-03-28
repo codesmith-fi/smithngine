@@ -12,6 +12,8 @@ namespace Codesmith.SmithTest
     public class GamingState : GameState
     {
         private Texture2D image;
+        private Effect postEffect;
+        float effectTimer;
 
         public GamingState(String name)
             : base(name)
@@ -24,7 +26,9 @@ namespace Codesmith.SmithTest
         public override void LoadContent()
         {
             image = StateManager.Game.Content.Load<Texture2D>("Images/snowmountain");
-
+            postEffect = StateManager.Game.Content.Load<Effect>("Effects/Wiggle2d");
+            this.PostProcessingEffect = postEffect;
+            effectTimer = 0.0f;
             base.LoadContent();
         }
 
@@ -38,6 +42,9 @@ namespace Codesmith.SmithTest
 
         public override void Update(GameTime gameTime)
         {
+            this.effectTimer += (float)gameTime.ElapsedGameTime.Milliseconds / 500;
+            postEffect.Parameters["intensity"].SetValue(1.0f);
+            postEffect.Parameters["timer"].SetValue(effectTimer);
             if (Status == GameStateStatus.Running)
             {
                 //StateManager.PostProcessingEffect = null;

@@ -23,8 +23,7 @@ namespace Codesmith.SmithNgine.GameState
         private List<GameState> gameStates = new List<GameState>();
         private SpriteBatch spriteBatch;
         private Texture2D blankTexture;
-        private Effect postEffect;
-        private RenderTarget2D renderTarget;
+//        private Effect postEffect;
         private bool isInitialized;
         #endregion
 
@@ -80,7 +79,7 @@ namespace Codesmith.SmithNgine.GameState
             get;
             set;
         }
-
+/*
         public Effect PostProcessingEffect
         {
             get
@@ -93,6 +92,7 @@ namespace Codesmith.SmithNgine.GameState
                 MakeRenderTarget();
             }
         }
+*/
         #endregion
 
         #region Constructors
@@ -185,20 +185,15 @@ namespace Codesmith.SmithNgine.GameState
 
         public override void Draw(GameTime gameTime)
         {
-            // If we have a post processing effect, render everything to texture first
-            if (PostProcessingEffect != null && renderTarget != null)
-            {
-                GraphicsDevice.SetRenderTarget(renderTarget);
-            }
-
             GraphicsDevice.Clear(Color.Black);
-
             // Update exiting state if it is exiting
+            List<GameState> statesToDraw = new List<GameState>();
             if (ExitingState != null)
             {
                 if (ExitingState.Status == GameStateStatus.Exiting)
                 {
-                    ExitingState.Draw(gameTime);
+                    DrawGameState(ExitingState, gameTime);
+                    statesToDraw.Add(ExitingState);
                 }
                 else
                 {
@@ -208,13 +203,25 @@ namespace Codesmith.SmithNgine.GameState
 
             if (CurrentState != null)
             {
-                CurrentState.Draw(gameTime);
+                DrawGameState(CurrentState, gameTime);
+                statesToDraw.Add(CurrentState);
                 if (PauseState != null && PauseState.IsActive)
                 {
-                    PauseState.Draw(gameTime);
+                    DrawGameState(PauseState, gameTime);
+                    statesToDraw.Add(PauseState);
                 }
             }
 
+            foreach (GameState state in statesToDraw)
+            {
+                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend,
+                    SamplerState.LinearClamp, DepthStencilState.Default,
+                    RasterizerState.CullNone, state.PostProcessingEffect);
+                spriteBatch.Draw(state.RenderTarget, state.RenderTarget.Bounds, Color.White);
+                spriteBatch.End();
+            }
+
+/*
             if (PostProcessingEffect != null && renderTarget != null)
             {
                 // drop render target
@@ -226,6 +233,14 @@ namespace Codesmith.SmithNgine.GameState
                 spriteBatch.Draw(renderTarget, renderTarget.Bounds, Color.White);
                 spriteBatch.End();
             }
+ */ 
+        }
+        private void DrawGameState(GameState state, GameTime gameTime)
+        {
+            GraphicsDevice.SetRenderTarget(state.RenderTarget);
+            GraphicsDevice.Clear(Color.Transparent);
+            state.Draw(gameTime);
+            GraphicsDevice.SetRenderTarget(null);
         }
         #endregion
 
@@ -236,7 +251,6 @@ namespace Codesmith.SmithNgine.GameState
             {
                 state.StateManager = this;
                 state.StatusChanged += StateStatusChanged;
-
                 gameStates.Add(state);
                 PauseState = state;
             }
@@ -303,20 +317,14 @@ namespace Codesmith.SmithNgine.GameState
             }
         }
 
-        private void MakeRenderTarget()
+        private RenderTarget2D MakeRenderTarget(GameState gameState)
         {
-            if (PostProcessingEffect != null)
-            {
-                PresentationParameters pp = GraphicsDevice.PresentationParameters;
-                this.renderTarget = new RenderTarget2D(
-                    GraphicsDevice,
-                    pp.BackBufferWidth, pp.BackBufferHeight,
-                    false, pp.BackBufferFormat, DepthFormat.Depth24);
-            }
-            else
-            {
-                this.renderTarget = null;
-            }
+            PresentationParameters pp = GraphicsDevice.PresentationParameters;
+            RenderTarget2D renderTarget = new RenderTarget2D(
+                GraphicsDevice,
+                pp.BackBufferWidth, pp.BackBufferHeight,
+                false, pp.BackBufferFormat, DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents);
+            return renderTarget;
         }      
         #endregion
     }

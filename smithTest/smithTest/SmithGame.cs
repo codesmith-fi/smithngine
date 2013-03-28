@@ -123,6 +123,11 @@ namespace Codesmith.SmithTest
 
         private void HandleKeyboard(KeyboardState keyState)
         {
+            if (keyState.IsKeyDown(Keys.LeftAlt) && keyState.IsKeyDown(Keys.Enter))
+            {
+                graphics.ToggleFullScreen();
+            }
+
             if (keyState.IsKeyDown(Keys.Right))
             {
                 stateManager.SwitchToState(state2);   
