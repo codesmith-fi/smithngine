@@ -36,6 +36,15 @@ namespace Codesmith.SmithTest
             base.Initialize();            
         }
 
+        public override void Update(GameTime gameTime)
+        {
+            if (Status == GameStateStatus.Running)
+            {
+                StateManager.PostProcessingEffect = null;
+            }
+            base.Update(gameTime);
+        }
+
         public override void HandleInput(InputManager input)
         {
             PlayerIndex source;

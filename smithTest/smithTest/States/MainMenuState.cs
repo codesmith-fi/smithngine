@@ -14,6 +14,9 @@ namespace Codesmith.SmithTest
         private Texture2D image;
         private GameCanvas menuCanvas1;
         private GameCanvas menuCanvas2;
+        private Effect postEffect;
+        private RenderTarget2D renderTarget;
+        float effectTimer = 0.0f;
 
         public MainMenuState(String name)
             : base(name)
@@ -30,8 +33,10 @@ namespace Codesmith.SmithTest
             menuCanvas2.TransitionSource = this;
             AddCanvas(menuCanvas1);
             AddCanvas(menuCanvas2);
+            
             base.Initialize();
         }
+
         public override void LoadContent()
         {
             base.LoadContent();
@@ -39,17 +44,38 @@ namespace Codesmith.SmithTest
             image = StateManager.Game.Content.Load<Texture2D>("Images/desert");
             menuCanvas1.Bounds = new Rectangle(20, 20, Bounds.Width - 40, 200);
             menuCanvas2.Bounds = new Rectangle(20, menuCanvas1.Bounds.Y + menuCanvas1.Bounds.Height + 20, Bounds.Width - 40, 200);
+
+            postEffect = StateManager.Game.Content.Load<Effect>("Effects/Wiggle2d");
+        }
+
+        public override void EnterState()
+        {
+            StateManager.PostProcessingEffect = postEffect;
+            base.EnterState();
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            if (StateManager.PostProcessingEffect != null)
+            {
+                this.effectTimer += (float)gameTime.ElapsedGameTime.Milliseconds / 500;
+                StateManager.PostProcessingEffect.Parameters["timer"].SetValue(effectTimer);
+                StateManager.PostProcessingEffect.Parameters["intensity"].SetValue(TransitionValue);
+                base.Update(gameTime);
+            }
         }
 
         public override void Draw(GameTime gameTime)
         {
             SpriteBatch spriteBatch = StateManager.SpriteBatch;
+            GraphicsDevice graphicsDevice = StateManager.GraphicsDevice;
             Viewport viewport = StateManager.GraphicsDevice.Viewport;
 
             spriteBatch.Begin();
-            spriteBatch.Draw(image, new Rectangle(0, 0, viewport.Width, viewport.Height), Color.White * this.TransitionValue);
+            spriteBatch.Draw(image, 
+                new Rectangle(0, 0, viewport.Width, viewport.Height), 
+                Color.White * this.TransitionValue);
             spriteBatch.End();
-
             base.Draw(gameTime);
         }
 

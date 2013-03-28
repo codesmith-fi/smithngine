@@ -126,8 +126,9 @@
       <Name>smithNgine</Name>
     </ProjectReference>
     <ProjectReference Include="..\smithTestContent\smithTestContent.contentproj">
-      <Name>smithTestContent</Name>
+      <Name>smithTestContent %28Content%29</Name>
       <XnaReferenceType>Content</XnaReferenceType>
+      <Project>{6DEC47B0-E551-45F3-ACFD-B578AED53EBA}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
