@@ -60,7 +60,7 @@ namespace Codesmith.SmithTest
             Viewport viewport = StateManager.GraphicsDevice.Viewport;
 
             spriteBatch.Begin();
-            spriteBatch.Draw(image, imagePos, Color.White * this.TransitionValue);
+            spriteBatch.Draw(image, imagePos, Color.White);
             button.Draw(spriteBatch);
             spriteBatch.End();
             base.Draw(gameTime);

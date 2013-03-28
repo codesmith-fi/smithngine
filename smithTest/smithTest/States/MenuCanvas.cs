@@ -45,10 +45,10 @@ namespace Codesmith.SmithTest
             textPos.X = Bounds.X + ( Bounds.Width / 2 - origin.X / 2 );
 
             Vector2 transPos = textPos + new Vector2(Bounds.X,Bounds.Y);
-            StateManager.DimWithAlpha(0.5f * TransitionSource.TransitionValue, Bounds);
+            StateManager.DimWithAlpha(0.5f, Bounds);
 
             spriteBatch.Begin();
-            spriteBatch.DrawString(StateManager.Font, text, transPos, Color.Green * TransitionSource.TransitionValue);
+            spriteBatch.DrawString(StateManager.Font, text, transPos, Color.Green);
             spriteBatch.End();
         }
     }

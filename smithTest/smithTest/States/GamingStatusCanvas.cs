@@ -85,7 +85,7 @@ namespace Codesmith.SmithTest
             Vector2 origin = StateManager.Font.MeasureString(text);
             textPos.X = this.area.Width / 2 - origin.X / 2;
             spriteBatch.Begin();
-            spriteBatch.DrawString(StateManager.Font, text, textPos, Color.Green * TransitionSource.TransitionValue );
+            spriteBatch.DrawString(StateManager.Font, text, textPos, Color.Green);
 
             String mouseText = "X:" + mouseLoc.X + " Y:" + mouseLoc.Y;
             if (sprites[1].BoundingBox.Contains(mouseLoc))

@@ -17,6 +17,7 @@ namespace Codesmith.SmithTest
         private Effect postEffect;
         private RenderTarget2D renderTarget;
         float effectTimer = 0.0f;
+        bool exitActivated = false;
 
         public MainMenuState(String name)
             : base(name)
@@ -49,15 +50,20 @@ namespace Codesmith.SmithTest
             PostProcessingEffect = postEffect;
         }
 
-        public override void EnterState()
+        public override void Dismiss()
         {
-            base.EnterState();
+            base.Dismiss();
+            if (this.exitActivated)
+            {
+                StateManager.Game.Exit();
+            }
         }
 
         public override void Update(GameTime gameTime)
         {
             this.effectTimer += (float)gameTime.ElapsedGameTime.Milliseconds / 500;
             postEffect.Parameters["intensity"].SetValue(1.0f - TransitionValue);
+            postEffect.Parameters["colorIntensity"].SetValue(TransitionValue);
             base.Update(gameTime);
         }
 
@@ -70,7 +76,7 @@ namespace Codesmith.SmithTest
             spriteBatch.Begin();
             spriteBatch.Draw(image, 
                 new Rectangle(0, 0, viewport.Width, viewport.Height), 
-                Color.White * this.TransitionValue);
+                Color.White);
             spriteBatch.End();
             base.Draw(gameTime);
         }
@@ -80,7 +86,8 @@ namespace Codesmith.SmithTest
             PlayerIndex source;
             if (input.IsKeyPressed(Keys.Escape, null, out source))
             {
-                StateManager.Game.Exit();
+                exitActivated = true;
+                ExitState();
             }
             base.HandleInput(input);
         }

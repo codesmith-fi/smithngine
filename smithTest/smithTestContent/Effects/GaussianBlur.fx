@@ -9,6 +9,7 @@ float weight[WEIGHT_COUNT] = {
     0.25
 	};
 
+float colorIntensity = 1.0f;
 float intensity = 1.0f;
 float2 pixelAspect = {1.0/1280, 1.0/768};
 
@@ -23,7 +24,7 @@ float4 PS_BlurHorizontal(in float2 uv : TEXCOORD) : COLOR
 		mult = mult + 4;
 	}
 	Color /= WEIGHT_COUNT;
-	return Color; 
+	return Color * colorIntensity; 
 }
 
 float4 PS_BlurVertical(in float2 uv : TEXCOORD) : COLOR
@@ -37,8 +38,7 @@ float4 PS_BlurVertical(in float2 uv : TEXCOORD) : COLOR
 		mult = mult + 4;
 	}
 	Color /= WEIGHT_COUNT;
- 
-	return Color;
+	return Color * colorIntensity;
 }
 
 technique GaussianBlur

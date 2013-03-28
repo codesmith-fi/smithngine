@@ -5,7 +5,8 @@ sampler ColorMapSampler : register(s0);
 
 //A timer we can use for whatever purpose we want
 float timer;
-float intensity = 1.0;
+float intensity = 1.0f;
+float colorIntensity = 1.0f;
 
 struct PixelShaderInput
 {
@@ -21,7 +22,7 @@ float4 PixelShaderFunction(PixelShaderInput input) : COLOR
 	input.TexCoord.x += intensity * ( sin( timer + input.TexCoord.x * 10) * 0.01f );
 	input.TexCoord.y += intensity * ( cos( timer + input.TexCoord.y * 10) * 0.01f );
 	float4 Color = tex2D( ColorMapSampler, input.TexCoord );		
-    return Color;
+    return Color * colorIntensity;
 }
 
 technique PostProcessWiggle

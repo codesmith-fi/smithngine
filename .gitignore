@@ -1,3 +1,10 @@
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+*.Debug.cachefile
 bin/
 obj/
 publish/

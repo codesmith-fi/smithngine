@@ -44,6 +44,7 @@ namespace Codesmith.SmithTest
         {
             this.effectTimer += (float)gameTime.ElapsedGameTime.Milliseconds / 500;
             postEffect.Parameters["intensity"].SetValue(1.0f);
+            postEffect.Parameters["colorIntensity"].SetValue(TransitionValue);
             postEffect.Parameters["timer"].SetValue(effectTimer);
             if (Status == GameStateStatus.Running)
             {
@@ -75,7 +76,7 @@ namespace Codesmith.SmithTest
             Viewport viewport = StateManager.GraphicsDevice.Viewport;
 
             spriteBatch.Begin();
-            spriteBatch.Draw(image, new Rectangle(0, 0, viewport.Width, viewport.Height), Color.White * this.TransitionValue);
+            spriteBatch.Draw(image, new Rectangle(0, 0, viewport.Width, viewport.Height), Color.White);
             spriteBatch.End();
             base.Draw(gameTime);
         }
