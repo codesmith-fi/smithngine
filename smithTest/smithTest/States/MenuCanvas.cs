@@ -5,13 +5,15 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Codesmith.SmithNgine.GameState;
 using Codesmith.SmithNgine.Gfx;
+using Microsoft.Xna.Framework.Input;
 
 namespace Codesmith.SmithTest
 {
     class MenuCanvas : GameCanvas
     {
-        Vector2 textPos;
-        Vector2 moveDelta;
+        Texture2D entryTexture;
+        List<MenuEntry> menuEntries = new List<MenuEntry>();
+        MenuEntry exitMenuEntry;
 
         public MenuCanvas()
         {
@@ -20,35 +22,54 @@ namespace Codesmith.SmithTest
         public override void LoadContent()
         {
             base.LoadContent();
-            this.textPos = new Vector2(Bounds.Width / 2, 10);
-            moveDelta.Y = 6;
+            entryTexture = StateManager.Content.Load<Texture2D>("Images/button_clean");
+            Vector2 pos = new Vector2(Bounds.Width / 2 - entryTexture.Bounds.Width / 2, 100);
+            menuEntries.Add( CreateMenuEntry(entryTexture, "Play", pos, Keys.F1));
+            pos.Y += entryTexture.Height + 10;
+            menuEntries.Add( CreateMenuEntry(entryTexture, "Options", pos, Keys.F2));
+            pos.Y += entryTexture.Height + 10;
+            exitMenuEntry = CreateMenuEntry(entryTexture, "Exit", pos, Keys.Escape);
+            menuEntries.Add( exitMenuEntry );
         }
 
+        private MenuEntry CreateMenuEntry(Texture2D t, String label, Vector2 position, Keys key = Keys.None)
+        {
+            MenuEntry entry = new MenuEntry(t, label, StateManager.Font);
+            entry.InputEventSource = StateManager.Input;
+            entry.TransitionSource = State;
+            entry.Position = position;
+            if (key != Keys.None)
+            {
+                entry.ButtonClicked += button_ButtonClicked;
+                entry.BindKey(key);
+            }
+            AddObject(entry);
+            return entry;
+        }
+
+        private void button_ButtonClicked(object sender, EventArgs e)
+        {
+            if (sender == exitMenuEntry)
+            {
+                StateManager.ExitRequested = true;
+                State.ExitState();
+            }
+        }
+        
         public override void Update(GameTime gameTime)
         {
-            this.textPos += this.moveDelta;
-            if (textPos.Y >= Bounds.Height - 20)
-            {
-                this.moveDelta.Y = -4;
-            }
-            if (textPos.Y <= 20)
-            {
-                this.moveDelta.Y = 4;
-            }
+            base.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
         {
             SpriteBatch spriteBatch = StateManager.SpriteBatch;
-            String text = "Hello world from " + this.GetType().ToString();
-            Vector2 origin = StateManager.Font.MeasureString(text);
-            textPos.X = Bounds.X + ( Bounds.Width / 2 - origin.X / 2 );
 
-            Vector2 transPos = textPos + new Vector2(Bounds.X,Bounds.Y);
-            StateManager.DimWithAlpha(0.5f, Bounds);
-
-            spriteBatch.Begin();
-            spriteBatch.DrawString(StateManager.Font, text, transPos, Color.Green);
+            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
+            foreach (MenuEntry m in menuEntries)
+            {
+                m.Draw(spriteBatch);
+            }
             spriteBatch.End();
         }
     }

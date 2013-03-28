@@ -114,6 +114,7 @@
     <Compile Include="States\GamingStatusCanvas.cs" />
     <Compile Include="States\MainMenuState.cs" />
     <Compile Include="States\MenuCanvas.cs" />
+    <Compile Include="States\MenuEntry.cs" />
     <Compile Include="States\PauseState.cs" />
   </ItemGroup>
   <ItemGroup>

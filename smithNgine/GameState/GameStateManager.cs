@@ -86,20 +86,12 @@ namespace Codesmith.SmithNgine.GameState
             get;
             set;
         }
-/*
-        public Effect PostProcessingEffect
+
+        public bool ExitRequested
         {
-            get
-            {
-                return this.postEffect;
-            }
-            set
-            {
-                this.postEffect = value;
-                MakeRenderTarget();
-            }
+            set;
+            get;
         }
-*/
         #endregion
 
         #region Constructors
@@ -108,6 +100,7 @@ namespace Codesmith.SmithNgine.GameState
         {
             CurrentState = null;
             isInitialized = false;
+            ExitRequested = false;
         }
         #endregion
 

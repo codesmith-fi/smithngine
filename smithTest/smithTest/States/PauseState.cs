@@ -32,7 +32,7 @@ namespace Codesmith.SmithTest
             image = StateManager.Game.Content.Load<Texture2D>("Images/paused");
             imagePos = new Vector2(Bounds.Width / 2 - image.Width / 2, Bounds.Height / 2 - image.Height / 2);
 
-            button = new SpriteButton(StateManager.Game.Content.Load<Texture2D>("Images/unpause"));
+            button = new SpriteButton(StateManager.Content.Load<Texture2D>("Images/unpause"));
             button.InputEventSource = StateManager.Input;
             button.TransitionSource = this;
             button.Position = new Vector2( Bounds.Width / 2, Bounds.Height / 2 + 80);

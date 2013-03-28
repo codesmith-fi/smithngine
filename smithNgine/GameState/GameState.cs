@@ -229,6 +229,14 @@ namespace Codesmith.SmithNgine.GameState
                 }
             }
         }
+
+        public virtual void Draw(GameTime gameTime)
+        {
+            foreach (GameCanvas canvas in canvasList)
+            {
+                canvas.Draw(gameTime);
+            }
+        }
         #endregion
 
         #region New methods - Virtual
@@ -239,10 +247,6 @@ namespace Codesmith.SmithNgine.GameState
                 StateManager.GraphicsDevice,
                 pp.BackBufferWidth, 
                 pp.BackBufferHeight);
-
-//                false, //No mip-mapping
-//                pp.BackBufferFormat, //Same colour format
-//                pp.DepthStencilFormat); //Same depth stencil                );
 
             // Set bounds by default to the viewport bounds if it is not already set
             if (Bounds.IsEmpty)
@@ -271,14 +275,6 @@ namespace Codesmith.SmithNgine.GameState
                 canvas.Initialize();
             }
             this.isInitialized = true;
-        }
-
-        public virtual void Draw(GameTime gameTime)
-        {
-            foreach (GameCanvas canvas in canvasList)
-            {
-                canvas.Draw(gameTime);
-            }
         }
 
         public virtual void HandleInput(InputManager input)

@@ -12,12 +12,10 @@ namespace Codesmith.SmithTest
     public class MainMenuState : GameState
     {
         private Texture2D image;
-        private GameCanvas menuCanvas1;
-        private GameCanvas menuCanvas2;
+        private GameCanvas menuCanvas;
         private Effect postEffect;
-        private RenderTarget2D renderTarget;
         float effectTimer = 0.0f;
-        bool exitActivated = false;
+        public bool exitActivated = false;
 
         public MainMenuState(String name)
             : base(name)
@@ -28,13 +26,9 @@ namespace Codesmith.SmithTest
 
         public override void Initialize()
         {
-            menuCanvas1 = new MenuCanvas();
-            menuCanvas1.TransitionSource = this;
-            menuCanvas2 = new MenuCanvas();
-            menuCanvas2.TransitionSource = this;
-            AddCanvas(menuCanvas1);
-            AddCanvas(menuCanvas2);
-            
+            menuCanvas = new MenuCanvas();
+            menuCanvas.TransitionSource = this;
+            AddCanvas(menuCanvas);            
             base.Initialize();
         }
 
@@ -43,8 +37,7 @@ namespace Codesmith.SmithTest
             base.LoadContent();
             StateManager.Input.MousePositionChanged += Input_MousePositionChanged;
             image = StateManager.Content.Load<Texture2D>("Images/desert");
-            menuCanvas1.Bounds = new Rectangle(20, 20, Bounds.Width - 40, 200);
-            menuCanvas2.Bounds = new Rectangle(20, menuCanvas1.Bounds.Y + menuCanvas1.Bounds.Height + 20, Bounds.Width - 40, 200);
+            menuCanvas.Bounds = new Rectangle(20, 20, Bounds.Width - 40, 200);
 
             postEffect = StateManager.FrameworkContent.Load<Effect>("Effects/GaussianBlur");
             PostProcessingEffect = postEffect;
@@ -53,7 +46,7 @@ namespace Codesmith.SmithTest
         public override void Dismiss()
         {
             base.Dismiss();
-            if (this.exitActivated)
+            if (StateManager.ExitRequested)
             {
                 StateManager.Game.Exit();
             }
@@ -64,6 +57,10 @@ namespace Codesmith.SmithTest
             this.effectTimer += (float)gameTime.ElapsedGameTime.Milliseconds / 500;
             postEffect.Parameters["intensity"].SetValue(1.0f - TransitionValue);
             postEffect.Parameters["colorIntensity"].SetValue(TransitionValue);
+            if (Status == GameStateStatus.Running)
+            {
+                PostProcessingEffect = null;
+            }
             base.Update(gameTime);
         }
 
@@ -83,12 +80,6 @@ namespace Codesmith.SmithTest
 
         public override void HandleInput(InputManager input)
         {
-            PlayerIndex source;
-            if (input.IsKeyPressed(Keys.Escape, null, out source))
-            {
-                exitActivated = true;
-                ExitState();
-            }
             base.HandleInput(input);
         }
 

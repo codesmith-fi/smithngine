@@ -93,11 +93,6 @@ namespace Codesmith.SmithNgine.GameState
             this.isInitialized = true;
         }
 
-
-        public virtual void Draw(GameTime gameTime)
-        {
-        }
-
         public virtual void HandleInput(InputManager input)
         {
         }
@@ -117,7 +112,13 @@ namespace Codesmith.SmithNgine.GameState
             {
                 obj.Update(gameTime);
             }
+            base.Update(gameTime);
         }
+
+        public virtual void Draw(GameTime gameTime)
+        {
+        }
+
         #endregion
     }
 }
