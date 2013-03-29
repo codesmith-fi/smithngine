@@ -19,8 +19,8 @@ float4 PixelShaderFunction(PixelShaderInput input) : COLOR
 	// in the ColorMapSampler. This makes the scene look like its underwater
 	// or something similar :)
 
-	input.TexCoord.x += intensity * ( sin( timer + input.TexCoord.x * 10) * 0.01f );
-	input.TexCoord.y += intensity * ( cos( timer + input.TexCoord.y * 10) * 0.01f );
+	input.TexCoord.x += intensity * ( sin( timer + input.TexCoord.x * 20) * 0.01f );
+	input.TexCoord.y += intensity * ( cos( timer + input.TexCoord.y * 20) * 0.01f );
 	float4 Color = tex2D( ColorMapSampler, input.TexCoord );		
     return Color * colorIntensity;
 }

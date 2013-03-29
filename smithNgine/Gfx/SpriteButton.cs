@@ -20,11 +20,21 @@ namespace Codesmith.SmithNgine.Gfx
         Keys activationKey;
         #endregion
 
+        #region Properties
+        public float AnimState
+        {
+            get { return this.idleAnimValue; }
+            set { this.idleAnimValue = value; }
+        }
+
+        #endregion
+
         #region Constructors
         public SpriteButton(Texture2D texture) 
             : base(texture)
         {
             clickTimeSpan = TimeSpan.FromSeconds(0.9f);
+            idleAnimValue = 0.0f;
         }
         #endregion
 

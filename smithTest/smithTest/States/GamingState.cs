@@ -1,9 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// ***************************************************************************
+// ** SmithTest - demo app for smithNgine framework                         **
+// **                                                                       **
+// ** Copyright (C) 2013 by Erno Pakarinen. All Rights Reserved.            **
+// ** Contact: erno@codesmith.fi                                            **
+// ***************************************************************************
+
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
-
 using Codesmith.SmithNgine.GameState;
 using Codesmith.SmithNgine.Input;
 

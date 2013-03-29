@@ -1,3 +1,9 @@
+// ***************************************************************************
+// ** SmithTest - demo app for smithNgine framework                         **
+// **                                                                       **
+// ** Copyright (C) 2013 by Erno Pakarinen. All Rights Reserved.            **
+// ** Contact: erno@codesmith.fi                                            **
+// ***************************************************************************
 using System;
 
 namespace Codesmith.SmithTest

@@ -1,11 +1,16 @@
-﻿using System;
+﻿// ***************************************************************************
+// ** SmithTest - demo app for smithNgine framework                         **
+// **                                                                       **
+// ** Copyright (C) 2013 by Erno Pakarinen. All Rights Reserved.            **
+// ** Contact: erno@codesmith.fi                                            **
+// ***************************************************************************
+
+using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
-using Codesmith.SmithNgine.GameState;
-using Codesmith.SmithNgine.Gfx;
 using Microsoft.Xna.Framework.Input;
+using Codesmith.SmithNgine.GameState;
 
 namespace Codesmith.SmithTest
 {
@@ -24,11 +29,16 @@ namespace Codesmith.SmithTest
             base.LoadContent();
             entryTexture = StateManager.Content.Load<Texture2D>("Images/button_clean");
             Vector2 pos = new Vector2(Bounds.Width / 2 - entryTexture.Bounds.Width / 2, 100);
-            menuEntries.Add( CreateMenuEntry(entryTexture, "Play", pos, Keys.F1));
+            MenuEntry entry = CreateMenuEntry(entryTexture, "Play", pos, Keys.F1);
+            entry.AnimState = -0.5f;
+            menuEntries.Add( entry );
             pos.Y += entryTexture.Height + 10;
-            menuEntries.Add( CreateMenuEntry(entryTexture, "Options", pos, Keys.F2));
+            entry = CreateMenuEntry(entryTexture, "Options", pos, Keys.F2);
+            entry.AnimState = 0.0f;
+            menuEntries.Add( entry );
             pos.Y += entryTexture.Height + 10;
             exitMenuEntry = CreateMenuEntry(entryTexture, "Exit", pos, Keys.Escape);
+            exitMenuEntry.AnimState = 0.5f;
             menuEntries.Add( exitMenuEntry );
         }
 
