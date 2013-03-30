@@ -139,16 +139,18 @@ namespace Codesmith.SmithNgine.Gfx
         {
             if (ObjectIsActive)
             {
+                // Is this sprite being dragged? 
+                if (e.State.LeftButton && e.PreviousState.LeftButton && dragEnabled)
+                {
+                    OnDrag(e.State.Position - e.PreviousState.Position);
+                }
+
                 Point p = new Point(e.State.X, e.State.Y);
                 if (BoundingBox.Contains(p))
                 {
                     // Handle hovering, coords are relative to the object
                     Vector2 innerPos = new Vector2(p.X - BoundingBox.X, p.Y - BoundingBox.Y);
                     OnHover(innerPos);
-                    if (e.State.LeftButton && e.PreviousState.LeftButton && dragEnabled)
-                    {
-                        OnDrag(e.State.Position - e.PreviousState.Position);
-                    }
                     this.IsHovered = true;
                 }
                 else

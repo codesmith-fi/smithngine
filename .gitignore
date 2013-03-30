@@ -5,6 +5,7 @@
 *.o
 *.so
 *.Debug.cachefile
+*.Release.cachefile
 bin/
 obj/
 publish/

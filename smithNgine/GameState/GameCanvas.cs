@@ -70,7 +70,7 @@ namespace Codesmith.SmithNgine.GameState
         #endregion
 
         #region New methods
-        public void AddObject(IActivatableObject obj)
+        public virtual void AddComponent(IActivatableObject obj)
         {
             this.children.Add(obj);
         }

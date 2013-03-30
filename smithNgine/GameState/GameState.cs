@@ -328,15 +328,19 @@ namespace Codesmith.SmithNgine.GameState
         #endregion
 
         #region New public methods 
-        public void AddCanvas(GameCanvas canvas)
+        public virtual void AddCanvas(GameCanvas canvas)
         {
             // Set owning state and state manager for new state
             canvas.StateManager = this.StateManager;
             canvas.State = this;
             this.canvasList.Add(canvas);
-            AddChild(canvas);
+            AddComponent(canvas);
         }
 
+        protected virtual void AddComponent(IActivatableObject obj)
+        {
+            children.Add(obj);
+        }
         public bool Equals(GameState other)
         {
             return this.Name.Equals(other.Name);
@@ -382,11 +386,6 @@ namespace Codesmith.SmithNgine.GameState
             }
 
             return true;
-        }
-
-        protected void AddChild(IActivatableObject obj)
-        {
-            children.Add(obj);
         }
 
         #endregion

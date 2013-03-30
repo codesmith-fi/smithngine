@@ -25,10 +25,13 @@ namespace Codesmith.SmithTest
         public SmithGame()
         {
             graphics = new GraphicsDeviceManager(this);
-            graphics.IsFullScreen = false;
+            graphics.IsFullScreen = false;            
             graphics.PreferredBackBufferWidth = 1280;
-            graphics.PreferredBackBufferHeight = 768;
+            graphics.PreferredBackBufferHeight = 720;
             Content.RootDirectory = "Content";
+
+            IsFixedTimeStep = true;
+            TargetElapsedTime = TimeSpan.FromSeconds(1.0f / 60.0f);
         }
 
         public void TestStateStatusChanged(object sender, GameStatusEventArgs args)

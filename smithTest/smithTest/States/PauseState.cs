@@ -43,7 +43,7 @@ namespace Codesmith.SmithTest
             button.Position = new Vector2( Bounds.Width / 2, Bounds.Height / 2 + 80);
             button.ButtonClicked += button_ButtonClicked;
             button.BindKey(Keys.P);
-            AddChild(button);
+            AddComponent(button);
         }
 
         private void button_ButtonClicked(object sender, EventArgs e)

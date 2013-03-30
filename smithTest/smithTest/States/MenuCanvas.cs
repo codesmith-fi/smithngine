@@ -54,7 +54,7 @@ namespace Codesmith.SmithTest
                 entry.ButtonClicked += button_ButtonClicked;
                 entry.BindKey(key);
             }
-            AddObject(entry);
+            AddComponent(entry);
             menuEntries.Add(entry);
             return entry;
         }

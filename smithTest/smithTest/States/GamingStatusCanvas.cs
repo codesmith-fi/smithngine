@@ -54,7 +54,7 @@ namespace Codesmith.SmithTest
             {
                 s.InputEventSource = StateManager.Input;
                 s.BeingDragged += sprite_BeingDragged;
-                AddObject(s);
+                AddComponent(s);
                 s.TransitionSource = this.State;
                 s.Position = new Vector2(i, 80);
                 s.Scale = scale;
