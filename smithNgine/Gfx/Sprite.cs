@@ -16,6 +16,7 @@ namespace Codesmith.SmithNgine.Gfx
         private Vector2 position;
         private float rotation = 0.0f;
         private float order = 1.0f;
+        bool dragEnabled = false;
         #endregion
 
         #region Events
@@ -144,7 +145,7 @@ namespace Codesmith.SmithNgine.Gfx
                     // Handle hovering, coords are relative to the object
                     Vector2 innerPos = new Vector2(p.X - BoundingBox.X, p.Y - BoundingBox.Y);
                     OnHover(innerPos);
-                    if (e.State.LeftButton && e.PreviousState.LeftButton && HasFocus)
+                    if (e.State.LeftButton && e.PreviousState.LeftButton && dragEnabled)
                     {
                         OnDrag(e.State.Position - e.PreviousState.Position);
                     }
@@ -152,6 +153,7 @@ namespace Codesmith.SmithNgine.Gfx
                 }
                 else
                 {
+                    dragEnabled = false;
                     this.IsHovered = false;
                 }
             }
@@ -176,12 +178,20 @@ namespace Codesmith.SmithNgine.Gfx
         // Handles mouseclick on this button
         protected virtual void HandleMouseInsideClick(MouseEventArgs args) 
         {
-            if(args.State.LeftButton) GainFocus();
+            if (args.State.LeftButton)
+            {
+                dragEnabled = true;
+                GainFocus();
+            }
         }
 
         protected virtual void HandleMouseOutsideClick(MouseEventArgs args)
         {
-            if(args.State.LeftButton && HasFocus) LooseFocus();
+            if (args.State.LeftButton && HasFocus)
+            {
+                dragEnabled = false;
+                LooseFocus();
+            }
         }
         #endregion
 
@@ -273,7 +283,8 @@ namespace Codesmith.SmithNgine.Gfx
         #endregion
 
         public override void Update(GameTime gameTime)
-        {            
+        {
+            base.Update(gameTime);
         }
     }
 }
