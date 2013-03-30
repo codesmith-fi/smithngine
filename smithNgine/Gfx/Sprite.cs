@@ -25,6 +25,7 @@ namespace Codesmith.SmithNgine.Gfx
         public event EventHandler<EventArgs> FocusGained;
         public event EventHandler<EventArgs> FocusLost;
         public event EventHandler<HoverEventArgs> BeingHovered;
+        public event EventHandler<DragEventArgs> BeingDragged;
         #endregion
 
         #region Properties
@@ -133,17 +134,20 @@ namespace Codesmith.SmithNgine.Gfx
                 }
             }
         }
-
-        void mouseSource_MousePositionChanged(object sender, MousePositionEventArgs e)
+        void mouseSource_MousePositionChanged(object sender, MouseEventArgs e)
         {
             if (ObjectIsActive)
             {
-                Point p = new Point((int)e.newPosition.X, (int)e.newPosition.Y);
+                Point p = new Point(e.State.X, e.State.Y);
                 if (BoundingBox.Contains(p))
                 {
                     // Handle hovering, coords are relative to the object
                     Vector2 innerPos = new Vector2(p.X - BoundingBox.X, p.Y - BoundingBox.Y);
                     OnHover(innerPos);
+                    if (e.State.LeftButton && e.PreviousState.LeftButton && HasFocus)
+                    {
+                        OnDrag(e.State.Position - e.PreviousState.Position);
+                    }
                     this.IsHovered = true;
                 }
                 else
@@ -153,11 +157,11 @@ namespace Codesmith.SmithNgine.Gfx
             }
         }
 
-        private void mouseSource_MouseButtonPressed(object sender, MouseButtonEventArgs e)
+        private void mouseSource_MouseButtonPressed(object sender, MouseEventArgs e)
         {
             if (ObjectIsActive)
             {
-                Point p = new Point(e.X,e.Y);
+                Point p = new Point(e.State.X, (int)e.State.Y);
                 if(BoundingBox.Contains(p))
                 {
                     HandleMouseInsideClick(e);
@@ -170,14 +174,14 @@ namespace Codesmith.SmithNgine.Gfx
         }
 
         // Handles mouseclick on this button
-        protected virtual void HandleMouseInsideClick(MouseButtonEventArgs args) 
+        protected virtual void HandleMouseInsideClick(MouseEventArgs args) 
         {
-            if(args.left ) GainFocus();
+            if(args.State.LeftButton) GainFocus();
         }
 
-        protected virtual void HandleMouseOutsideClick(MouseButtonEventArgs args)
+        protected virtual void HandleMouseOutsideClick(MouseEventArgs args)
         {
-            if(args.left && HasFocus) LooseFocus();
+            if(args.State.LeftButton && HasFocus) LooseFocus();
         }
         #endregion
 
@@ -217,6 +221,14 @@ namespace Codesmith.SmithNgine.Gfx
                 FocusLost(this, EventArgs.Empty);
             }
             HasFocus = false;
+        }
+
+        protected virtual void OnDrag(Vector2 delta)
+        { 
+            if( BeingDragged != null)
+            {
+                BeingDragged(this, new DragEventArgs(delta));
+            }
         }
 
         protected virtual void OnHover(Vector2 position)

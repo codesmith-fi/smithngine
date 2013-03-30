@@ -67,11 +67,6 @@ namespace Codesmith.SmithNgine.Gfx
         #endregion
 
         #region Methods overridden from base
-        protected override void OnHover(Vector2 position)
-        {
-            base.OnHover(position);
-        }
-
         public override void Update(GameTime gameTime)
         {
             if (IsHovered)
@@ -121,11 +116,6 @@ namespace Codesmith.SmithNgine.Gfx
         {
             this.direction = 0;
             this.Scale = 1.0f;
-        }
-
-        public override void DeactivateObject()
-        {
-            base.DeactivateObject();
         }
         #endregion
 

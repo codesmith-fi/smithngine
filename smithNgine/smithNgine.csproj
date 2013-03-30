@@ -94,6 +94,7 @@
   <ItemGroup>
     <Compile Include="DefaultTransitionSource.cs" />
     <Compile Include="GameState\GameStatusEventArgs.cs" />
+    <Compile Include="Gfx\DragEventArgs.cs" />
     <Compile Include="Gfx\Sprite.cs" />
     <Compile Include="Gfx\SpriteButton.cs" />
     <Compile Include="HoverEventArgs.cs" />
@@ -102,10 +103,8 @@
     <Compile Include="IHoverableObject.cs" />
     <Compile Include="IMovableObject2D.cs" />
     <Compile Include="Input\IInputEventSource.cs" />
+    <Compile Include="Input\MouseEventArgs.cs" />
     <Compile Include="Input\KeyboardEventArgs.cs" />
-    <Compile Include="Input\MouseButtonEventArgs.cs" />
-    <Compile Include="Input\MousePositionEventArgs.cs" />
-    <Compile Include="Input\MouseWheelEventArgs.cs" />
     <Compile Include="IOrderableObject.cs" />
     <Compile Include="IRotatableObject.cs" />
     <Compile Include="MathUtil\TransitionMath.cs" />

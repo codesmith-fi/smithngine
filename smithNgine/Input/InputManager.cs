@@ -57,7 +57,6 @@ namespace Codesmith.SmithNgine.Input
         public event EventHandler<MouseEventArgs> MousePositionChanged;
         public event EventHandler<MouseEventArgs> MouseWheelChanged;
         public event EventHandler<MouseEventArgs> MouseButtonPressed;
-        public event EventHandler<MouseEventArgs> MouseButtonHeld;
         public event EventHandler<KeyboardEventArgs> KeysPressed;
         #endregion
 
@@ -211,21 +210,6 @@ namespace Codesmith.SmithNgine.Input
                     MouseEventArgs args = new MouseEventArgs(previousMouseState, mouseState);
                     MouseButtonPressed(this, args);
                 }
-            }
-
-            if (MouseButtonHeld != null)
-            {/*
-                MouseEventArgs args = new MouseButtonEventArgs();
-                args.left = IsMouseButtonHeld(MouseButton.Left);
-                args.right = IsMouseButtonHeld(MouseButton.Right);
-                args.middle = IsMouseButtonHeld(MouseButton.Middle);
-                if (args.left || args.middle || args.right)
-                {
-                    args.X = mouseState.X;
-                    args.Y = mouseState.Y;
-                    MouseButtonHeld(this, args);
-                }
-              */
             }
 
             // Notify mouse wheel rotation listeners

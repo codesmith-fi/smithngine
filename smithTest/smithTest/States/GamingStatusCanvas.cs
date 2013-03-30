@@ -47,17 +47,26 @@ namespace Codesmith.SmithTest
             sprites.Add(new Sprite(StateManager.Content.Load<Texture2D>("Images/j1")));
             sprites.Add(new Sprite(StateManager.Content.Load<Texture2D>("Images/j2")));
             sprites.Add(new Sprite(StateManager.Content.Load<Texture2D>("Images/j3")));
-
+            
             int i = 100;
             float scale = 1.0f;
             foreach (Sprite s in sprites)
             {
+                s.InputEventSource = StateManager.Input;
+                s.BeingDragged += sprite_BeingDragged;
+                AddObject(s);
                 s.TransitionSource = this.State;
                 s.Position = new Vector2(i, 80);
                 s.Scale = scale;
                 i += 200;
             }
             base.LoadContent();
+        }
+
+        private void sprite_BeingDragged(object sender, DragEventArgs e)
+        {
+            Sprite sprite = (Sprite)sender;
+            sprite.Position += e.PositionDelta;
         }
 
         public override void Update(GameTime gameTime)

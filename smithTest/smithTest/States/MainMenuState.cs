@@ -83,7 +83,7 @@ namespace Codesmith.SmithTest
             base.HandleInput(input);
         }
 
-        private void Input_MousePositionChanged(object sender, MousePositionEventArgs args)
+        private void Input_MousePositionChanged(object sender, MouseEventArgs args)
         {
         }
     }

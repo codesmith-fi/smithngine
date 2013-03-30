@@ -7,7 +7,6 @@ namespace Codesmith.SmithNgine.Input
         event EventHandler<MouseEventArgs> MousePositionChanged;
         event EventHandler<MouseEventArgs> MouseWheelChanged;
         event EventHandler<MouseEventArgs> MouseButtonPressed;
-        event EventHandler<MouseEventArgs> MouseButtonHeld; 
         event EventHandler<KeyboardEventArgs> KeysPressed;
     }
 }
