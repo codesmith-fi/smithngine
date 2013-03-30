@@ -16,17 +16,19 @@ namespace Codesmith.SmithTest
         private Effect postEffect;
         float effectTimer = 0.0f;
         public bool exitActivated = false;
+        GameState playState;
 
-        public MainMenuState(String name)
+        public MainMenuState(String name, GameState playState)
             : base(name)
         {
             this.EnterStateInterval = TimeSpan.FromSeconds(1.0f);
             this.ExitStateInterval = TimeSpan.FromSeconds(1.0f);
+            this.playState = playState;
         }
 
         public override void Initialize()
         {
-            menuCanvas = new MenuCanvas();
+            menuCanvas = new MenuCanvas(this.playState);
             menuCanvas.TransitionSource = this;
             AddCanvas(menuCanvas);            
             base.Initialize();

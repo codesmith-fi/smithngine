@@ -44,8 +44,8 @@ namespace Codesmith.SmithTest
         protected override void Initialize()
         {
             stateManager = new GameStateManager(this);
-            state1 = new MainMenuState("Main Menu");
             state2 = new GamingState("Game");
+            state1 = new MainMenuState("Main Menu", state2);
             pauseState = new PauseState("Paused");
             stateManager.AddGameState(state1);
             stateManager.AddGameState(state2);

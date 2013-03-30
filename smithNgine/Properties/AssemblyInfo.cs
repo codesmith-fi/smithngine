@@ -1,13 +1,14 @@
 ﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Resources;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("smithNgine")]
 [assembly: AssemblyProduct("smithNgine")]
-[assembly: AssemblyDescription("smithNgine game library")]
+[assembly: AssemblyDescription("smithNgine game framework library")]
 [assembly: AssemblyCompany("Codesmith (www.codesmith.fi)")]
 [assembly: AssemblyCopyright("Copyright ©  2013 by Codesmith / Erno Pakarinen")]
 [assembly: AssemblyTrademark("")]
@@ -31,4 +32,5 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyVersion("0.1.0.0")]
+[assembly: NeutralResourcesLanguageAttribute("en")]

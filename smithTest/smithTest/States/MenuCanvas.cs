@@ -19,9 +19,13 @@ namespace Codesmith.SmithTest
         Texture2D entryTexture;
         List<MenuEntry> menuEntries = new List<MenuEntry>();
         MenuEntry exitMenuEntry;
+        MenuEntry playMenuEntry;
+        MenuEntry optionsMenuEntry;
+        GameState playState;
 
-        public MenuCanvas()
+        public MenuCanvas(GameState playState)
         {
+            this.playState = playState;
         }
 
         public override void LoadContent()
@@ -29,17 +33,14 @@ namespace Codesmith.SmithTest
             base.LoadContent();
             entryTexture = StateManager.Content.Load<Texture2D>("Images/button_clean");
             Vector2 pos = new Vector2(Bounds.Width / 2 - entryTexture.Bounds.Width / 2, 100);
-            MenuEntry entry = CreateMenuEntry(entryTexture, "Play", pos, Keys.F1);
-            entry.AnimState = -0.5f;
-            menuEntries.Add( entry );
+            playMenuEntry = CreateMenuEntry(entryTexture, "Play", pos, Keys.F1);
+            playMenuEntry.AnimState = -0.5f;
             pos.Y += entryTexture.Height + 10;
-            entry = CreateMenuEntry(entryTexture, "Options", pos, Keys.F2);
-            entry.AnimState = 0.0f;
-            menuEntries.Add( entry );
+            optionsMenuEntry = CreateMenuEntry(entryTexture, "Options", pos, Keys.F2);
+            optionsMenuEntry.AnimState = 0.0f;
             pos.Y += entryTexture.Height + 10;
             exitMenuEntry = CreateMenuEntry(entryTexture, "Exit", pos, Keys.Escape);
             exitMenuEntry.AnimState = 0.5f;
-            menuEntries.Add( exitMenuEntry );
         }
 
         private MenuEntry CreateMenuEntry(Texture2D t, String label, Vector2 position, Keys key = Keys.None)
@@ -54,6 +55,7 @@ namespace Codesmith.SmithTest
                 entry.BindKey(key);
             }
             AddObject(entry);
+            menuEntries.Add(entry);
             return entry;
         }
 
@@ -63,6 +65,11 @@ namespace Codesmith.SmithTest
             {
                 StateManager.ExitRequested = true;
                 State.ExitState();
+            }
+
+            if (sender == playMenuEntry)
+            {
+                StateManager.SwitchToState(playState);
             }
         }
         
