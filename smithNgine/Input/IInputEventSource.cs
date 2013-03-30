@@ -4,9 +4,10 @@ namespace Codesmith.SmithNgine.Input
 {
     public interface IInputEventSource
     {
-        event EventHandler<MousePositionEventArgs> MousePositionChanged;
-        event EventHandler<MouseWheelEventArgs> MouseWheelChanged;
-        event EventHandler<MouseButtonEventArgs> MouseButtonPressed;
+        event EventHandler<MouseEventArgs> MousePositionChanged;
+        event EventHandler<MouseEventArgs> MouseWheelChanged;
+        event EventHandler<MouseEventArgs> MouseButtonPressed;
+        event EventHandler<MouseEventArgs> MouseButtonHeld; 
         event EventHandler<KeyboardEventArgs> KeysPressed;
     }
 }

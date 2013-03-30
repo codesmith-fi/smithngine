@@ -54,9 +54,10 @@ namespace Codesmith.SmithNgine.Input
         #endregion
 
         #region Events
-        public event EventHandler<MousePositionEventArgs> MousePositionChanged;
-        public event EventHandler<MouseWheelEventArgs> MouseWheelChanged;
-        public event EventHandler<MouseButtonEventArgs> MouseButtonPressed;
+        public event EventHandler<MouseEventArgs> MousePositionChanged;
+        public event EventHandler<MouseEventArgs> MouseWheelChanged;
+        public event EventHandler<MouseEventArgs> MouseButtonPressed;
+        public event EventHandler<MouseEventArgs> MouseButtonHeld;
         public event EventHandler<KeyboardEventArgs> KeysPressed;
         #endregion
 
@@ -190,31 +191,41 @@ namespace Codesmith.SmithNgine.Input
         #region Private new methods
         private void HandleEvents()
         {
-            // Notify mouse button listeners
-            if (MouseButtonPressed != null)
-            {
-                MouseButtonEventArgs args = new MouseButtonEventArgs();
-                args.left = IsMouseButtonPressed(MouseButton.Left);
-                args.right = IsMouseButtonPressed(MouseButton.Right);
-                args.middle = IsMouseButtonPressed(MouseButton.Middle);
-                if (args.left || args.middle || args.right)
-                {
-                    args.X = mouseState.X;
-                    args.Y = mouseState.Y;
-                    MouseButtonPressed(this, args);
-                }
-            }
-
             // Notify mouse position listeners
             if (MousePositionChanged != null)
             {
                 if (!(previousMouseState.X == mouseState.X && previousMouseState.Y == mouseState.Y))
                 {
-                    MousePositionEventArgs args = new MousePositionEventArgs(
-                        previousMouseState.X, previousMouseState.Y,
-                        mouseState.X, mouseState.Y);
+                    MouseEventArgs args = new MouseEventArgs(previousMouseState, mouseState);
                     MousePositionChanged(this, args);
                 }
+            }
+
+            // Notify mouse button listeners
+            if (MouseButtonPressed != null)
+            {
+                if (IsMouseButtonPressed(MouseButton.Left) || 
+                    IsMouseButtonPressed(MouseButton.Middle) || 
+                    IsMouseButtonPressed(MouseButton.Right))
+                {
+                    MouseEventArgs args = new MouseEventArgs(previousMouseState, mouseState);
+                    MouseButtonPressed(this, args);
+                }
+            }
+
+            if (MouseButtonHeld != null)
+            {/*
+                MouseEventArgs args = new MouseButtonEventArgs();
+                args.left = IsMouseButtonHeld(MouseButton.Left);
+                args.right = IsMouseButtonHeld(MouseButton.Right);
+                args.middle = IsMouseButtonHeld(MouseButton.Middle);
+                if (args.left || args.middle || args.right)
+                {
+                    args.X = mouseState.X;
+                    args.Y = mouseState.Y;
+                    MouseButtonHeld(this, args);
+                }
+              */
             }
 
             // Notify mouse wheel rotation listeners
@@ -222,8 +233,7 @@ namespace Codesmith.SmithNgine.Input
             {
                 if (previousMouseState.ScrollWheelValue != mouseState.ScrollWheelValue)
                 {
-                    MouseWheelEventArgs args = new MouseWheelEventArgs(
-                        previousMouseState.ScrollWheelValue, mouseState.ScrollWheelValue);
+                    MouseEventArgs args = new MouseEventArgs(previousMouseState, mouseState);
                     MouseWheelChanged(this, args);
                 }
             }
