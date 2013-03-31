@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Codesmith.SmithNgine.GameState;
+using Codesmith.SmithNgine.Gfx;
 
 namespace Codesmith.SmithTest
 {
@@ -49,6 +50,7 @@ namespace Codesmith.SmithTest
             entry.InputEventSource = StateManager.Input;
             entry.TransitionSource = State;
             entry.Position = position;
+            entry.ButtonClickStyle = ButtonStyle.Highlight | ButtonStyle.Animate;
             if (key != Keys.None)
             {
                 entry.ButtonClicked += button_ButtonClicked;

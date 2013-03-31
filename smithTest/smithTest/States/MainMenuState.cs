@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-
 using Codesmith.SmithNgine.GameState;
-using Codesmith.SmithNgine.Input;
-using Microsoft.Xna.Framework.Input;
 
 namespace Codesmith.SmithTest
 {
@@ -37,10 +33,10 @@ namespace Codesmith.SmithTest
         public override void LoadContent()
         {
             base.LoadContent();
-            StateManager.Input.MousePositionChanged += Input_MousePositionChanged;
             image = StateManager.Content.Load<Texture2D>("Images/desert");
-            menuCanvas.Bounds = new Rectangle(20, 20, Bounds.Width - 40, 200);
 
+            // Set a postprocess effect, this will blur the display with the 
+            // state in/out transition value
             postEffect = StateManager.FrameworkContent.Load<Effect>("Effects/GaussianBlur");
             PostProcessingEffect = postEffect;
         }
@@ -56,20 +52,20 @@ namespace Codesmith.SmithTest
 
         public override void Update(GameTime gameTime)
         {
+            if (Status == GameStateStatus.Running)
+            {
+                this.PostProcessingEffect = null;
+            }
+            // Update parameters in the post processing effect. 
             this.effectTimer += (float)gameTime.ElapsedGameTime.Milliseconds / 500;
             postEffect.Parameters["intensity"].SetValue(1.0f - TransitionValue);
             postEffect.Parameters["colorIntensity"].SetValue(TransitionValue);
-            if (Status == GameStateStatus.Running)
-            {
-                PostProcessingEffect = null;
-            }
             base.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
         {
             SpriteBatch spriteBatch = StateManager.SpriteBatch;
-            GraphicsDevice graphicsDevice = StateManager.GraphicsDevice;
             Viewport viewport = StateManager.GraphicsDevice.Viewport;
 
             spriteBatch.Begin();
@@ -78,15 +74,6 @@ namespace Codesmith.SmithTest
                 Color.White);
             spriteBatch.End();
             base.Draw(gameTime);
-        }
-
-        public override void HandleInput(InputManager input)
-        {
-            base.HandleInput(input);
-        }
-
-        private void Input_MousePositionChanged(object sender, MouseEventArgs args)
-        {
         }
     }
 }
