@@ -1,17 +1,19 @@
 sampler2D input : register(s0); 
 
-#define WEIGHT_COUNT 4
+#define WEIGHT_COUNT 6
 
 float weight[WEIGHT_COUNT] = {
-    0.8,
-    0.65,
-    0.4,
-    0.25
+	0.9,
+    0.85,
+    0.70,
+    0.50,
+    0.25,
+	0.10
 	};
 
 float colorIntensity = 1.0f;
 float intensity = 1.0f;
-float2 pixelAspect = {1.0/1280, 1.0/768};
+float2 pixelAspect = {1.0/1280, 1.0/720};
 
 float4 PS_BlurHorizontal(in float2 uv : TEXCOORD) : COLOR 
 { 
@@ -43,7 +45,7 @@ float4 PS_BlurVertical(in float2 uv : TEXCOORD) : COLOR
 
 technique GaussianBlur
 {
-	pass Pasinput
+	pass Pass1
 	{
 		// A post process shader only needs a pixel shader.
 		PixelShader = compile ps_2_0 PS_BlurHorizontal();

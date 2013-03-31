@@ -7,6 +7,14 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Codesmith.SmithNgine.Gfx
 {
+    [Flags]
+    public enum ButtonStyle : int
+    {
+        None = 1,
+        Highlight = 2,
+        Animate = 4
+    }
+
     public class SpriteButton : Sprite
     {
         #region Fields
@@ -21,6 +29,12 @@ namespace Codesmith.SmithNgine.Gfx
         #endregion
 
         #region Properties
+        public ButtonStyle ButtonClickStyle
+        {
+            get;
+            set;
+        }
+
         public float AnimState
         {
             get { return this.idleAnimValue; }
@@ -35,6 +49,7 @@ namespace Codesmith.SmithNgine.Gfx
         {
             clickTimeSpan = TimeSpan.FromSeconds(0.9f);
             idleAnimValue = 0.0f;
+            ButtonClickStyle = ButtonStyle.None;
         }
         #endregion
 
@@ -69,7 +84,8 @@ namespace Codesmith.SmithNgine.Gfx
         #region Methods overridden from base
         public override void Update(GameTime gameTime)
         {
-            if (IsHovered)
+
+            if (IsHovered && ( ( ButtonClickStyle & ButtonStyle.Highlight ) == ButtonStyle.Highlight))
             {
                 this.hoverScale = 1.1f;
             }
@@ -78,7 +94,7 @@ namespace Codesmith.SmithNgine.Gfx
                 this.hoverScale = 1.0f;
             }
 
-            if (this.direction != 0)
+            if (this.direction != 0 && ((ButtonClickStyle & ButtonStyle.Animate)==ButtonStyle.Animate))
             {
                 if (!TransitionMath.LinearTransition(
                     gameTime.ElapsedGameTime, clickTimeSpan,

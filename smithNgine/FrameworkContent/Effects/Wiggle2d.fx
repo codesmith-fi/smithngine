@@ -1,9 +1,5 @@
-
-// Global variables
-// This will use the texture bound to the object( like from the sprite batch ).
 sampler ColorMapSampler : register(s0);
 
-//A timer we can use for whatever purpose we want
 float timer;
 float intensity = 1.0f;
 float colorIntensity = 1.0f;
@@ -15,12 +11,10 @@ struct PixelShaderInput
 
 float4 PixelShaderFunction(PixelShaderInput input) : COLOR
 {
-	// Use the timer to move the texture coordinated before using them to lookup
-	// in the ColorMapSampler. This makes the scene look like its underwater
-	// or something similar :)
-
-	input.TexCoord.x += intensity * ( sin( timer + input.TexCoord.x * 20) * 0.01f );
-	input.TexCoord.y += intensity * ( cos( timer + input.TexCoord.y * 20) * 0.01f );
+	// let's take pixels with circle motion around the current pixel, 
+	// causing the screen to wobble
+	input.TexCoord.x += ( sin( timer + input.TexCoord.x * 30 * intensity) * 0.01f );
+	input.TexCoord.y += ( cos( timer + input.TexCoord.y * 30 * intensity) * 0.01f );
 	float4 Color = tex2D( ColorMapSampler, input.TexCoord );		
     return Color * colorIntensity;
 }
