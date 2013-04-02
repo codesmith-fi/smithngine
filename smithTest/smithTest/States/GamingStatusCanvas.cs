@@ -11,11 +11,13 @@ using Microsoft.Xna.Framework.Graphics;
 using Codesmith.SmithNgine.GameState;
 using Codesmith.SmithNgine.Gfx;
 using Codesmith.SmithNgine.Input;
+using Codesmith.SmithNgine.Collision;
 
 namespace Codesmith.SmithTest
 {
     class GamingStatusCanvas : GameCanvas
     {
+        private CollisionManager collisionManager;
         private List<Sprite> sprites = new List<Sprite>();
         Vector2 textPos;
         Rectangle area;
@@ -41,6 +43,9 @@ namespace Codesmith.SmithTest
 
         public override void LoadContent()
         {
+            collisionManager = new CollisionManager();
+            AddComponent(collisionManager);
+
             this.area = StateManager.GraphicsDevice.Viewport.Bounds;
             this.textPos = new Vector2(this.area.Width / 2, 10);
             this.moveDelta = new Vector2(0, 2);
@@ -58,9 +63,18 @@ namespace Codesmith.SmithTest
                 s.TransitionSource = this.State;
                 s.Position = new Vector2(i, 80);
                 s.Scale = scale;
+                this.collisionManager.AddCollidable(s);
                 i += 200;
             }
+            this.collisionManager.ObjectsCollided += collisionManager_ObjectsCollided;
             base.LoadContent();
+        }
+
+        void collisionManager_ObjectsCollided(object sender, CollisionEventArgs e)
+        {
+            foreach (ICollidableObject obj in e.CollidedObjects)
+            {
+            }
         }
 
         private void sprite_BeingDragged(object sender, DragEventArgs e)
@@ -90,6 +104,7 @@ namespace Codesmith.SmithTest
                 s.Scale = s.Scale / ( MathHelper.Pi * 2 ) ;
                 i++;
             }
+            base.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)

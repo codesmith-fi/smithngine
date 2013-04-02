@@ -5,10 +5,11 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 using Codesmith.SmithNgine.Input;
+using Codesmith.SmithNgine.Collision;
 
 namespace Codesmith.SmithNgine.Gfx
 {
-    public class Sprite : ObjectBase, IMovableObject2D, IOrderableObject, IRotatableObject, IFocusableObject, IHoverableObject
+    public class Sprite : ObjectBase, IMovableObject2D, IOrderableObject, IRotatableObject, IFocusableObject, IHoverableObject, ICollidableObject
     {
         #region Fields
         private IInputEventSource inputSource;
@@ -135,6 +136,12 @@ namespace Codesmith.SmithNgine.Gfx
                 }
             }
         }
+
+        public Rectangle CollisionBounds
+        {
+            get { return BoundingBox; }
+        }
+
         void mouseSource_MousePositionChanged(object sender, MouseEventArgs e)
         {
             if (ObjectIsActive)
@@ -251,6 +258,11 @@ namespace Codesmith.SmithNgine.Gfx
                 args.position = position;
                 BeingHovered(this, args);
             }
+        }
+
+        public bool CheckCollision(ICollidableObject another)
+        {
+            return this.CollisionBounds.Intersects(another.CollisionBounds);
         }
 
         #endregion

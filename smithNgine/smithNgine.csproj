@@ -92,6 +92,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collision\CollisionEventArgs.cs" />
+    <Compile Include="Collision\CollisionManager.cs" />
+    <Compile Include="Collision\ICollidableObject.cs" />
     <Compile Include="DefaultTransitionSource.cs" />
     <Compile Include="GameState\GameStatusEventArgs.cs" />
     <Compile Include="Gfx\DragEventArgs.cs" />
