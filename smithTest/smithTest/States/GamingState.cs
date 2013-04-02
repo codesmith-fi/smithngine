@@ -48,9 +48,8 @@ namespace Codesmith.SmithTest
         public override void Update(GameTime gameTime)
         {
             this.effectTimer += (float)gameTime.ElapsedGameTime.Milliseconds / 500;
-            postEffect.Parameters["intensity"].SetValue(1.0f);
+            postEffect.Parameters["intensity"].SetValue(TransitionValue);
             postEffect.Parameters["colorIntensity"].SetValue(TransitionValue);
-            postEffect.Parameters["timer"].SetValue(effectTimer);
             if (Status == GameStateStatus.Running)
             {
                 //StateManager.PostProcessingEffect = null;

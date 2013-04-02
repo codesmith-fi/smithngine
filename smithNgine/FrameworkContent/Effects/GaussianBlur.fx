@@ -47,12 +47,10 @@ technique GaussianBlur
 {
 	pass Pass1
 	{
-		// A post process shader only needs a pixel shader.
 		PixelShader = compile ps_2_0 PS_BlurHorizontal();
 	}
 	pass Pass2
 	{
-		// A post process shader only needs a pixel shader.
 		PixelShader = compile ps_2_0 PS_BlurVertical();
 	}
 }
