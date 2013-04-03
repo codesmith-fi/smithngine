@@ -36,7 +36,7 @@ namespace Codesmith.SmithTest
         {
             base.LoadContent();
             entryTexture = StateManager.Content.Load<Texture2D>("Images/button_clean");
-            Vector2 pos = new Vector2(Bounds.Width / 2 - entryTexture.Bounds.Width / 2, 100);
+            Vector2 pos = new Vector2(Bounds.Width / 2, 100);
             playMenuEntry = CreateMenuEntry(entryTexture, "Play", pos, Keys.F1);
             playMenuEntry.AnimState = -0.5f;
             pos.Y += entryTexture.Height + 10;
@@ -94,7 +94,7 @@ namespace Codesmith.SmithTest
         {
             SpriteBatch spriteBatch = StateManager.SpriteBatch;
 
-            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
             foreach (MenuEntry m in menuEntries)
             {
                 m.Draw(spriteBatch);

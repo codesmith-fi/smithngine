@@ -28,7 +28,8 @@ namespace Codesmith.SmithTest
         public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
-            spriteBatch.DrawString(font, label, this.Position, Color.Black);
+            Vector2 origin = font.MeasureString(label);
+            spriteBatch.DrawString(font, label, this.Position, Color.Black, Rotation, origin/2, Scale, SpriteEffects.None, Order);
         }
     }
 }
