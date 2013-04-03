@@ -1,21 +1,21 @@
 ﻿// ***************************************************************************
-// ** SmithNgine.RotationEventArgs                                          **
+// ** SmithNgine.IRotatableObject                                           **
 // **                                                                       **
 // ** Copyright (C) 2013 by Erno Pakarinen. All Rights Reserved.            **
 // ** Contact: erno(at)codesmith(dot)fi                                     **
 // ***************************************************************************
 using System;
 
-namespace Codesmith.SmithNgine
+namespace Codesmith.SmithNgine.General
 {
-    public class RotationEventArgs : EventArgs
+    interface IRotatableObject
     {
-        public float oldRotation = 0.0f;
-        public float rotation = 0.0f;
-        public RotationEventArgs(float oldRotation, float newRotation)
+        float Rotation
         {
-            this.oldRotation = oldRotation;
-            this.rotation = newRotation;
+            get;
+            set;
         }
+
+        event EventHandler<RotationEventArgs> RotationChanged;
     }
 }

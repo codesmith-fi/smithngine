@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 
-namespace Codesmith.SmithNgine
+namespace Codesmith.SmithNgine.General
 {
     public interface IActivatableObject
     {

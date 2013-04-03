@@ -1,23 +1,21 @@
 ﻿// ***************************************************************************
-// ** SmithNgine.IOrderableObject                                           **
+// ** SmithNgine.RotationEventArgs                                          **
 // **                                                                       **
 // ** Copyright (C) 2013 by Erno Pakarinen. All Rights Reserved.            **
 // ** Contact: erno(at)codesmith(dot)fi                                     **
 // ***************************************************************************
 using System;
 
-namespace Codesmith.SmithNgine
+namespace Codesmith.SmithNgine.General
 {
-    public interface IOrderableObject
+    public class RotationEventArgs : EventArgs
     {
-        // Drawing order
-        float Order
+        public float oldRotation = 0.0f;
+        public float rotation = 0.0f;
+        public RotationEventArgs(float oldRotation, float newRotation)
         {
-            get;
-            set;
+            this.oldRotation = oldRotation;
+            this.rotation = newRotation;
         }
-
-        // Event triggered when the order changes
-        event EventHandler<OrderEventArgs> OrderChanged;
     }
 }

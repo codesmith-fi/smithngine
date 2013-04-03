@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Codesmith.SmithNgine.General;
 
 namespace Codesmith.SmithNgine.Collision
 {

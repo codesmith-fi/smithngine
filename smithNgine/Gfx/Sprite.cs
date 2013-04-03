@@ -1,11 +1,9 @@
 using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-
 using Codesmith.SmithNgine.Input;
 using Codesmith.SmithNgine.Collision;
+using Codesmith.SmithNgine.General;
 
 namespace Codesmith.SmithNgine.Gfx
 {

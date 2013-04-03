@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Codesmith.SmithNgine.Input;
+using Codesmith.SmithNgine.General;
 #endregion
 
 namespace Codesmith.SmithNgine.GameState

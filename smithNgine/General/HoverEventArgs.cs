@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 
-namespace Codesmith.SmithNgine
+namespace Codesmith.SmithNgine.General
 {
     public class HoverEventArgs : EventArgs
     {

@@ -1,21 +1,21 @@
 ﻿// ***************************************************************************
-// ** SmithNgine.IRotatableObject                                           **
+// ** SmithNgine.OrderEventArgs                                             **
 // **                                                                       **
 // ** Copyright (C) 2013 by Erno Pakarinen. All Rights Reserved.            **
 // ** Contact: erno(at)codesmith(dot)fi                                     **
 // ***************************************************************************
 using System;
 
-namespace Codesmith.SmithNgine
+namespace Codesmith.SmithNgine.General
 {
-    interface IRotatableObject
+    public class OrderEventArgs : EventArgs
     {
-        float Rotation
+        public float order = 0.0f;
+        public float oldOrder = 0.0f;
+        public OrderEventArgs(float oldOrder, float newOrder)
         {
-            get;
-            set;
+            this.order = newOrder;
+            this.oldOrder = oldOrder;
         }
-
-        event EventHandler<RotationEventArgs> RotationChanged;
     }
 }
