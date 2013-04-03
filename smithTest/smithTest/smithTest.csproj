@@ -129,6 +129,7 @@
     <Compile Include="States\MenuCanvas.cs" />
     <Compile Include="States\MenuEntry.cs" />
     <Compile Include="States\PauseState.cs" />
+    <Compile Include="States\PhysicsState.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

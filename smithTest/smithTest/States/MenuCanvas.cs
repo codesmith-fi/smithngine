@@ -21,12 +21,15 @@ namespace Codesmith.SmithTest
         List<MenuEntry> menuEntries = new List<MenuEntry>();
         MenuEntry exitMenuEntry;
         MenuEntry playMenuEntry;
+        MenuEntry physicsMenuEntry;
         MenuEntry optionsMenuEntry;
         GameState playState;
+        GameState physicsState;
 
-        public MenuCanvas(GameState playState)
+        public MenuCanvas(GameState playState, GameState physicState)
         {
             this.playState = playState;
+            this.physicsState = physicState;
         }
 
         public override void LoadContent()
@@ -39,6 +42,9 @@ namespace Codesmith.SmithTest
             pos.Y += entryTexture.Height + 10;
             optionsMenuEntry = CreateMenuEntry(entryTexture, "Options", pos, Keys.F2);
             optionsMenuEntry.AnimState = 0.0f;
+            pos.Y += entryTexture.Height + 10;
+            physicsMenuEntry = CreateMenuEntry(entryTexture, "Physics", pos, Keys.F3);
+            physicsMenuEntry.AnimState = 1.0f;
             pos.Y += entryTexture.Height + 10;
             exitMenuEntry = CreateMenuEntry(entryTexture, "Exit", pos, Keys.Escape);
             exitMenuEntry.AnimState = 0.5f;
@@ -68,11 +74,15 @@ namespace Codesmith.SmithTest
                 StateManager.ExitRequested = true;
                 State.ExitState();
             }
-
-            if (sender == playMenuEntry)
+            else if (sender == playMenuEntry)
             {
                 StateManager.SwitchToState(playState);
             }
+            else if (sender == physicsMenuEntry)
+            {
+                StateManager.SwitchToState(physicsState);
+            }
+
         }
         
         public override void Update(GameTime gameTime)

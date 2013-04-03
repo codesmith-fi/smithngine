@@ -102,6 +102,11 @@ namespace Codesmith.SmithNgine.Gfx
             private set;
         }
 
+        public Rectangle CollisionBounds
+        {
+            get { return BoundingBox; }
+        }
+
         // Return rectangular boundingbox of the sprite, taking account of origin and scale
         public Rectangle BoundingBox
         {
@@ -133,11 +138,6 @@ namespace Codesmith.SmithNgine.Gfx
                     inputSource.MousePositionChanged += mouseSource_MousePositionChanged;
                 }
             }
-        }
-
-        public Rectangle CollisionBounds
-        {
-            get { return BoundingBox; }
         }
 
         void mouseSource_MousePositionChanged(object sender, MouseEventArgs e)
