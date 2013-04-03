@@ -1,4 +1,10 @@
-﻿using System;
+﻿// ***************************************************************************
+// ** SmithNgine.Collision.CollisionManager                                 **
+// **                                                                       **
+// ** Copyright (C) 2013 by Erno Pakarinen. All Rights Reserved.            **
+// ** Contact: erno(at)codesmith(dot)fi                                     **
+// ***************************************************************************
+using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Codesmith.SmithNgine.General;
