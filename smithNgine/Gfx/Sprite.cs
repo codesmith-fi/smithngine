@@ -218,8 +218,7 @@ namespace Codesmith.SmithNgine.Gfx
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             Rectangle pos = new Rectangle((int)Position.X, (int)Position.Y, texture.Width, texture.Height);
-            Color color = this.Color * TransitionSource.TransitionValue;
-            spriteBatch.Draw(this.texture, Position, null, color, Rotation, Origin, Scale, SpriteEffects.None, Order);
+            spriteBatch.Draw(this.texture, Position, null, Color, Rotation, Origin, Scale, SpriteEffects.None, Order);
         }
 
         public virtual void GainFocus()
