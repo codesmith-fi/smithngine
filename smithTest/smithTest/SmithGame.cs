@@ -21,6 +21,7 @@ namespace Codesmith.SmithTest
         GamingState state2;
         MainMenuState state1;
         PauseState pauseState;
+        PhysicsState physicsState;
 
         public SmithGame()
         {
@@ -48,14 +49,17 @@ namespace Codesmith.SmithTest
         {
             stateManager = new GameStateManager(this);
             state2 = new GamingState("Game");
-            state1 = new MainMenuState("Main Menu", state2);
+            physicsState = new PhysicsState("Physics test");
+            state1 = new MainMenuState("Main Menu", state2, physicsState);
             pauseState = new PauseState("Paused");
             stateManager.AddGameState(state1);
             stateManager.AddGameState(state2);
+            stateManager.AddGameState(physicsState);
             stateManager.AddGameState(pauseState, true);
             state1.StatusChanged += this.TestStateStatusChanged;
             state2.StatusChanged += this.TestStateStatusChanged;
             pauseState.StatusChanged += this.TestStateStatusChanged;
+            physicsState.StatusChanged += this.TestStateStatusChanged;
             Components.Add(stateManager);
             this.IsMouseVisible = true;
             base.Initialize();
