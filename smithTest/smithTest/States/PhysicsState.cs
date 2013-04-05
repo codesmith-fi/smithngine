@@ -48,9 +48,13 @@ namespace Codesmith.SmithTest
             AddComponent(groundSprite);
             ballSprite = new Sprite(StateManager.Content.Load<Texture2D>("Images/ball"));
             ballSprite.Scale = 1.0f;
+            ballSprite.InputEventSource = StateManager.Input;
+            ballSprite.BeingDragged += sprite_BeingDragged;
             AddComponent(ballSprite);
             ballSprite2 = new Sprite(StateManager.Content.Load<Texture2D>("Images/ball"));
             ballSprite2.Scale = 0.5f;
+            ballSprite2.InputEventSource = StateManager.Input;
+            ballSprite2.BeingDragged += sprite_BeingDragged;
             AddComponent(ballSprite2);
 
             screenCenter = new Vector2(
@@ -72,15 +76,29 @@ namespace Codesmith.SmithTest
             physicsBallBody2.Restitution = 0.3f;
             physicsBallBody2.Friction = 0.5f;
 
-
-            /* Ground */
             Vector2 groundPosition = (screenCenter / MeterInPixels) + new Vector2(0, 1.25f);
 
-            // Create the ground fixture
             physicsGroundBody = BodyFactory.CreateRectangle(physicsWorld, 512f / MeterInPixels, 64f / MeterInPixels, 1f, groundPosition);
             physicsGroundBody.IsStatic = true;
             physicsGroundBody.Restitution = 0.3f;
             physicsGroundBody.Friction = 0.5f;
+        }
+
+        private void sprite_BeingDragged(object sender, DragEventArgs e)
+        {
+            if (sender == ballSprite)
+            {
+                this.physicsBallBody.ApplyLinearImpulse(e.PositionDelta / 16f);
+//                this.physicsBallBody2.ApplyForce(e.PositionDelta);
+                //            this.physicsBallBody2.Position += (e.PositionDelta / MeterInPixels);
+            }
+
+            if (sender == ballSprite2)
+            {
+                this.physicsBallBody2.ApplyLinearImpulse(e.PositionDelta / 16f);
+//                this.physicsBallBody.ApplyForce(e.PositionDelta);
+                //            this.physicsBallBody2.Position += (e.PositionDelta / MeterInPixels);
+            }
         }
 
         public override void Initialize()

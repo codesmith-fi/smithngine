@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Codesmith.SmithNgine.GameState;
+using Codesmith.SmithNgine.Effects;
 
 namespace Codesmith.SmithTest
 {
@@ -39,8 +40,8 @@ namespace Codesmith.SmithTest
 
             // Set a postprocess effect, this will blur the display with the 
             // state in/out transition value
-            postEffect = StateManager.FrameworkContent.Load<Effect>("Effects/GaussianBlur");
-            PostProcessingEffect = postEffect;
+            postEffect = EffectFactory.Load(EffectFactory.EffectType.GaussianBlur, StateManager.Game);
+//            PostProcessingEffect = postEffect;
         }
 
         public override void Dismiss()

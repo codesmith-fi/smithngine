@@ -9,9 +9,9 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
-using Codesmith.SmithNgine.Input;
 using Microsoft.Xna.Framework.Content;
+using Codesmith.SmithNgine.Input;
+using Codesmith.SmithNgine.General;
 #endregion
 
 namespace Codesmith.SmithNgine.GameState
@@ -23,6 +23,7 @@ namespace Codesmith.SmithNgine.GameState
         private List<GameState> gameStates = new List<GameState>();
         private SpriteBatch spriteBatch;
         private Texture2D blankTexture;
+        private FrameworkContentService frameworkContentService;
         //        private Effect postEffect;
         private bool isInitialized;
         #endregion
@@ -120,6 +121,10 @@ namespace Codesmith.SmithNgine.GameState
         {
             FrameworkContent = new ContentManager(Game.Services, "FrameworkContent");
             Content = Game.Content;
+
+            // Register service for content
+            frameworkContentService = new FrameworkContentService(FrameworkContent);
+            Game.Services.AddService(typeof(IContentManagerService), frameworkContentService);
 
             this.spriteBatch = new SpriteBatch(GraphicsDevice);
 

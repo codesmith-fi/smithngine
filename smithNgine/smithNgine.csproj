@@ -95,6 +95,7 @@
     <Compile Include="Collision\CollisionEventArgs.cs" />
     <Compile Include="Collision\CollisionManager.cs" />
     <Compile Include="Collision\ICollidableObject.cs" />
+    <Compile Include="Effects\EffectFactory.cs" />
     <Compile Include="FarseerPhysics\Collision\Collision.cs" />
     <Compile Include="FarseerPhysics\Collision\Distance.cs" />
     <Compile Include="FarseerPhysics\Collision\DynamicTree.cs" />
@@ -198,6 +199,8 @@
     <Compile Include="FarseerPhysics\Factories\JointFactory.cs" />
     <Compile Include="FarseerPhysics\Factories\LinkFactory.cs" />
     <Compile Include="FarseerPhysics\Settings.cs" />
+    <Compile Include="General\FrameworkContentService.cs" />
+    <Compile Include="General\IContentManagerService.cs" />
     <Compile Include="General\Circle.cs" />
     <Compile Include="General\DefaultTransitionSource.cs" />
     <Compile Include="GameState\GameStatusEventArgs.cs" />

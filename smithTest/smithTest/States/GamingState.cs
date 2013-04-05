@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using Codesmith.SmithNgine.GameState;
 using Codesmith.SmithNgine.Input;
-
+using Codesmith.SmithNgine.Effects;
 namespace Codesmith.SmithTest
 {
     public class GamingState : GameState
@@ -31,8 +31,6 @@ namespace Codesmith.SmithTest
         public override void LoadContent()
         {
             image = StateManager.Content.Load<Texture2D>("Images/snowmountain");
-            postEffect = StateManager.FrameworkContent.Load<Effect>("Effects/Wiggle2d");
-            this.PostProcessingEffect = postEffect;
             effectTimer = 0.0f;
             base.LoadContent();
         }
@@ -48,8 +46,6 @@ namespace Codesmith.SmithTest
         public override void Update(GameTime gameTime)
         {
             this.effectTimer += (float)gameTime.ElapsedGameTime.Milliseconds / 500;
-            postEffect.Parameters["intensity"].SetValue(TransitionValue);
-            postEffect.Parameters["colorIntensity"].SetValue(TransitionValue);
             if (Status == GameStateStatus.Running)
             {
                 //StateManager.PostProcessingEffect = null;

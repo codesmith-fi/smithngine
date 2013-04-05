@@ -85,6 +85,11 @@ namespace Codesmith.SmithTest
 
         public override void Update(GameTime gameTime)
         {
+            if (State.Status != GameStateStatus.Running)
+            {
+                return;
+            }
+
             this.textPos += this.moveDelta;
             if (textPos.Y >= area.Height - 20)
             {
