@@ -57,6 +57,7 @@ namespace Codesmith.SmithNgine.Input
         public event EventHandler<MouseEventArgs> MousePositionChanged;
         public event EventHandler<MouseEventArgs> MouseWheelChanged;
         public event EventHandler<MouseEventArgs> MouseButtonPressed;
+        public event EventHandler<MouseEventArgs> MouseButtonReleased;
         public event EventHandler<KeyboardEventArgs> KeysPressed;
         #endregion
 
@@ -145,6 +146,32 @@ namespace Codesmith.SmithNgine.Input
             }
         }
 
+        public bool IsMouseButtonReleased(MouseButton button, ButtonState checkAgainst = ButtonState.Pressed)
+        {
+            // Left button was pressed after previous check
+            if (button == MouseButton.Left &&
+                previousMouseState.LeftButton == checkAgainst &&
+                mouseState.LeftButton == ButtonState.Released)
+            {
+                return true;
+            }
+            // Right button was pressed after previous check
+            else if (button == MouseButton.Right &&
+                previousMouseState.RightButton == checkAgainst &&
+                mouseState.RightButton == ButtonState.Released)
+            {
+                return true;
+            }
+            // Middle button was pressed
+            else if (button == MouseButton.Middle &&
+                previousMouseState.MiddleButton == checkAgainst &&
+                mouseState.MiddleButton == ButtonState.Released)
+            {
+                return true;
+            }
+            return false;
+        }
+
         // Checks if mouse button was being pressed
         // If param "checkAgainst" is set to ButtonState.Pressed checks if the
         // button is being held down. 
@@ -197,6 +224,17 @@ namespace Codesmith.SmithNgine.Input
                 {
                     MouseEventArgs args = new MouseEventArgs(previousMouseState, mouseState);
                     MousePositionChanged(this, args);
+                }
+            }
+
+            if (MouseButtonReleased != null)
+            {
+                if (IsMouseButtonReleased(MouseButton.Left) ||
+                    IsMouseButtonReleased(MouseButton.Middle) ||
+                    IsMouseButtonReleased(MouseButton.Left))
+                {
+                    MouseEventArgs args = new MouseEventArgs(previousMouseState, mouseState);
+                    MouseButtonReleased(this, args);
                 }
             }
 
