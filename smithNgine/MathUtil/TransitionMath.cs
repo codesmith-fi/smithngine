@@ -6,6 +6,28 @@ namespace Codesmith.SmithNgine.MathUtil
 {
     public static class TransitionMath
     {
+        public static bool LinearTransition2(TimeSpan elapsed, TimeSpan interval, int direction, 
+            ref float transitionValue, float minLimit, float maxLimit )
+        {
+            direction = (direction > 0) ? 1 : -1;
+            double elapsedMs = elapsed.TotalMilliseconds;
+            double transitionMs = interval.TotalMilliseconds;
+
+            float delta = (float)(elapsedMs / transitionMs);
+            transitionValue += delta * direction;
+
+            // Ensure that the transition value is kept in: 0.0f <= transitionValue <= 1.0f
+            if (((direction > 0) && (transitionValue > maxLimit)) ||
+                ((direction < 0) && (transitionValue < minLimit)))
+            {
+                // We are done transitioning in or out, clamp the value and end transition
+                transitionValue = MathHelper.Clamp(transitionValue, minLimit, maxLimit);
+                return false;
+            }
+            // Still animating
+            return true;
+        }
+
         public static bool LinearTransition(TimeSpan elapsed, TimeSpan interval, int direction, ref float transitionValue)
         {
             direction = (direction > 0) ? 1 : -1;

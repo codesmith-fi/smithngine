@@ -56,7 +56,7 @@ namespace Codesmith.SmithTest
             entry.InputEventSource = StateManager.Input;
             entry.TransitionSource = State;
             entry.Position = position;
-            entry.ButtonClickStyle = ButtonStyle.Highlight | ButtonStyle.Animate;
+            entry.ButtonClickStyle = ButtonStyle.AnimateOnPress | ButtonStyle.AnimateIdle | ButtonStyle.Highlight;
             if (key != Keys.None)
             {
                 entry.ButtonClicked += button_ButtonClicked;

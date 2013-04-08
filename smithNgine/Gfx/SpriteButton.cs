@@ -10,22 +10,28 @@ namespace Codesmith.SmithNgine.Gfx
     [Flags]
     public enum ButtonStyle : int
     {
-        None = 1,
-        Highlight = 2,
-        Animate = 4
+        NoAnimation     = 1,
+        Highlight       = NoAnimation << 1,
+        AnimateOnPress  = NoAnimation << 2,
+        AnimateIdle     = NoAnimation << 3
     }
 
     public class SpriteButton : Sprite
     {
         #region Fields
         TimeSpan clickTimeSpan;
-        float clickAnimValue;
-        float idleAnimValue;
+        float idleAnimAngle;
         int direction;
         float hoverScale;
-        float[] points = { 1.0f, 1.2f, 0.8f, 1.0f };
-        float[] amounts = { 0.0f, 0.1f, 0.8f, 1.0f };
         Keys activationKey;
+
+        float currentAngle = 0.0f;
+        float currentAmplify = 1.0f;
+        const float AngleMin = MathHelper.Pi / 2f;
+        const float AngleMax = MathHelper.Pi;
+        const int MaxIterations = 5;
+        bool animatingIn = false;
+        bool animatingOut = false;
         #endregion
 
         #region Properties
@@ -37,8 +43,8 @@ namespace Codesmith.SmithNgine.Gfx
 
         public float AnimState
         {
-            get { return this.idleAnimValue; }
-            set { this.idleAnimValue = value; }
+            get { return this.idleAnimAngle; }
+            set { this.idleAnimAngle = value; }
         }
 
         #endregion
@@ -47,9 +53,10 @@ namespace Codesmith.SmithNgine.Gfx
         public SpriteButton(Texture2D texture) 
             : base(texture)
         {
-            clickTimeSpan = TimeSpan.FromSeconds(0.9f);
-            idleAnimValue = 0.0f;
-            ButtonClickStyle = ButtonStyle.None;
+            clickTimeSpan = TimeSpan.FromSeconds(0.05f);
+            idleAnimAngle = 0.0f;
+            ButtonClickStyle = ButtonStyle.NoAnimation;
+            hoverScale = 1.0f;
         }
         #endregion
 
@@ -84,7 +91,6 @@ namespace Codesmith.SmithNgine.Gfx
         #region Methods overridden from base
         public override void Update(GameTime gameTime)
         {
-
             if (IsHovered && ( ( ButtonClickStyle & ButtonStyle.Highlight ) == ButtonStyle.Highlight))
             {
                 this.hoverScale = 1.1f;
@@ -94,22 +100,54 @@ namespace Codesmith.SmithNgine.Gfx
                 this.hoverScale = 1.0f;
             }
 
-            if (this.direction != 0 && ((ButtonClickStyle & ButtonStyle.Animate)==ButtonStyle.Animate))
+            float animScale = 1.0f;
+            // Are we animating
+            if ( (animatingIn || animatingOut ) && ((ButtonClickStyle & ButtonStyle.AnimateOnPress)==ButtonStyle.AnimateOnPress))
             {
-                if (!TransitionMath.LinearTransition(
-                    gameTime.ElapsedGameTime, clickTimeSpan,
-                    direction, ref clickAnimValue))
+                animScale = GetAnimationScale(gameTime);
+            }
+
+            float idleScale = 1.0f;
+            if( (ButtonClickStyle & ButtonStyle.AnimateIdle) == ButtonStyle.AnimateIdle)
+            {
+                idleAnimAngle += 0.15f;
+                idleAnimAngle = MathHelper.WrapAngle(idleAnimAngle);
+                idleScale = 1.0f + ((float)Math.Sin(idleAnimAngle) / 70);
+            }
+
+            Scale = hoverScale * animScale * idleScale;
+        }
+
+        private float GetAnimationScale(GameTime gameTime)
+        {
+            if (!TransitionMath.LinearTransition2(gameTime.ElapsedGameTime, clickTimeSpan, direction, ref currentAngle, AngleMin, AngleMax))
+            {
+                if (direction > 0)
                 {
-                    this.direction = 0;
+                    currentAngle = AngleMax;
+                    direction = -1;
+                    currentAmplify *= 0.5f;
+                    if (currentAmplify <= 0.05f)
+                    {
+                        currentAmplify = 0.0f;
+                    }
                 }
-                Scale = TransitionMath.SmoothTransition(points, amounts, clickAnimValue);
+                else
+                {
+                    currentAngle = AngleMin;
+                    direction = 1;
+                }
+            }
+            float scale;
+            if (animatingIn)
+            {
+                scale = (3.0f / 4f) + (float)Math.Sin(currentAngle) / 4f * currentAmplify;
             }
             else
             {
-                idleAnimValue += 0.15f;
-                idleAnimValue = MathHelper.WrapAngle(idleAnimValue);
-                Scale = hoverScale * (1.0f + ( (float)Math.Sin(idleAnimValue) / 70) );
+                scale = 1.0f - ((float)Math.Sin(currentAngle) / 4f * currentAmplify);
             }
+            return scale;
         }
 
         public override void GainFocus()
@@ -118,14 +156,25 @@ namespace Codesmith.SmithNgine.Gfx
             if (this.ButtonClicked != null)
             {
                 ButtonClicked(this, EventArgs.Empty);
+                LostDrag += SpriteButton_LostDrag;
             }
+            animatingIn = true;
             ResetAnimation();
         }
 
         public override void LooseFocus()
         {
             base.LooseFocus();
+            LostDrag -= SpriteButton_LostDrag;
             this.direction = 0;
+        }
+
+        private void SpriteButton_LostDrag(object sender, DragEventArgs e)
+        {
+            LostDrag -= SpriteButton_LostDrag;
+            animatingIn = false;
+            animatingOut = true;
+            ResetAnimation();
         }
 
         public override void Dismiss()
@@ -137,10 +186,9 @@ namespace Codesmith.SmithNgine.Gfx
 
         private void ResetAnimation()
         {
+            currentAngle = AngleMin;
+            currentAmplify = 1.0f;
             direction = 1;
-            idleAnimValue = -MathHelper.Pi;
-            clickAnimValue = 0.0f;
         }
-
     }
 }
