@@ -26,6 +26,7 @@ namespace Codesmith.SmithNgine.Gfx
         public event EventHandler<EventArgs> FocusLost;
         public event EventHandler<HoverEventArgs> BeingHovered;
         public event EventHandler<DragEventArgs> BeingDragged;
+        public event EventHandler<DragEventArgs> LostDrag;
         #endregion
 
         #region Properties
@@ -130,11 +131,13 @@ namespace Codesmith.SmithNgine.Gfx
                 if (value == null)
                 {
                     inputSource.MouseButtonPressed -= mouseSource_MouseButtonPressed;
+                    inputSource.MouseButtonReleased -= inputSource_MouseButtonReleased;
                     inputSource.MousePositionChanged -= mouseSource_MousePositionChanged;
                 }
                 else
                 {
                     inputSource.MouseButtonPressed += mouseSource_MouseButtonPressed;
+                    inputSource.MouseButtonReleased += inputSource_MouseButtonReleased;
                     inputSource.MousePositionChanged += mouseSource_MousePositionChanged;
                 }
             }
@@ -144,14 +147,23 @@ namespace Codesmith.SmithNgine.Gfx
         {
             if (ObjectIsActive)
             {
+                Point p = new Point(e.State.X, e.State.Y);
+                bool contained = BoundingBox.Contains(p);
                 // Is this sprite being dragged? 
                 if (e.State.LeftButton && e.PreviousState.LeftButton && dragEnabled)
                 {
-                    OnDrag(e.State.Position - e.PreviousState.Position);
+                    if (contained)
+                    {
+                        OnDrag(e.State.Position - e.PreviousState.Position);
+                    }
+                    else
+                    {
+                        // Report loosing the drag status and report last delta of movement
+                        OnDragLost(e.State.Position - e.PreviousState.Position);
+                    }
                 }
 
-                Point p = new Point(e.State.X, e.State.Y);
-                if (BoundingBox.Contains(p))
+                if (contained)
                 {
                     // Handle hovering, coords are relative to the object
                     Vector2 innerPos = new Vector2(p.X - BoundingBox.X, p.Y - BoundingBox.Y);
@@ -163,6 +175,15 @@ namespace Codesmith.SmithNgine.Gfx
                     dragEnabled = false;
                     this.IsHovered = false;
                 }
+            }
+        }
+
+        void inputSource_MouseButtonReleased(object sender, MouseEventArgs e)
+        {
+            if (dragEnabled)
+            {
+                // Report loosing the drag status and report last delta of movement
+                OnDragLost(e.State.Position - e.PreviousState.Position);
             }
         }
 
@@ -244,6 +265,14 @@ namespace Codesmith.SmithNgine.Gfx
             if( BeingDragged != null)
             {
                 BeingDragged(this, new DragEventArgs(delta));
+            }
+        }
+
+        protected virtual void OnDragLost(Vector2 delta)
+        {
+            if (LostDrag != null)
+            {
+                LostDrag(this, new DragEventArgs(delta));
             }
         }
 
