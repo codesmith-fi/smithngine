@@ -122,7 +122,7 @@ namespace Codesmith.SmithTest
             spriteBatch.DrawString(StateManager.Font, text, textPos, Color.Green);
 
             String mouseText = "X:" + mouseLoc.X + " Y:" + mouseLoc.Y;
-            if (sprites[1].BoundingBox.Contains(mouseLoc))
+            if (sprites[1].Bounds.Contains(mouseLoc))
             {
                 mouseText += " - " + sprites[1].ToString();
             }

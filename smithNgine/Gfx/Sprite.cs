@@ -105,11 +105,11 @@ namespace Codesmith.SmithNgine.Gfx
 
         public Rectangle CollisionBounds
         {
-            get { return BoundingBox; }
+            get { return Bounds; }
         }
 
         // Return rectangular boundingbox of the sprite, taking account of origin and scale
-        public Rectangle BoundingBox
+        public Rectangle Bounds
         {
             get
             {
@@ -148,7 +148,7 @@ namespace Codesmith.SmithNgine.Gfx
             if (ObjectIsActive)
             {
                 Point p = new Point(e.State.X, e.State.Y);
-                bool contained = BoundingBox.Contains(p);
+                bool contained = Bounds.Contains(p);
                 // Is this sprite being dragged? 
                 if (e.State.LeftButton && e.PreviousState.LeftButton && dragEnabled)
                 {
@@ -166,7 +166,7 @@ namespace Codesmith.SmithNgine.Gfx
                 if (contained)
                 {
                     // Handle hovering, coords are relative to the object
-                    Vector2 innerPos = new Vector2(p.X - BoundingBox.X, p.Y - BoundingBox.Y);
+                    Vector2 innerPos = new Vector2(p.X - Bounds.X, p.Y - Bounds.Y);
                     OnHover(innerPos);
                     this.IsHovered = true;
                 }
@@ -192,7 +192,7 @@ namespace Codesmith.SmithNgine.Gfx
             if (ObjectIsActive)
             {
                 Point p = new Point(e.State.X, (int)e.State.Y);
-                if(BoundingBox.Contains(p))
+                if(Bounds.Contains(p))
                 {
                     HandleMouseInsideClick(e);
                 }
