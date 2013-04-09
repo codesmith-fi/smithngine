@@ -11,11 +11,12 @@ namespace Codesmith.SmithNgine.Gfx
     {
         #region Fields
         private IInputEventSource inputSource;
-        private Texture2D texture;
+        protected Texture2D texture;
         private Vector2 position;
         private float rotation = 0.0f;
         private float order = 1.0f;
         bool dragEnabled = false;
+        private Rectangle frameSize;
         #endregion
 
         #region Events
@@ -83,6 +84,10 @@ namespace Codesmith.SmithNgine.Gfx
             }
         }
 
+        /// <summary>
+        /// Set or get the Order of the Sprite
+        /// Setting triggers event OrderChanged
+        /// </summary>
         public float Order
         {
             get { return this.order; }
@@ -108,20 +113,25 @@ namespace Codesmith.SmithNgine.Gfx
             get { return Bounds; }
         }
 
-        // Return rectangular boundingbox of the sprite, taking account of origin and scale
+        /// <summary>
+        /// Return Bounds of the sprite taking account of origin and scale 
+        /// </summary>
         public Rectangle Bounds
         {
             get
             {
                 Vector2 pos = Position - ( Origin * Scale );
-                float width = texture != null ? (float)texture.Bounds.Width : 0.0f;
-                float height = texture != null ? (float)texture.Bounds.Height : 0.0f;
-                width *= Scale;
-                height *= Scale;
+                float width = (float)FrameSize.Width * Scale;
+                float height = (float)FrameSize.Height * Scale;
                 return new Rectangle((int)pos.X, (int)pos.Y, (int)width, (int)height);
             }
         }
 
+        /// <summary>
+        /// Set or get the input event source for this Sprite
+        /// When set, Sprite starts to listen for mouse button press/release and mouse change
+        /// so it can report activation, focus and dragging etc.
+        /// </summary>
         public IInputEventSource InputEventSource
         {
             get { return inputSource; }
@@ -143,103 +153,63 @@ namespace Codesmith.SmithNgine.Gfx
             }
         }
 
-        void mouseSource_MousePositionChanged(object sender, MouseEventArgs e)
+        /// <summary>
+        /// Return or set the unscaled size of the original texture
+        /// </summary>
+        public Rectangle FrameSize
         {
-            if (ObjectIsActive)
+            get { return this.frameSize; }
+            protected set
             {
-                Point p = new Point(e.State.X, e.State.Y);
-                bool contained = Bounds.Contains(p);
-                // Is this sprite being dragged? 
-                if (e.State.LeftButton && e.PreviousState.LeftButton && dragEnabled)
-                {
-                    if (contained)
-                    {
-                        OnDrag(e.State.Position - e.PreviousState.Position);
-                    }
-                    else
-                    {
-                        // Report loosing the drag status and report last delta of movement
-                        OnDragLost(e.State.Position - e.PreviousState.Position);
-                    }
-                }
-
-                if (contained)
-                {
-                    // Handle hovering, coords are relative to the object
-                    Vector2 innerPos = new Vector2(p.X - Bounds.X, p.Y - Bounds.Y);
-                    OnHover(innerPos);
-                    this.IsHovered = true;
-                }
-                else
-                {
-                    dragEnabled = false;
-                    this.IsHovered = false;
-                }
+                frameSize = value;
+                // By default, sprite origin is the center
+                Origin = new Vector2(FrameSize.Width / 2, FrameSize.Height / 2);
             }
         }
 
-        void inputSource_MouseButtonReleased(object sender, MouseEventArgs e)
+        public Texture2D Texture
         {
-            if (dragEnabled)
-            {
-                // Report loosing the drag status and report last delta of movement
-                OnDragLost(e.State.Position - e.PreviousState.Position);
-            }
-        }
-
-        private void mouseSource_MouseButtonPressed(object sender, MouseEventArgs e)
-        {
-            if (ObjectIsActive)
-            {
-                Point p = new Point(e.State.X, (int)e.State.Y);
-                if(Bounds.Contains(p))
+            get { return this.texture; }
+            protected set 
+            { 
+                this.texture = value;
+                if (this.texture != null)
                 {
-                    HandleMouseInsideClick(e);
+                    InitSprite(texture.Bounds);
                 }
-                else if (HasFocus)
-                {
-                    HandleMouseOutsideClick(e);
-                }
-            }
-        }
-
-        // Handles mouseclick on this button
-        protected virtual void HandleMouseInsideClick(MouseEventArgs args) 
-        {
-            if (args.State.LeftButton)
-            {
-                dragEnabled = true;
-                GainFocus();
-            }
-        }
-
-        protected virtual void HandleMouseOutsideClick(MouseEventArgs args)
-        {
-            if (args.State.LeftButton && HasFocus)
-            {
-                dragEnabled = false;
-                LooseFocus();
             }
         }
         #endregion
 
         #region Constructors
+        /// <summary>
+        /// Instantiate the sprite and initialize a texture for it. 
+        /// It also calculates bounds etc for the sprite
+        /// </summary>
+        /// <param name="texture">The texture to set for this sprite</param>
         public Sprite(Texture2D texture)
         {
-            this.texture = texture;
-            // By default, sprite origin is the center
-            Position = Vector2.Zero;
-            Origin = new Vector2(this.texture.Bounds.Width / 2, this.texture.Bounds.Height / 2);
-            Scale = 1.0f;
-            this.Color = Color.White;
+            Texture = texture;
+        }
+
+        /// <summary>
+        /// Instantiate the sprite, does not initialize any texture for it.
+        /// Sets the bounds and other parameters depending on the given param.
+        /// </summary>
+        /// <param name="spriteBounds">Bounds for the new sprite, size</param>
+        public Sprite(Rectangle spriteBounds)
+        {
+            InitSprite(spriteBounds);
         }
         #endregion
 
-        #region Public virtual methods
+        #region New methods - can be overridden 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            Rectangle pos = new Rectangle((int)Position.X, (int)Position.Y, texture.Width, texture.Height);
-            spriteBatch.Draw(this.texture, Position, null, Color, Rotation, Origin, Scale, SpriteEffects.None, Order);
+            if (this.texture != null)
+            {
+                spriteBatch.Draw(this.texture, Position, null, Color, Rotation, Origin, Scale, SpriteEffects.None, Order);
+            }
         }
 
         public virtual void GainFocus()
@@ -290,7 +260,6 @@ namespace Codesmith.SmithNgine.Gfx
         {
             return this.CollisionBounds.Intersects(another.CollisionBounds);
         }
-
         #endregion
 
         #region Private methods
@@ -320,11 +289,84 @@ namespace Codesmith.SmithNgine.Gfx
                 OrderChanged(this, args);
             }
         }
-        #endregion
 
-        public override void Update(GameTime gameTime)
+        void mouseSource_MousePositionChanged(object sender, MouseEventArgs e)
         {
-            base.Update(gameTime);
+            if (ObjectIsActive)
+            {
+                Point p = new Point(e.State.X, e.State.Y);
+                bool contained = Bounds.Contains(p);
+                // Is this sprite being dragged? 
+                if (e.State.LeftButton && e.PreviousState.LeftButton && dragEnabled)
+                {
+                    OnDrag(e.State.Position - e.PreviousState.Position);
+                }
+
+                if (contained)
+                {
+                    // Handle hovering, coords are relative to the object
+                    Vector2 innerPos = new Vector2(p.X - Bounds.X, p.Y - Bounds.Y);
+                    OnHover(innerPos);
+                    this.IsHovered = true;
+                }
+                else
+                {
+                    this.IsHovered = false;
+                }
+            }
         }
+
+        void inputSource_MouseButtonReleased(object sender, MouseEventArgs e)
+        {
+            if (dragEnabled)
+            {
+                // Report loosing the drag status and report last delta of movement
+                OnDragLost(e.State.Position - e.PreviousState.Position);
+            }
+        }
+
+        private void mouseSource_MouseButtonPressed(object sender, MouseEventArgs e)
+        {
+            if (ObjectIsActive)
+            {
+                Point p = new Point(e.State.X, (int)e.State.Y);
+                if (Bounds.Contains(p))
+                {
+                    HandleMouseInsideClick(e);
+                }
+                else if (HasFocus)
+                {
+                    HandleMouseOutsideClick(e);
+                }
+            }
+        }
+
+        private void InitSprite(Rectangle spriteBounds)
+        {
+            FrameSize = spriteBounds;
+            Position = Vector2.Zero;
+            Scale = 1.0f;
+            this.Color = Color.White;
+        }
+
+        // Handles mouseclick on this button
+        protected virtual void HandleMouseInsideClick(MouseEventArgs args)
+        {
+            if (args.State.LeftButton)
+            {
+                dragEnabled = true;
+                GainFocus();
+            }
+        }
+
+        protected virtual void HandleMouseOutsideClick(MouseEventArgs args)
+        {
+            if (args.State.LeftButton && HasFocus)
+            {
+                dragEnabled = false;
+                LooseFocus();
+            }
+        }
+        #endregion
     }
 }

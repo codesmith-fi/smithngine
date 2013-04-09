@@ -26,6 +26,8 @@ namespace Codesmith.SmithTest
         GameState playState;
         GameState physicsState;
 
+        AnimatedSprite animSprite;
+
         public MenuCanvas(GameState playState, GameState physicState)
         {
             this.playState = playState;
@@ -48,6 +50,12 @@ namespace Codesmith.SmithTest
             pos.Y += entryTexture.Height + 10;
             exitMenuEntry = CreateMenuEntry(entryTexture, "Exit", pos, Keys.Escape);
             exitMenuEntry.AnimState = 0.5f;
+
+            animSprite = new AnimatedSprite(StateManager.Content, "Images/soniccd", 11, 1);
+            animSprite.Position = new Vector2(Bounds.Width / 2, 400);
+            animSprite.Style = AnimatedSprite.AnimationStyle.Manual;
+            animSprite.InputEventSource = StateManager.Input;
+            AddComponent(animSprite);
         }
 
         private MenuEntry CreateMenuEntry(Texture2D t, String label, Vector2 position, Keys key = Keys.None)
@@ -99,6 +107,8 @@ namespace Codesmith.SmithTest
             {
                 m.Draw(spriteBatch);
             }
+
+            animSprite.Draw(spriteBatch);
             spriteBatch.End();
         }
     }

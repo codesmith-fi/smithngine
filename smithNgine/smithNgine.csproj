@@ -204,6 +204,7 @@
     <Compile Include="General\Circle.cs" />
     <Compile Include="General\DefaultTransitionSource.cs" />
     <Compile Include="GameState\GameStatusEventArgs.cs" />
+    <Compile Include="Gfx\AnimatedSprite.cs" />
     <Compile Include="Gfx\DragEventArgs.cs" />
     <Compile Include="Gfx\Sprite.cs" />
     <Compile Include="Gfx\SpriteButton.cs" />

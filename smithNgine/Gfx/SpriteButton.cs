@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using Codesmith.SmithNgine.Input;
 using Codesmith.SmithNgine.MathUtil;
-using Microsoft.Xna.Framework.Input;
 
 namespace Codesmith.SmithNgine.Gfx
 {
