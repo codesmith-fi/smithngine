@@ -231,7 +231,7 @@ namespace Codesmith.SmithNgine.Input
             {
                 if (IsMouseButtonReleased(MouseButton.Left) ||
                     IsMouseButtonReleased(MouseButton.Middle) ||
-                    IsMouseButtonReleased(MouseButton.Left))
+                    IsMouseButtonReleased(MouseButton.Right))
                 {
                     MouseEventArgs args = new MouseEventArgs(previousMouseState, mouseState);
                     MouseButtonReleased(this, args);
