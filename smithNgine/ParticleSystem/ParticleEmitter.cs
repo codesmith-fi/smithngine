@@ -1,4 +1,10 @@
-﻿using System;
+﻿/**
+ * SmithNgine Game Framework
+ * 
+ * Copyright (C) 2013 by Erno Pakarinen / Codesmith (www.codesmith.fi)
+ * All Rights Reserved
+ */
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
@@ -57,7 +63,7 @@ namespace Codesmith.SmithNgine.Particles
                     (float)random.NextDouble(),
                     (float)random.NextDouble());
             p.Scale = (float)random.NextDouble();
-            p.TimeToLive = TimeSpan.FromSeconds(1.0f);
+            p.TimeToLive = TimeSpan.FromSeconds(1.0f + random.NextDouble() * 2);
  
             return p;
         }

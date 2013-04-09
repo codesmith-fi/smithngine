@@ -50,11 +50,13 @@ namespace Codesmith.SmithTest
             ballSprite.Scale = 1.0f;
             ballSprite.InputEventSource = StateManager.Input;
             ballSprite.BeingDragged += sprite_BeingDragged;
+            ballSprite.LostDrag += ballSprite_LostDrag;
             AddComponent(ballSprite);
             ballSprite2 = new Sprite(StateManager.Content.Load<Texture2D>("Images/ball"));
             ballSprite2.Scale = 0.5f;
             ballSprite2.InputEventSource = StateManager.Input;
             ballSprite2.BeingDragged += sprite_BeingDragged;
+            ballSprite2.LostDrag += ballSprite_LostDrag;
             AddComponent(ballSprite2);
 
             screenCenter = new Vector2(
@@ -71,6 +73,7 @@ namespace Codesmith.SmithTest
             physicsBallBody.BodyType = BodyType.Dynamic;
             physicsBallBody.Restitution = 0.3f;
             physicsBallBody.Friction = 0.5f;
+
             physicsBallBody2 = BodyFactory.CreateCircle(physicsWorld, 48f / (2f * MeterInPixels), 1f, circlePosition + new Vector2(0.5f,-1.5f));
             physicsBallBody2.BodyType = BodyType.Dynamic;
             physicsBallBody2.Restitution = 0.3f;
@@ -82,22 +85,65 @@ namespace Codesmith.SmithTest
             physicsGroundBody.IsStatic = true;
             physicsGroundBody.Restitution = 0.3f;
             physicsGroundBody.Friction = 0.5f;
+
+            int w=StateManager.GraphicsDevice.Viewport.Width;
+            int h=StateManager.GraphicsDevice.Viewport.Height;
+
+            Body fb = BodyFactory.CreateRectangle(
+                physicsWorld, ConvertFromPixels(w), ConvertFromPixels(16), 1f, 
+                new Vector2(ConvertFromPixels(w/2),ConvertFromPixels(h-8)) );
+            fb.IsStatic = true;
+            fb.Restitution = 0.3f;
+            fb.Friction = 0.5f;
+
+            Body fl = BodyFactory.CreateRectangle(
+                physicsWorld, ConvertFromPixels(16), ConvertFromPixels(h), 1f,
+                new Vector2(ConvertFromPixels(8), ConvertFromPixels(h/2)));
+            fl.IsStatic = true;
+            fl.Restitution = 0.3f;
+            fl.Friction = 0.5f;
+
+            Body fr = BodyFactory.CreateRectangle(
+                physicsWorld, ConvertFromPixels(16), ConvertFromPixels(h), 1f,
+                new Vector2(ConvertFromPixels(w-8), ConvertFromPixels(h / 2)));
+            fr.IsStatic = true;
+            fr.Restitution = 0.3f;
+            fr.Friction = 0.5f;
+
+        }
+
+        private float ConvertFromPixels(float value)
+        {
+            return value / MeterInPixels;
+        }
+
+        void ballSprite_LostDrag(object sender, DragEventArgs e)
+        {
+            if (sender == ballSprite)
+            {
+                this.physicsBallBody.Awake = true;
+                this.physicsBallBody.ApplyLinearImpulse(e.PositionDelta / 16);
+            }
+            if (sender == ballSprite2)
+            {
+                this.physicsBallBody2.Awake = true;
+                this.physicsBallBody2.ApplyLinearImpulse(e.PositionDelta);
+            }
+                
         }
 
         private void sprite_BeingDragged(object sender, DragEventArgs e)
         {
             if (sender == ballSprite)
             {
-                this.physicsBallBody.ApplyLinearImpulse(e.PositionDelta / 16f);
-//                this.physicsBallBody2.ApplyForce(e.PositionDelta);
-                //            this.physicsBallBody2.Position += (e.PositionDelta / MeterInPixels);
+                this.physicsBallBody.Awake= false;
+                this.physicsBallBody.Position += (e.PositionDelta / MeterInPixels);
             }
 
             if (sender == ballSprite2)
             {
-                this.physicsBallBody2.ApplyLinearImpulse(e.PositionDelta / 16f);
-//                this.physicsBallBody.ApplyForce(e.PositionDelta);
-                //            this.physicsBallBody2.Position += (e.PositionDelta / MeterInPixels);
+                this.physicsBallBody2.Awake = false;
+                this.physicsBallBody2.Position += (e.PositionDelta / MeterInPixels);
             }
         }
 

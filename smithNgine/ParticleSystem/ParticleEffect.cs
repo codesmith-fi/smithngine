@@ -1,4 +1,10 @@
-﻿using System;
+﻿/**
+ * SmithNgine Game Framework
+ * 
+ * Copyright (C) 2013 by Erno Pakarinen / Codesmith (www.codesmith.fi)
+ * All Rights Reserved
+ */
+using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -12,7 +18,7 @@ namespace Codesmith.SmithNgine.Particles
     /// </summary>
     public class ParticleEffect
     {
-        const int MaxParticles = 100;
+        const int MaxParticles = 1000;
 
         private List<ParticleEmitter> emitters;
         private List<Particle> particles;
@@ -38,7 +44,7 @@ namespace Codesmith.SmithNgine.Particles
             {
                 if (ParticleCount < MaxParticles)
                 {
-                    this.particles.AddRange( em.Generate() );
+                    this.particles.AddRange( em.Generate(1) );
                 }
             }
 

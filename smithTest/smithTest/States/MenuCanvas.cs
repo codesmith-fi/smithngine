@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Codesmith.SmithNgine.GameState;
 using Codesmith.SmithNgine.Gfx;
+using Codesmith.SmithNgine.Particles;
 
 namespace Codesmith.SmithTest
 {
@@ -25,6 +26,7 @@ namespace Codesmith.SmithTest
         MenuEntry optionsMenuEntry;
         GameState playState;
         GameState physicsState;
+        ParticleSystem particleSystem;
 
         AnimatedSprite animSprite;
 
@@ -56,6 +58,14 @@ namespace Codesmith.SmithTest
             animSprite.Style = AnimatedSprite.AnimationStyle.Manual;
             animSprite.InputEventSource = StateManager.Input;
             AddComponent(animSprite);
+
+            particleSystem = new ParticleSystem();
+            ParticleEffect effect1 = new ParticleEffect();
+            ParticleEmitter emitter1 = new ParticleEmitter(animSprite.Position);
+            emitter1.AddTexture(StateManager.Content.Load<Texture2D>("Images/flower"));
+            emitter1.AddTexture(StateManager.Content.Load<Texture2D>("Images/circle"));
+            effect1.AddEmitter(emitter1);
+            particleSystem.AddEffect(effect1);
         }
 
         private MenuEntry CreateMenuEntry(Texture2D t, String label, Vector2 position, Keys key = Keys.None)
@@ -95,6 +105,7 @@ namespace Codesmith.SmithTest
         
         public override void Update(GameTime gameTime)
         {
+            particleSystem.Update(gameTime);
             base.Update(gameTime);
         }
 
@@ -108,6 +119,7 @@ namespace Codesmith.SmithTest
                 m.Draw(spriteBatch);
             }
 
+            particleSystem.Draw(spriteBatch);
             animSprite.Draw(spriteBatch);
             spriteBatch.End();
         }

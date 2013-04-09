@@ -224,6 +224,10 @@
     <Compile Include="General\RotationEventArgs.cs" />
     <Compile Include="General\ITransitionSource.cs" />
     <Compile Include="General\PositionEventArgs.cs" />
+    <Compile Include="ParticleSystem\Particle.cs" />
+    <Compile Include="ParticleSystem\ParticleEffect.cs" />
+    <Compile Include="ParticleSystem\ParticleEmitter.cs" />
+    <Compile Include="ParticleSystem\ParticleSystem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Input\InputManager.cs" />
     <Compile Include="GameState\GameState.cs" />
