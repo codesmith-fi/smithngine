@@ -40,6 +40,8 @@ namespace Codesmith.SmithTest
             button = new SpriteButton(StateManager.Content.Load<Texture2D>("Images/unpause"));
             button.InputEventSource = StateManager.Input;
             button.TransitionSource = this;
+            button.ButtonClickStyle = ButtonStyle.AnimateOnPress | ButtonStyle.AnimateIdle | ButtonStyle.Highlight;
+
             button.Position = new Vector2( Bounds.Width / 2, Bounds.Height / 2 + 80);
             button.ButtonClicked += button_ButtonClicked;
             button.BindKey(Keys.P);

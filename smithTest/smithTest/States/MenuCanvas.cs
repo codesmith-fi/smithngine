@@ -27,6 +27,8 @@ namespace Codesmith.SmithTest
         GameState playState;
         GameState physicsState;
         ParticleSystem particleSystem;
+        ParticleEmitter emitter;
+        ParticleEffect particleEffect;
 
         AnimatedSprite animSprite;
 
@@ -60,12 +62,19 @@ namespace Codesmith.SmithTest
             AddComponent(animSprite);
 
             particleSystem = new ParticleSystem();
-            ParticleEffect effect1 = new ParticleEffect();
-            ParticleEmitter emitter1 = new ParticleEmitter(animSprite.Position);
-            emitter1.AddTexture(StateManager.Content.Load<Texture2D>("Images/flower"));
-            emitter1.AddTexture(StateManager.Content.Load<Texture2D>("Images/circle"));
-            effect1.AddEmitter(emitter1);
-            particleSystem.AddEffect(effect1);
+            particleEffect = new ParticleEffect();
+            particleEffect.GravityVector = new Vector2(0.0f, 0.04f);
+            emitter = new PointEmitter(animSprite.Position);
+            emitter.AddTexture(StateManager.Content.Load<Texture2D>("Images/flower"));
+            emitter.AddTexture(StateManager.Content.Load<Texture2D>("Images/circle"));
+            emitter.AutoGenerate = false;
+            particleEffect.AddEmitter(emitter);
+
+            ParticleEmitter lineEmitter = new LineEmitter(Vector2.Zero, new Vector2(Bounds.Width, 0));
+            lineEmitter.AddTexture(StateManager.Content.Load<Texture2D>("Images/flower"));
+            lineEmitter.AddTexture(StateManager.Content.Load<Texture2D>("Images/circle"));
+            particleEffect.AddEmitter(lineEmitter);
+            particleSystem.AddEffect(particleEffect);
         }
 
         private MenuEntry CreateMenuEntry(Texture2D t, String label, Vector2 position, Keys key = Keys.None)
@@ -105,6 +114,11 @@ namespace Codesmith.SmithTest
         
         public override void Update(GameTime gameTime)
         {
+            emitter.Position = new Vector2(StateManager.Input.MouseX, StateManager.Input.MouseY);
+            if (StateManager.Input.IsMouseButtonHeld(SmithNgine.Input.MouseButton.Right))
+            {
+                particleEffect.AddParticles( emitter.Generate(10) );
+            }
             particleSystem.Update(gameTime);
             base.Update(gameTime);
         }
@@ -118,10 +132,35 @@ namespace Codesmith.SmithTest
             {
                 m.Draw(spriteBatch);
             }
-
-            particleSystem.Draw(spriteBatch);
             animSprite.Draw(spriteBatch);
+
+            ShowParticleStatus(spriteBatch);
+
             spriteBatch.End();
+
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
+            particleSystem.Draw(spriteBatch);
+            spriteBatch.End();
+
+
+
+        }
+
+        private void ShowParticleStatus(SpriteBatch batch)
+        {
+            Vector2 textPos = new Vector2(10, 10);
+            String text1 = "Particle system status";
+            String text2 = " Effects  : " + particleSystem.EffectCount;
+            String text3 = " Emitters : " + particleSystem.EmitterCount;
+            String text4 = " Particles: " + particleSystem.ParticleCount;
+            batch.DrawString(StateManager.Font, text1, textPos, Color.Black);
+            textPos.Y += StateManager.Font.LineSpacing;
+            batch.DrawString(StateManager.Font, text2, textPos, Color.Black);
+            textPos.Y += StateManager.Font.LineSpacing;
+            batch.DrawString(StateManager.Font, text3, textPos, Color.Black);
+            textPos.Y += StateManager.Font.LineSpacing;
+            batch.DrawString(StateManager.Font, text4, textPos, Color.Black);
+            
         }
     }
 }
