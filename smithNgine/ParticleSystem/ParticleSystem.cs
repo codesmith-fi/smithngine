@@ -19,8 +19,48 @@ namespace Codesmith.SmithNgine.Particles
 
     public class ParticleSystem
     {
+        #region Fields
         private List<ParticleEffect> effects;
         private ParticleSystemStatus status;
+        #endregion
+
+        /// <summary>
+        /// Get the count of all particles in this system
+        /// </summary>
+        public int ParticleCount
+        {
+            get
+            {
+                int c = 0;
+                foreach (ParticleEffect eff in effects)
+                {
+                    c += eff.ParticleCount;
+                }
+                return c;
+            }
+        }
+
+        public int EffectCount
+        {
+            get
+            {
+                return effects.Count;
+            }
+        }
+
+        public int EmitterCount
+        {
+            get
+            {
+                int c = 0;
+                foreach (ParticleEffect eff in effects)
+                {
+                    c += eff.EmitterCount;
+                }
+                return c;
+            }
+        }
+
         public bool IsPaused
         {
             get

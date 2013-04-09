@@ -18,10 +18,28 @@ namespace Codesmith.SmithNgine.Particles
     /// </summary>
     public class ParticleEffect
     {
-        const int MaxParticles = 1000;
+        const int MaxParticles = 10000;
 
         private List<ParticleEmitter> emitters;
         private List<Particle> particles;
+
+        /// <summary>
+        /// Gravity vector which gives a velocity modifier for every particle
+        /// maintained by this ParticleEffect
+        /// </summary>
+        public Vector2 GravityVector
+        {
+            get;
+            set;
+        }
+
+        public int EmitterCount
+        {
+            get
+            {
+                return emitters.Count;
+            }
+        }
 
         public int ParticleCount
         {
@@ -35,6 +53,7 @@ namespace Codesmith.SmithNgine.Particles
         {
             emitters = new List<ParticleEmitter>();
             particles = new List<Particle>();
+            GravityVector = new Vector2(0.0f, 0.0f);
         }
 
         public void Update(GameTime gameTime)
@@ -42,9 +61,9 @@ namespace Codesmith.SmithNgine.Particles
             // Create new particles with emitters
             foreach (ParticleEmitter em in emitters)
             {
-                if (ParticleCount < MaxParticles)
+                if (ParticleCount < MaxParticles && em.AutoGenerate)
                 {
-                    this.particles.AddRange( em.Generate(1) );
+                    this.particles.AddRange( em.Generate(10) );
                 }
             }
 
@@ -53,6 +72,7 @@ namespace Codesmith.SmithNgine.Particles
             {
                 Particle p = particles[i];
                 p.Update(gameTime);
+                p.Velocity += GravityVector;
                 p.TimeToLive -= gameTime.ElapsedGameTime;
                 if (p.TimeToLive <= TimeSpan.Zero)
                 {
@@ -70,6 +90,15 @@ namespace Codesmith.SmithNgine.Particles
             {
                 particle.Draw(spriteBatch);
             }
+        }
+
+        public void AddParticles(List<Particle> particles)
+        {
+            if (ParticleCount < MaxParticles )
+            {
+                this.particles.AddRange(particles);
+            }
+
         }
 
         public void AddEmitter(ParticleEmitter emitter)

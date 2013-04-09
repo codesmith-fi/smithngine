@@ -12,26 +12,56 @@ using System.Collections.Generic;
 namespace Codesmith.SmithNgine.Particles
 {
     /// <summary>
-    /// Base class for a particle emitter class
+    /// Base class for a particle emitter class, for extension only
     /// </summary>
-    public class ParticleEmitter
+    public abstract class ParticleEmitter
     {
+        #region Fields
         protected Random random;
-        private List<Texture2D> textures;
-        
+        protected List<Texture2D> textures;
+        #endregion
+
+        #region Properties
+        /// <summary>
+        /// Get the position of this emitter
+        /// </summary>
         public Vector2 Position
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool AutoGenerate
+        {
+            get;
+            set;
+        }
+        #endregion
+
+        #region Constructors
+        /// <summary>
+        /// Intializes new instance to default values
+        /// </summary>
+        /// <param name="position"></param>
         public ParticleEmitter(Vector2 position)
         {
             textures = new List<Texture2D>();
             random = new Random();
             Position = position;
+            AutoGenerate = true;
         }
+        #endregion
 
+        #region New methods
+        /// <summary>
+        /// Generates one or more particles, particle is created in the 
+        /// concrete emitter class by the method GenerateParticle()
+        /// </summary>
+        /// <param name="count">How many particles to generate at once</param>
+        /// <returns>List of particles generated, these will be added to the ParticleSys</returns>
         public List<Particle> Generate( int count = 1)
         {
             List<Particle> pl = new List<Particle>();
@@ -42,31 +72,20 @@ namespace Codesmith.SmithNgine.Particles
             return pl;
         }
 
+        /// <summary>
+        /// Add a new texture to the emitter. These can be used by the actual emitter
+        /// </summary>
+        /// <param name="texture">Texture to be added</param>
         public void AddTexture(Texture2D texture)
         {
             textures.Add(texture);
         }
 
-        protected virtual Particle GenerateParticle()
-        {
-            Texture2D texture = textures[random.Next(textures.Count)];
-            Particle p = new Particle(texture);
-
-            p.Position = this.Position;
-            p.Velocity = new Vector2(
-                    1f * (float)(random.NextDouble() * 2 - 1),
-                    1f * (float)(random.NextDouble() * 2 - 1));
-            p.Rotation = 0;
-            p.AngularVelocity = 0.1f * (float)(random.NextDouble() * 2 - 1);
-            p.Color = new Color(
-                    (float)random.NextDouble(),
-                    (float)random.NextDouble(),
-                    (float)random.NextDouble());
-            p.Scale = (float)random.NextDouble();
-            p.TimeToLive = TimeSpan.FromSeconds(1.0f + random.NextDouble() * 2);
- 
-            return p;
-        }
-
+        /// <summary>
+        /// Generates one new particle, must be implemented by concrete classes
+        /// </summary>
+        /// <returns>new Particle</returns>
+        protected abstract Particle GenerateParticle();
+        #endregion
     }
 }

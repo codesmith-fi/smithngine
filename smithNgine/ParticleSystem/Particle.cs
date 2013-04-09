@@ -52,6 +52,12 @@ namespace Codesmith.SmithNgine.Particles
             set; 
         }
 
+        public float Alpha
+        {
+            get;
+            set;
+        }
+
         public Color Color 
         { 
             get; 
@@ -97,6 +103,7 @@ namespace Codesmith.SmithNgine.Particles
             Color = Color.White;
             Scale = 1.0f;
             Depth = 0.0f;
+            Alpha = 1.0f;
             TimeToLive = TimeSpan.FromSeconds(5.0f);
         }
         #endregion
@@ -118,7 +125,7 @@ namespace Codesmith.SmithNgine.Particles
         /// <param name="spriteBatch">Spritebatch to be used for drawing. Begin must have been called!</param>
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Texture, Position, null, Color, Rotation, Origin, Scale, SpriteEffects.None, Depth);
+            spriteBatch.Draw(Texture, Position, null, Color * Alpha, Rotation, Origin, Scale, SpriteEffects.None, Depth);
         }
         #endregion
     }
