@@ -198,7 +198,6 @@
     <Compile Include="FarseerPhysics\Factories\JointFactory.cs" />
     <Compile Include="FarseerPhysics\Factories\LinkFactory.cs" />
     <Compile Include="FarseerPhysics\Settings.cs" />
-    <Compile Include="General\FrameworkContentService.cs" />
     <Compile Include="General\IContentManagerService.cs" />
     <Compile Include="General\Circle.cs" />
     <Compile Include="General\DefaultTransitionSource.cs" />

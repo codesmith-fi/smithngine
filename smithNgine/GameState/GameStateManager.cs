@@ -22,7 +22,6 @@ namespace Codesmith.SmithNgine.GameState
         private InputManager input = new InputManager();
         private List<GameState> gameStates = new List<GameState>();
         private SpriteBatch spriteBatch;
-        private FrameworkContentService frameworkContentService;
         private string fontAsset = "";
         //        private Effect postEffect;
         private bool isInitialized;
