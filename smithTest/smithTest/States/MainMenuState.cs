@@ -76,6 +76,7 @@ namespace Codesmith.SmithTest
                 new Rectangle(0, 0, viewport.Width, viewport.Height), 
                 Color.White);
             spriteBatch.End();
+
             base.Draw(gameTime);
         }
     }

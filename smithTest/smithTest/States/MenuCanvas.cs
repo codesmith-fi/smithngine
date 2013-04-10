@@ -72,8 +72,8 @@ namespace Codesmith.SmithTest
 
             ParticleEmitter lineEmitter = new LineEmitter(Vector2.Zero, new Vector2(Bounds.Width, 0));
             lineEmitter.AddTexture(StateManager.Content.Load<Texture2D>("Images/flower"));
-            lineEmitter.AddTexture(StateManager.Content.Load<Texture2D>("Images/circle"));
             particleEffect.AddEmitter(lineEmitter);
+
             particleSystem.AddEffect(particleEffect);
         }
 
@@ -118,6 +118,7 @@ namespace Codesmith.SmithTest
             if (StateManager.Input.IsMouseButtonHeld(SmithNgine.Input.MouseButton.Right))
             {
                 particleEffect.AddParticles( emitter.Generate(10) );
+                //particleEffect.Generate(TimeSpan.FromSeconds(1.0f));
             }
             particleSystem.Update(gameTime);
             base.Update(gameTime);
@@ -130,9 +131,9 @@ namespace Codesmith.SmithTest
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
             foreach (MenuEntry m in menuEntries)
             {
-                m.Draw(spriteBatch);
+                //m.Draw(spriteBatch);
             }
-            animSprite.Draw(spriteBatch);
+            //animSprite.Draw(spriteBatch);
 
             ShowParticleStatus(spriteBatch);
 
