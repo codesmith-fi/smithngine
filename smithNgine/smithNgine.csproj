@@ -204,6 +204,8 @@
     <Compile Include="GameState\GameStatusEventArgs.cs" />
     <Compile Include="Gfx\AnimatedSprite.cs" />
     <Compile Include="Gfx\DragEventArgs.cs" />
+    <Compile Include="Gfx\MenuEntry.cs" />
+    <Compile Include="Gfx\MenuEntryEventArgs.cs" />
     <Compile Include="Gfx\Sprite.cs" />
     <Compile Include="Gfx\SpriteButton.cs" />
     <Compile Include="General\HoverEventArgs.cs" />

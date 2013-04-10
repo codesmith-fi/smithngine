@@ -16,7 +16,7 @@ using Codesmith.SmithNgine.Particles;
 
 namespace Codesmith.SmithTest
 {
-    class MenuCanvas : GameCanvas
+    public class MenuCanvas : GameCanvas
     {
         Texture2D entryTexture;
         List<MenuEntry> menuEntries = new List<MenuEntry>();
@@ -79,14 +79,14 @@ namespace Codesmith.SmithTest
 
         private MenuEntry CreateMenuEntry(Texture2D t, String label, Vector2 position, Keys key = Keys.None)
         {
-            MenuEntry entry = new MenuEntry(t, label, StateManager.Font);
+            MenuEntry entry = new MenuEntry(0, t, label, StateManager.Font);
             entry.InputEventSource = StateManager.Input;
             entry.TransitionSource = State;
             entry.Position = position;
             entry.ButtonClickStyle = ButtonStyle.AnimateOnPress | ButtonStyle.AnimateIdle | ButtonStyle.Highlight;
+            entry.ButtonClicked += button_ButtonClicked;
             if (key != Keys.None)
             {
-                entry.ButtonClicked += button_ButtonClicked;
                 entry.BindKey(key);
             }
             AddComponent(entry);
