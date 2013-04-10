@@ -27,7 +27,6 @@ namespace Codesmith.SmithTest
         Body physicsBallBody2;
         Vector2 screenCenter;
         Sprite groundSprite;
-        Sprite groundSprite2;
         Sprite ballSprite;
         Sprite ballSprite2;
         private const float MeterInPixels = 64.0f;

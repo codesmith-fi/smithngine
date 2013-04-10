@@ -11,7 +11,6 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using Codesmith.SmithNgine.GameState;
 using Codesmith.SmithNgine.Input;
-using Codesmith.SmithNgine.Effects;
 namespace Codesmith.SmithTest
 {
     public class GamingState : GameState

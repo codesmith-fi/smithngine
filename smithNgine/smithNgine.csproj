@@ -95,7 +95,6 @@
     <Compile Include="Collision\CollisionEventArgs.cs" />
     <Compile Include="Collision\CollisionManager.cs" />
     <Compile Include="Collision\ICollidableObject.cs" />
-    <Compile Include="Effects\EffectFactory.cs" />
     <Compile Include="FarseerPhysics\Collision\Collision.cs" />
     <Compile Include="FarseerPhysics\Collision\Distance.cs" />
     <Compile Include="FarseerPhysics\Collision\DynamicTree.cs" />
@@ -235,13 +234,6 @@
     <Compile Include="GameState\GameState.cs" />
     <Compile Include="GameState\GameCanvas.cs" />
     <Compile Include="GameState\GameStateManager.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="FrameworkContent\FrameworkContent.contentproj">
-      <Project>{898E8AFD-7314-47E4-996C-9F6C2440A900}</Project>
-      <Name>FrameworkContent</Name>
-      <XnaReferenceType>Content</XnaReferenceType>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

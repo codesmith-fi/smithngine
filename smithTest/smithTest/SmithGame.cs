@@ -47,7 +47,7 @@ namespace Codesmith.SmithTest
 
         protected override void Initialize()
         {
-            stateManager = new GameStateManager(this);
+            stateManager = new GameStateManager(this, "Fonts/defaultfont");
             state2 = new GamingState("Game");
             physicsState = new PhysicsState("Physics test");
             state1 = new MainMenuState("Main Menu", state2, physicsState);

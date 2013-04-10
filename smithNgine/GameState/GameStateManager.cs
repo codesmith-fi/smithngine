@@ -22,8 +22,8 @@ namespace Codesmith.SmithNgine.GameState
         private InputManager input = new InputManager();
         private List<GameState> gameStates = new List<GameState>();
         private SpriteBatch spriteBatch;
-        private Texture2D blankTexture;
         private FrameworkContentService frameworkContentService;
+        private string fontAsset = "";
         //        private Effect postEffect;
         private bool isInitialized;
         #endregion
@@ -43,12 +43,6 @@ namespace Codesmith.SmithNgine.GameState
             get;
             internal set;
 
-        }
-
-        public ContentManager FrameworkContent
-        {
-            get;
-            internal set;
         }
 
         public SpriteBatch SpriteBatch
@@ -96,9 +90,10 @@ namespace Codesmith.SmithNgine.GameState
         #endregion
 
         #region Constructors
-        public GameStateManager(Game game) 
+        public GameStateManager(Game game, string fontAssetName) 
             : base(game)
         {
+            fontAsset = fontAssetName;
             CurrentState = null;
             isInitialized = false;
             ExitRequested = false;
@@ -119,21 +114,13 @@ namespace Codesmith.SmithNgine.GameState
 
         protected override void LoadContent()
         {
-            FrameworkContent = new ContentManager(Game.Services, "FrameworkContent");
             Content = Game.Content;
-
-            // Register service for content
-            frameworkContentService = new FrameworkContentService(FrameworkContent);
-            Game.Services.AddService(typeof(IContentManagerService), frameworkContentService);
-
             this.spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            this.blankTexture = FrameworkContent.Load<Texture2D>("Images/blank");
 
             // Unless set from outside, load the default font which is shared for all states
             if (this.Font == null)
             {
-                this.Font = FrameworkContent.Load<SpriteFont>("Fonts/defaultfont");
+                this.Font = Content.Load<SpriteFont>(this.fontAsset);
             }
 
             // Load each games state as well
@@ -292,13 +279,6 @@ namespace Codesmith.SmithNgine.GameState
             CurrentState.UnPause();
         }
 
-        public void DimWithAlpha(float alpha, Rectangle area)
-        {
-            Viewport viewport = GraphicsDevice.Viewport;
-            SpriteBatch.Begin();
-            SpriteBatch.Draw(this.blankTexture, area, Color.Black * alpha);
-            SpriteBatch.End();
-        }
         #endregion
 
         #region Private new methods

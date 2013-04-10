@@ -131,9 +131,9 @@ namespace Codesmith.SmithTest
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
             foreach (MenuEntry m in menuEntries)
             {
-                //m.Draw(spriteBatch);
+                m.Draw(spriteBatch);
             }
-            //animSprite.Draw(spriteBatch);
+            animSprite.Draw(spriteBatch);
 
             ShowParticleStatus(spriteBatch);
 

@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Codesmith.SmithNgine.GameState;
-using Codesmith.SmithNgine.Effects;
 
 namespace Codesmith.SmithTest
 {
@@ -40,7 +39,7 @@ namespace Codesmith.SmithTest
 
             // Set a postprocess effect, this will blur the display with the 
             // state in/out transition value
-            postEffect = EffectFactory.Load(EffectFactory.EffectType.GaussianBlur, StateManager.Game);
+//            postEffect = EffectFactory.Load(EffectFactory.EffectType.GaussianBlur, StateManager.Game);
 //            PostProcessingEffect = postEffect;
         }
 
@@ -61,8 +60,8 @@ namespace Codesmith.SmithTest
             }
             // Update parameters in the post processing effect. 
             this.effectTimer += (float)gameTime.ElapsedGameTime.Milliseconds / 500;
-            postEffect.Parameters["intensity"].SetValue(1.0f - TransitionValue);
-            postEffect.Parameters["colorIntensity"].SetValue(TransitionValue);
+//            postEffect.Parameters["intensity"].SetValue(1.0f - TransitionValue);
+//            postEffect.Parameters["colorIntensity"].SetValue(TransitionValue);
             base.Update(gameTime);
         }
 
