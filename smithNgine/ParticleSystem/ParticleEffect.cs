@@ -22,6 +22,7 @@ namespace Codesmith.SmithNgine.Particles
 
         private List<ParticleEmitter> emitters;
         private List<Particle> particles;
+        private TimeSpan timeLeft = TimeSpan.Zero;
 
         /// <summary>
         /// Gravity vector which gives a velocity modifier for every particle
@@ -33,6 +34,9 @@ namespace Codesmith.SmithNgine.Particles
             set;
         }
 
+        /// <summary>
+        /// Return the count of emitters in this effect
+        /// </summary>
         public int EmitterCount
         {
             get
@@ -41,6 +45,9 @@ namespace Codesmith.SmithNgine.Particles
             }
         }
 
+        /// <summary>
+        /// Return the count of particles in this effect
+        /// </summary>
         public int ParticleCount
         {
             get
@@ -49,6 +56,9 @@ namespace Codesmith.SmithNgine.Particles
             }
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public ParticleEffect()
         {
             emitters = new List<ParticleEmitter>();
@@ -56,14 +66,27 @@ namespace Codesmith.SmithNgine.Particles
             GravityVector = new Vector2(0.0f, 0.0f);
         }
 
+        /// <summary>
+        /// Update method, should be called periodically for active effects
+        /// </summary>
+        /// <param name="gameTime"></param>
         public void Update(GameTime gameTime)
         {
             // Create new particles with emitters
             foreach (ParticleEmitter em in emitters)
             {
-                if (ParticleCount < MaxParticles && em.AutoGenerate)
+                if (ParticleCount < MaxParticles)
                 {
-                    this.particles.AddRange( em.Generate(10) );
+                    if (em.AutoGenerate)
+                    {
+                        particles.AddRange(em.Generate(10));
+                    }
+                    else if (timeLeft >= TimeSpan.Zero)
+                    {
+                        particles.AddRange(em.Generate(10));
+                        timeLeft -= gameTime.ElapsedGameTime;
+                    }
+
                 }
             }
 
@@ -83,6 +106,10 @@ namespace Codesmith.SmithNgine.Particles
             }
         }
 
+        /// <summary>
+        /// Draws all the particles in this effect
+        /// </summary>
+        /// <param name="spriteBatch">SpriteBatch, Begin() must've been called</param>
         public void Draw(SpriteBatch spriteBatch)
         {
             // Draw all existing particles
@@ -92,6 +119,15 @@ namespace Codesmith.SmithNgine.Particles
             }
         }
 
+        public void Generate(TimeSpan duration)
+        {
+            timeLeft = duration;
+        }
+
+        /// <summary>
+        /// Add particles to this effect from outside.
+        /// </summary>
+        /// <param name="particles"></param>
         public void AddParticles(List<Particle> particles)
         {
             if (ParticleCount < MaxParticles )
