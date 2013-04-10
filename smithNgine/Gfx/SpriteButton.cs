@@ -19,11 +19,10 @@ namespace Codesmith.SmithNgine.Gfx
     public class SpriteButton : Sprite
     {
         #region Fields
-        TimeSpan clickTimeSpan;
         float idleAnimAngle;
         int direction;
         float hoverScale;
-        Keys activationKey;
+        Keys activationKey = Keys.None;
 
         float currentAngle = 0.0f;
         float currentAmplify = 1.0f;
@@ -41,6 +40,12 @@ namespace Codesmith.SmithNgine.Gfx
             set;
         }
 
+        public TimeSpan ClickBounceSpeed
+        {
+            set;
+            get;
+        }
+
         public float AnimState
         {
             get { return this.idleAnimAngle; }
@@ -53,7 +58,7 @@ namespace Codesmith.SmithNgine.Gfx
         public SpriteButton(Texture2D texture) 
             : base(texture)
         {
-            clickTimeSpan = TimeSpan.FromSeconds(0.05f);
+            ClickBounceSpeed = TimeSpan.FromSeconds(0.15f);
             idleAnimAngle = 0.0f;
             ButtonClickStyle = ButtonStyle.NoAnimation;
             hoverScale = 1.0f;
@@ -75,7 +80,7 @@ namespace Codesmith.SmithNgine.Gfx
 
         void keySource_KeysPressed(object sender, KeyboardEventArgs e)
         {
-            if (ObjectIsActive && e.keys.Length > 0)
+            if (ObjectIsActive && e.keys.Length > 0 && activationKey != Keys.None )
             {
                 foreach (Keys k in e.keys)
                 {
@@ -120,7 +125,7 @@ namespace Codesmith.SmithNgine.Gfx
 
         private float GetAnimationScale(GameTime gameTime)
         {
-            if (!TransitionMath.LinearTransition2(gameTime.ElapsedGameTime, clickTimeSpan, direction, ref currentAngle, AngleMin, AngleMax))
+            if (!TransitionMath.LinearTransition2(gameTime.ElapsedGameTime, ClickBounceSpeed, direction, ref currentAngle, AngleMin, AngleMax))
             {
                 if (direction > 0)
                 {
@@ -153,10 +158,10 @@ namespace Codesmith.SmithNgine.Gfx
         public override void GainFocus()
         {
             base.GainFocus();
+            LostDrag += SpriteButton_LostDrag;
             if (this.ButtonClicked != null)
             {
                 ButtonClicked(this, EventArgs.Empty);
-                LostDrag += SpriteButton_LostDrag;
             }
             animatingIn = true;
             ResetAnimation();
