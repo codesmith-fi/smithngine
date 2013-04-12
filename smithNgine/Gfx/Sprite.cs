@@ -12,7 +12,7 @@ namespace Codesmith.SmithNgine.Gfx
         #region Fields
         private IInputEventSource inputSource;
         protected Texture2D texture;
-        private Vector2 position;
+        private Vector2 position = Vector2.Zero;
         private float rotation = 0.0f;
         private float order = 1.0f;
         bool dragEnabled = false;
@@ -189,7 +189,7 @@ namespace Codesmith.SmithNgine.Gfx
         /// <param name="texture">The texture to set for this sprite</param>
         public Sprite(Texture2D texture)
         {
-            Texture = texture;
+            Texture = texture;            
         }
 
         /// <summary>
