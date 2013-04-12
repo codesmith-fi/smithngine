@@ -36,8 +36,8 @@ namespace Codesmith.SmithNgine.GameState
         #region Attributes/Fields
         private List<GameCanvas> canvasList = new List<GameCanvas>();
         private List<IActivatableObject> children = new List<IActivatableObject>();
-        private TimeSpan enterStateInterval = TimeSpan.Zero;
-        private TimeSpan exitStateInterval = TimeSpan.Zero;
+        private TimeSpan enterStateInterval = TimeSpan.FromSeconds(0.5f);
+        private TimeSpan exitStateInterval = TimeSpan.FromSeconds(0.5f);
         private TimeSpan pauseStateInterval = TimeSpan.Zero;
         private bool isInitialized = false;
         private float transitionValue = 1.0f;
