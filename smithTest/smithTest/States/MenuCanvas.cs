@@ -27,7 +27,8 @@ namespace Codesmith.SmithTest
         GameState playState;
         GameState physicsState;
         ParticleSystem particleSystem;
-        ParticleEmitter emitter;
+        ParticleEmitter smokeEmitter1;
+        ParticleEmitter smokeEmitter2;
         ParticleEffect particleEffect;
 
         AnimatedSprite animSprite;
@@ -63,36 +64,52 @@ namespace Codesmith.SmithTest
 
             particleSystem = new ParticleSystem();
             particleEffect = new ParticleEffect();
-            particleEffect.GravityVector = new Vector2(0.0f, 0.04f);
+//            particleEffect.GravityVector = new Vector2(0.0f, 0.04f);
 
-//            emitter = new ConeEmitter(animSprite.Position, MathHelper.ToRadians(90), MathHelper.ToRadians(90));
-            emitter = new PointEmitter(animSprite.Position);
-            ParticleGenerationParams emitterparams1 = new ParticleGenerationParams();
-            emitterparams1.AddTexture(StateManager.Content.Load<Texture2D>("Images/flower"));
-            emitterparams1.AddTexture(StateManager.Content.Load<Texture2D>("Images/circle"));
-            emitterparams1.QuantityRange = new Vector2(10, 10);
-            emitterparams1.ScaleRange = new Vector2(0.1f, 1.0f);
-            emitterparams1.OpacityRange = new Vector2(0.1f, 1.0f);
-            emitterparams1.SpeedRange = new Vector2(0.1f, 2.0f);
-            emitterparams1.ScaleDamping = 1.01f;
-            emitterparams1.Color = Color.Green;
-            emitterparams1.SpeedDamping = 0.99f;
-            emitterparams1.TTLRange = new Vector2(500.0f, 1500.0f);
-            emitter.Configuration = emitterparams1;
-            emitter.AutoGenerate = false;
-            particleEffect.AddEmitter(emitter);
+            smokeEmitter1 = new PointEmitter(animSprite.Position);// MathHelper.ToRadians(90));
+            smokeEmitter2 = new PointEmitter(animSprite.Position);//, MathHelper.ToRadians(180));
+            //            emitter = new PointEmitter(animSprite.Position);
+            ParticleGenerationParams smokeEmitterParams1 = new ParticleGenerationParams();
+            ParticleGenerationParams smokeEmitterParams2 = new ParticleGenerationParams();
 
-            ParticleEmitter lineEmitter = new LineEmitter(Vector2.Zero, new Vector2(Bounds.Width, 0f));
-            ParticleGenerationParams emitterparams2 = new ParticleGenerationParams();
-            emitterparams2.AddTexture(StateManager.Content.Load<Texture2D>("Images/flower"));
-            emitterparams2.QuantityRange = new Vector2(10, 10);
-            emitterparams2.SpeedRange = new Vector2(0.1f, 1.0f);
-            emitterparams2.ScaleRange = new Vector2(0.1f, 1.0f);
-            emitterparams2.OpacityRange = new Vector2(0.1f, 1.0f);
-            emitterparams2.TTLRange = new Vector2(1500.0f, 2000.0f);
-            lineEmitter.Configuration = emitterparams2;
-            particleEffect.AddEmitter(lineEmitter);
+            smokeEmitterParams1.AddTexture(StateManager.Content.Load<Texture2D>("Images/smoke1"));
+            smokeEmitterParams2.AddTexture(StateManager.Content.Load<Texture2D>("Images/smoke2"));
+            smokeEmitterParams2.AddTexture(StateManager.Content.Load<Texture2D>("Images/smoke3"));
+            smokeEmitterParams1.QuantityRange = new Vector2(10, 15);
+            smokeEmitterParams1.ScaleRange = new Vector2(0.1f, 1.1f);
+            smokeEmitterParams1.OpacityRange = new Vector2(1.0f, 0f);
+            smokeEmitterParams1.InitialSpeedRange = new Vector2(0.1f, 2.0f);
+            smokeEmitterParams1.SpeedDamping = 0.99f;
+            smokeEmitterParams1.RotationRange = new Vector2(-1.0f, 1.0f);
+            smokeEmitterParams1.Color = Color.Red;
+            smokeEmitterParams1.TTLRange = new Vector2(500.0f, 4000.0f);
+            smokeEmitterParams2.QuantityRange = new Vector2(5, 15);
+            smokeEmitterParams2.ScaleRange = new Vector2(2.0f, 0f);
+            smokeEmitterParams2.OpacityRange = new Vector2(0f, 0.5f);
+            smokeEmitterParams2.InitialSpeedRange = new Vector2(0.1f, 2.0f);
+            smokeEmitterParams2.RotationRange = new Vector2(0.0f, -4f);
+            smokeEmitterParams2.Color = Color.Yellow;
+            smokeEmitterParams2.TTLRange = new Vector2(500.0f, 5000.0f);
+            smokeEmitterParams2.SpeedDamping = 0.99f;
 
+            smokeEmitter1.Configuration = smokeEmitterParams1;
+            smokeEmitter1.AutoGenerate = false;
+            smokeEmitter2.Configuration = smokeEmitterParams2;
+            smokeEmitter2.AutoGenerate = false;
+            particleEffect.AddEmitter(smokeEmitter1);
+            particleEffect.AddEmitter(smokeEmitter2);
+            /*
+                        ParticleEmitter lineEmitter = new LineEmitter(Vector2.Zero, new Vector2(Bounds.Width, 0f));
+                        ParticleGenerationParams emitterparams2 = new ParticleGenerationParams();
+                        emitterparams2.AddTexture(StateManager.Content.Load<Texture2D>("Images/flower"));
+                        emitterparams2.QuantityRange = new Vector2(10, 10);
+                        emitterparams2.SpeedRange = new Vector2(0.1f, 1.0f);
+                        emitterparams2.ScaleRange = new Vector2(2.0f, 0.5f);
+                        emitterparams2.OpacityRange = new Vector2(1.0f, 0.0f);
+                        emitterparams2.TTLRange = new Vector2(1500.0f, 2000.0f);
+                        lineEmitter.Configuration = emitterparams2;
+                        particleEffect.AddEmitter(lineEmitter);
+            */
             particleSystem.AddEffect(particleEffect);
         }
 
@@ -132,11 +149,12 @@ namespace Codesmith.SmithTest
         
         public override void Update(GameTime gameTime)
         {
-            emitter.Position = new Vector2(StateManager.Input.MouseX, StateManager.Input.MouseY);
+            smokeEmitter1.Position = new Vector2(StateManager.Input.MouseX, StateManager.Input.MouseY);
+            smokeEmitter2.Position = new Vector2(StateManager.Input.MouseX, StateManager.Input.MouseY);
             if (StateManager.Input.IsMouseButtonHeld(SmithNgine.Input.MouseButton.Right))
             {
-                particleEffect.AddParticles( emitter.Generate(10) );
-                emitter.Rotation += 0.1f;
+                particleEffect.Generate(10);
+//                smokeEmitter1.Rotation += 0.1f;
 //                particleEffect.Generate(TimeSpan.FromSeconds(0.5f));
             }
             particleSystem.Update(gameTime);

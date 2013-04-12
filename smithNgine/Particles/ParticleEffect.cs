@@ -21,7 +21,6 @@ namespace Codesmith.SmithNgine.Particles
         const int MaxParticles = 10000;
 
         private List<ParticleEmitter> emitters;
-        private List<Particle> particles;
         private TimeSpan timeLeft = TimeSpan.Zero;
 
         /// <summary>
@@ -52,7 +51,12 @@ namespace Codesmith.SmithNgine.Particles
         {
             get
             {
-                return particles.Count;
+                int c=0;
+                foreach (ParticleEmitter em in emitters)
+                {
+                    c += em.ParticleCount;
+                }
+                return c;
             }
         }
 
@@ -62,7 +66,6 @@ namespace Codesmith.SmithNgine.Particles
         public ParticleEffect()
         {
             emitters = new List<ParticleEmitter>();
-            particles = new List<Particle>();
             GravityVector = new Vector2(0.0f, 0.0f);
         }
 
@@ -79,33 +82,21 @@ namespace Codesmith.SmithNgine.Particles
                 {
                     if (em.AutoGenerate)
                     {
-                        particles.AddRange(em.Generate(em.Configuration.Quantity));
+                        em.Generate(em.Configuration.Quantity);
                     }
                     else if (timeLeft > TimeSpan.Zero)
                     {
-                        particles.AddRange(em.Generate(em.Configuration.Quantity));
+                        em.Generate(em.Configuration.Quantity);
                         timeLeft -= gameTime.ElapsedGameTime;
                     }
 
                 }
+                em.Update(gameTime, GravityVector);
             }
 
             // Update existing particles
-            for( int i=0; i<particles.Count; i++)
-            {
-                Particle p = particles[i];
-                p.Update(gameTime);
-                p.LinearVelocity += GravityVector;
-                p.TTL -= (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-                if (p.TTL <= 0.0f)
-                {
-                    particles.RemoveAt(i);
-                    i--;
-                }
 
-            }
         }
-
         /// <summary>
         /// Draws all the particles in this effect
         /// </summary>
@@ -114,9 +105,9 @@ namespace Codesmith.SmithNgine.Particles
         {
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
             // Draw all existing particles
-            foreach (Particle particle in particles)
+            foreach (ParticleEmitter em in emitters)
             {
-                particle.Draw(spriteBatch);
+                em.Draw(spriteBatch);
             }
             spriteBatch.End();
         }
@@ -126,18 +117,14 @@ namespace Codesmith.SmithNgine.Particles
             timeLeft = duration;
         }
 
-        /// <summary>
-        /// Add particles to this effect from outside.
-        /// </summary>
-        /// <param name="particles"></param>
-        public void AddParticles(List<Particle> particles)
+        public void Generate(int amount)
         {
-            if (ParticleCount < MaxParticles )
+            foreach (ParticleEmitter em in emitters)
             {
-                this.particles.AddRange(particles);
+                em.Generate(amount);
             }
-
         }
+
 
         public void AddEmitter(ParticleEmitter emitter)
         {
@@ -152,7 +139,6 @@ namespace Codesmith.SmithNgine.Particles
         public void Clear()
         {
             emitters.Clear();
-            particles.Clear();
         }
     }
 }

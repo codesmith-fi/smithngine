@@ -82,12 +82,6 @@ namespace Codesmith.SmithNgine.Particles
             set; 
         }
 
-        public float ScaleDamping
-        {
-            set;
-            get;
-        }
-
         public float Depth
         {
             get;
@@ -95,6 +89,12 @@ namespace Codesmith.SmithNgine.Particles
         }
 
         public float TTL
+        {
+            get;
+            set;
+        }
+
+        public float TTLPercent
         {
             get;
             set;
@@ -114,12 +114,12 @@ namespace Codesmith.SmithNgine.Particles
         {
             Texture = p.Texture;
             Color = p.Color;
-            Opacity = p.Opacity;
-            Rotation = p.Rotation;
-            Scale = p.Scale;
-            Speed = p.Speed;
+            Opacity = p.OpacityRange.X;
+            Rotation = p.RotationRange.X;
+            Scale = p.ScaleRange.X;
+            Speed = p.InitialSpeed;
             VelocityDamping = p.SpeedDamping;
-            ScaleDamping = p.ScaleDamping;
+            TTLPercent = 0.0f;
             TTL = p.TTL;
             Origin = new Vector2(Texture.Width / 2, Texture.Height / 2);
         }
@@ -135,7 +135,6 @@ namespace Codesmith.SmithNgine.Particles
             AngularVelocity = 0.0f;
             Color = Color.White;
             Scale = 1.0f;
-            ScaleDamping = 1.0f;
             Depth = 0.0f;
             Opacity = 1.0f;
             TTL = 500.0f;
@@ -143,18 +142,6 @@ namespace Codesmith.SmithNgine.Particles
         #endregion
 
         #region New methods
-        /// <summary>
-        /// Update the particle, move, rotate etc. 
-        /// </summary>
-        /// <param name="gameTime">Current GameTime</param>
-        public virtual void Update(GameTime gameTime)
-        {
-            LinearVelocity *= VelocityDamping;
-            Scale *= ScaleDamping;
-            Position += LinearVelocity;
-            Rotation += AngularVelocity;
-            
-        }
 
         /// <summary>
         /// Draws the particle

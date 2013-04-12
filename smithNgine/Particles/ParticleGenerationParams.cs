@@ -25,17 +25,19 @@ namespace Codesmith.SmithNgine.Particles
         private List<Texture2D> textures;
 
         // Initial velocity for new particles, range X=min, Y=max
-        public Vector2 SpeedRange
+
+        public Vector2 InitialSpeedRange
         {
             get { return speed; }
             set { speed = value; }
         }
 
-        public float Speed
+        public float InitialSpeed
         {
             get
             {
-                return MathHelper.Lerp( speed.X, speed.Y, (float)random.NextDouble());
+                return (int)MathHelper.Lerp(speed.X, speed.Y,
+                    (float)random.NextDouble());
             }
         }
 
@@ -52,66 +54,24 @@ namespace Codesmith.SmithNgine.Particles
             set { angularvelocity = value; }
         }
 
-        public float AngularVelocity
-        {
-            get
-            {
-                return MathHelper.Lerp(angularvelocity.X, angularvelocity.Y, 
-                    (float)random.NextDouble());
-            }
-        }
-
         // Opacity range for new particles, x=min, y=max
         public Vector2 OpacityRange
         {
             get { return opacity; }
-            set { opacity = MathValidator.ValidateRange(value); }
-        }
-
-        public float Opacity
-        {
-            get
-            {
-                return MathHelper.Lerp(opacity.X, opacity.Y,
-                    (float)random.NextDouble());
-            }
+            set { opacity = value; }
         }
 
         // Initial rotation range for new particles, x=min, y=max
         public Vector2 RotationRange
         {
             get { return rotation; }
-            set { opacity = value; }
-        }
-
-        public float Rotation
-        {
-            get
-            {
-                return MathHelper.Lerp(rotation.X, rotation.Y,
-                    (float)random.NextDouble());
-            }
+            set { rotation = value; }
         }
 
         public Vector2 ScaleRange
         {
             get { return scale; }
-            set { scale = MathValidator.ValidateRange(value); }
-        }
-
-        public float Scale
-        {
-            get
-            {
-                return MathHelper.Lerp(scale.X, scale.Y,
-                    (float)random.NextDouble());
-            }
-        }
-
-        public float ScaleDamping
-        {
-            set;
-            get;
+            set { scale = value; }
         }
 
         // Color of the created particle
@@ -175,7 +135,6 @@ namespace Codesmith.SmithNgine.Particles
             angularvelocity = Vector2.Zero;
             scale = new Vector2(1.0f, 1.0f);
             rotation = Vector2.Zero;
-            ScaleDamping = 1.0f;
             opacity = new Vector2(1.0f, 1.0f);
             quantity = Vector2.Zero;
             Color = Color.White;

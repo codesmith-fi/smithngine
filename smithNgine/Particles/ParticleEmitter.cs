@@ -19,6 +19,7 @@ namespace Codesmith.SmithNgine.Particles
         #region Fields
         protected Random random;
         protected ParticleGenerationParams generationParams;
+        protected List<Particle> particles;
         #endregion
 
         #region Properties
@@ -51,6 +52,11 @@ namespace Codesmith.SmithNgine.Particles
             get;
             set;
         }
+        public int ParticleCount
+        {
+            get { return particles.Count; }
+        }
+
         #endregion
 
         #region Constructors
@@ -61,6 +67,7 @@ namespace Codesmith.SmithNgine.Particles
         public ParticleEmitter(Vector2 position)
         {
             Configuration = new ParticleGenerationParams();
+            particles = new List<Particle>();
             random = new Random();
             Position = position;
             AutoGenerate = true;
@@ -75,17 +82,51 @@ namespace Codesmith.SmithNgine.Particles
         /// </summary>
         /// <param name="count">How many particles to generate at once</param>
         /// <returns>List of particles generated, these will be added to the ParticleSys</returns>
-        public List<Particle> Generate( int count = 1)
+        public void Generate( int count = 1)
         {
-            List<Particle> pl = new List<Particle>();
             for (int i = 0; i < count; i++)
             {
                 Particle p = new Particle(Configuration);
                 GenerateParticle(p);
-                pl.Add(p);
+                particles.Add(p);
             }
-            return pl;
         }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            foreach (Particle p in particles)
+            {
+                p.Draw(spriteBatch);
+            }
+        }
+
+        public void Update(GameTime gameTime, Vector2 globalGravity)
+        {
+            double elapsedMs = gameTime.ElapsedGameTime.TotalMilliseconds;
+            for (int i = 0; i < particles.Count; i++)
+            {
+                Particle p = particles[i];
+
+                p.TTLPercent += (float)elapsedMs / p.TTL;
+
+                p.LinearVelocity *= p.VelocityDamping;
+                p.Scale = MathHelper.Lerp(Configuration.ScaleRange.X, Configuration.ScaleRange.Y, p.TTLPercent);
+                p.Opacity =  MathHelper.Lerp(Configuration.OpacityRange.X, Configuration.OpacityRange.Y, p.TTLPercent);
+                p.Rotation = MathHelper.Lerp(Configuration.RotationRange.X, Configuration.RotationRange.Y, p.TTLPercent);
+                p.Position += p.LinearVelocity;
+//                p.Rotation += p.AngularVelocity;
+
+                p.LinearVelocity += globalGravity;
+                if (p.TTLPercent >= 1.0f)
+                {
+                    particles.RemoveAt(i);
+                    i--;
+                }
+            }
+
+
+        }
+
 
         /// <summary>
         /// Generates one new particle, must be implemented by concrete classes
