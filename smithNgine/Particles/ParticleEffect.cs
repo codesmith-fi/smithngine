@@ -79,7 +79,7 @@ namespace Codesmith.SmithNgine.Particles
                 {
                     if (em.AutoGenerate)
                     {
-                        particles.AddRange(em.Generate(10));
+                        particles.AddRange(em.Generate(em.Configuration.Quantity));
                     }
                     else if (timeLeft >= TimeSpan.Zero)
                     {
@@ -95,7 +95,7 @@ namespace Codesmith.SmithNgine.Particles
             {
                 Particle p = particles[i];
                 p.Update(gameTime);
-                p.Velocity += GravityVector;
+                p.LinearVelocity += GravityVector;
                 p.TimeToLive -= gameTime.ElapsedGameTime;
                 if (p.TimeToLive <= TimeSpan.Zero)
                 {

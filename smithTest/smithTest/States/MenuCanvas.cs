@@ -64,14 +64,21 @@ namespace Codesmith.SmithTest
             particleSystem = new ParticleSystem();
             particleEffect = new ParticleEffect();
             particleEffect.GravityVector = new Vector2(0.0f, 0.04f);
+
             emitter = new PointEmitter(animSprite.Position);
-            emitter.AddTexture(StateManager.Content.Load<Texture2D>("Images/flower"));
-            emitter.AddTexture(StateManager.Content.Load<Texture2D>("Images/circle"));
+            ParticleGenerationParams emitterparams1 = new ParticleGenerationParams();
+            emitterparams1.AddTexture(StateManager.Content.Load<Texture2D>("Images/flower"));
+            emitterparams1.AddTexture(StateManager.Content.Load<Texture2D>("Images/circle"));
+            emitterparams1.QuantityRange = new Vector2(10, 10);
+            emitter.Configuration = emitterparams1;
             emitter.AutoGenerate = false;
             particleEffect.AddEmitter(emitter);
 
             ParticleEmitter lineEmitter = new LineEmitter(Vector2.Zero, new Vector2(Bounds.Width, 0));
-            lineEmitter.AddTexture(StateManager.Content.Load<Texture2D>("Images/flower"));
+            ParticleGenerationParams emitterparams2 = new ParticleGenerationParams();
+            emitterparams2.AddTexture(StateManager.Content.Load<Texture2D>("Images/flower"));
+            emitterparams2.QuantityRange = new Vector2(10, 10);
+            lineEmitter.Configuration = emitterparams2;
             particleEffect.AddEmitter(lineEmitter);
 
             particleSystem.AddEffect(particleEffect);

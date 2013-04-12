@@ -26,13 +26,13 @@ namespace Codesmith.SmithNgine.Particles
         }
 
         protected override Particle GenerateParticle()
-        {            
-            Texture2D texture = textures[random.Next(textures.Count)];
+        {
+            Texture2D texture = Configuration.Texture;
             Particle p = new Particle(texture);
 
-            // Get a point aloin the line specified for this line emitter
-            p.Position = Vector2.SmoothStep(startVector, endVector, (float)random.NextDouble());
-            p.Velocity = new Vector2(
+            // Get a point along the line specified for this line emitter
+            p.Position = Vector2.Lerp(startVector, endVector, (float)random.NextDouble());
+            p.LinearVelocity = new Vector2(
                     1f * (float)(random.NextDouble() * 2 - 1),
                     1f * (float)(random.NextDouble() * 2 - 1));
             p.Rotation = 0;
@@ -41,7 +41,7 @@ namespace Codesmith.SmithNgine.Particles
                     (float)random.NextDouble(),
                     (float)random.NextDouble(),
                     (float)random.NextDouble());
-            p.Alpha = (float)random.NextDouble();
+            p.Opacity = (float)random.NextDouble();
             p.Scale = (float)random.NextDouble();
             p.TimeToLive = TimeSpan.FromSeconds(1.0f + random.NextDouble() * 2);
 

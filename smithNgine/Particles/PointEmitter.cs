@@ -21,11 +21,11 @@ namespace Codesmith.SmithNgine.Particles
 
         protected override Particle GenerateParticle()
         {
-            Texture2D texture = textures[random.Next(textures.Count)];
+            Texture2D texture = Configuration.Texture;
             Particle p = new Particle(texture);
 
             p.Position = this.Position;
-            p.Velocity = new Vector2(
+            p.LinearVelocity = new Vector2(
                     1f * (float)(random.NextDouble() * 2 - 1),
                     1f * (float)(random.NextDouble() * 2 - 1));
             p.Rotation = 0;
@@ -34,7 +34,7 @@ namespace Codesmith.SmithNgine.Particles
                     (float)random.NextDouble(),
                     (float)random.NextDouble(),
                     (float)random.NextDouble());
-            p.Alpha = (float)random.NextDouble();
+            p.Opacity = (float)random.NextDouble();
             p.Scale = (float)random.NextDouble();
             p.TimeToLive = TimeSpan.FromSeconds(1.0f + random.NextDouble() * 2);
 

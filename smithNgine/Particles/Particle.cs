@@ -34,7 +34,7 @@ namespace Codesmith.SmithNgine.Particles
             set; 
         }
         
-        public Vector2 Velocity 
+        public Vector2 LinearVelocity 
         { 
             get; 
             set; 
@@ -52,7 +52,7 @@ namespace Codesmith.SmithNgine.Particles
             set; 
         }
 
-        public float Alpha
+        public float Opacity
         {
             get;
             set;
@@ -97,13 +97,13 @@ namespace Codesmith.SmithNgine.Particles
             Texture = texture;
             Origin = new Vector2(texture.Width / 2, texture.Height / 2);
             Position = position;
-            Velocity = velocity;
+            LinearVelocity = velocity;
             Rotation = 0.0f;
             AngularVelocity = 0.0f;
             Color = Color.White;
             Scale = 1.0f;
             Depth = 0.0f;
-            Alpha = 1.0f;
+            Opacity = 1.0f;
             TimeToLive = TimeSpan.FromSeconds(5.0f);
         }
         #endregion
@@ -115,7 +115,7 @@ namespace Codesmith.SmithNgine.Particles
         /// <param name="gameTime">Current GameTime</param>
         public virtual void Update(GameTime gameTime)
         {
-            Position += Velocity;
+            Position += LinearVelocity;
             Rotation += AngularVelocity;
         }
 
@@ -125,7 +125,8 @@ namespace Codesmith.SmithNgine.Particles
         /// <param name="spriteBatch">Spritebatch to be used for drawing. Begin must have been called!</param>
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Texture, Position, null, Color * Alpha, Rotation, Origin, Scale, SpriteEffects.None, Depth);
+            spriteBatch.Draw(Texture, Position, null, 
+                Color * Opacity, Rotation, Origin, Scale, SpriteEffects.None, Depth);
         }
         #endregion
     }

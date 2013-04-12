@@ -18,10 +18,16 @@ namespace Codesmith.SmithNgine.Particles
     {
         #region Fields
         protected Random random;
-        protected List<Texture2D> textures;
+        protected ParticleGenerationParams generationParams;
         #endregion
 
         #region Properties
+        public ParticleGenerationParams Configuration
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// Get the position of this emitter
         /// </summary>
@@ -48,10 +54,11 @@ namespace Codesmith.SmithNgine.Particles
         /// <param name="position"></param>
         public ParticleEmitter(Vector2 position)
         {
-            textures = new List<Texture2D>();
+            Configuration = new ParticleGenerationParams();
             random = new Random();
             Position = position;
             AutoGenerate = true;
+            
         }
         #endregion
 
@@ -70,15 +77,6 @@ namespace Codesmith.SmithNgine.Particles
                 pl.Add(GenerateParticle());
             }
             return pl;
-        }
-
-        /// <summary>
-        /// Add a new texture to the emitter. These can be used by the actual emitter
-        /// </summary>
-        /// <param name="texture">Texture to be added</param>
-        public void AddTexture(Texture2D texture)
-        {
-            textures.Add(texture);
         }
 
         /// <summary>
