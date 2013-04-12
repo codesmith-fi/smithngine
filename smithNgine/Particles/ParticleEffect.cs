@@ -101,15 +101,21 @@ namespace Codesmith.SmithNgine.Particles
         /// Draws all the particles in this effect
         /// </summary>
         /// <param name="spriteBatch">SpriteBatch</param>
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, bool started = false)
         {
-            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
-            // Draw all existing particles
+            if (!started)
+            {
+                spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
+            }
+            // Draw all existing particles on emitters
             foreach (ParticleEmitter em in emitters)
             {
                 em.Draw(spriteBatch);
             }
-            spriteBatch.End();
+            if (!started)
+            {
+                spriteBatch.End();
+            }
         }
 
         public void Generate(TimeSpan duration)
