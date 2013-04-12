@@ -117,6 +117,7 @@ namespace Codesmith.SmithNgine.Particles
             Opacity = p.OpacityRange.X;
             Rotation = p.RotationRange.X;
             Scale = p.ScaleRange.X;
+            Depth = p.Depth;
             Speed = p.InitialSpeed;
             VelocityDamping = p.SpeedDamping;
             TTLPercent = 0.0f;

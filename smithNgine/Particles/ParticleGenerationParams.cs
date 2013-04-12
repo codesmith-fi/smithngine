@@ -18,6 +18,7 @@ namespace Codesmith.SmithNgine.Particles
         private Vector2 opacity;
         private Vector2 rotation;
         private Vector2 scale;
+        private Vector2 depth;
         private Vector2 quantity;
         private Vector2 angularvelocity;
         private float speedDamping;
@@ -66,6 +67,21 @@ namespace Codesmith.SmithNgine.Particles
         {
             get { return rotation; }
             set { rotation = value; }
+        }
+
+        public Vector2 DepthRange
+        {
+            get { return depth; }
+            set { depth = value; }
+        }
+
+        public float Depth
+        {
+            get
+            {
+                return MathHelper.Lerp(depth.X, depth.Y,
+                    (float)random.NextDouble());
+            }
         }
 
         public Vector2 ScaleRange
@@ -134,6 +150,7 @@ namespace Codesmith.SmithNgine.Particles
             speedDamping = 1.0f;
             angularvelocity = Vector2.Zero;
             scale = new Vector2(1.0f, 1.0f);
+            depth = new Vector2(1.0f, 1.0f);
             rotation = Vector2.Zero;
             opacity = new Vector2(1.0f, 1.0f);
             quantity = Vector2.Zero;

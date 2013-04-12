@@ -103,7 +103,7 @@ namespace Codesmith.SmithNgine.Particles
         /// <param name="spriteBatch">SpriteBatch</param>
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
             // Draw all existing particles
             foreach (ParticleEmitter em in emitters)
             {
@@ -120,7 +120,7 @@ namespace Codesmith.SmithNgine.Particles
         public void Generate(int amount)
         {
             foreach (ParticleEmitter em in emitters)
-            {
+            {             
                 em.Generate(amount);
             }
         }

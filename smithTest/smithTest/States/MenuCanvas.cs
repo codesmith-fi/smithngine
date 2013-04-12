@@ -77,6 +77,7 @@ namespace Codesmith.SmithTest
             smokeEmitterParams2.AddTexture(StateManager.Content.Load<Texture2D>("Images/smoke3"));
             smokeEmitterParams1.QuantityRange = new Vector2(10, 15);
             smokeEmitterParams1.ScaleRange = new Vector2(0.1f, 1.1f);
+            smokeEmitterParams1.DepthRange = new Vector2(0.0f, 1.0f);
             smokeEmitterParams1.OpacityRange = new Vector2(1.0f, 0f);
             smokeEmitterParams1.InitialSpeedRange = new Vector2(0.1f, 2.0f);
             smokeEmitterParams1.SpeedDamping = 0.99f;
@@ -85,6 +86,7 @@ namespace Codesmith.SmithTest
             smokeEmitterParams1.TTLRange = new Vector2(500.0f, 4000.0f);
             smokeEmitterParams2.QuantityRange = new Vector2(5, 15);
             smokeEmitterParams2.ScaleRange = new Vector2(2.0f, 0f);
+            smokeEmitterParams2.DepthRange = new Vector2(0.0f, 1.0f);
             smokeEmitterParams2.OpacityRange = new Vector2(0f, 0.5f);
             smokeEmitterParams2.InitialSpeedRange = new Vector2(0.1f, 2.0f);
             smokeEmitterParams2.RotationRange = new Vector2(0.0f, -4f);
