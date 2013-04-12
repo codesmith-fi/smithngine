@@ -22,17 +22,25 @@ namespace Codesmith.SmithNgine.Gfx
         private int id;
         #endregion
 
+        #region Properties
+        public Color Color
+        {
+            get;
+            set;
+        }
+        #endregion
+
         #region Events
         public event EventHandler<MenuEntryEventArgs> MenuEntrySelected;
         #endregion
 
         #region Constructors
-        public MenuEntry(int id, Texture2D texture, String label, SpriteFont font) 
+        public MenuEntry(Texture2D texture, String label, SpriteFont font) 
             : base(texture)        
         {
             this.font = font;
             this.label = label;
-            this.id = id;
+            Color = Color.Black;
             entryOrigin = font.MeasureString(label) / 2;
         }
         #endregion
@@ -48,7 +56,7 @@ namespace Codesmith.SmithNgine.Gfx
             base.Draw(spriteBatch);
 
             // Draw the text
-            spriteBatch.DrawString(font, label, this.Position, Color.Black, Rotation, entryOrigin, Scale, SpriteEffects.None, Order);
+            spriteBatch.DrawString(font, label, this.Position, Color, Rotation, entryOrigin, Scale, SpriteEffects.None, Order);
         }
         #endregion
 
@@ -60,7 +68,7 @@ namespace Codesmith.SmithNgine.Gfx
             base.GainFocus();
             if (MenuEntrySelected != null)
             {
-                MenuEntryEventArgs args = new MenuEntryEventArgs(this.id);
+                MenuEntryEventArgs args = new MenuEntryEventArgs(activePlayerIndex);
                 MenuEntrySelected(this, args);
             }
         }

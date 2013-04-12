@@ -22,6 +22,7 @@ namespace Codesmith.SmithNgine.Gfx
         float idleAnimAngle;
         int direction;
         float hoverScale;
+        protected PlayerIndex? activePlayerIndex = null;
         Keys activationKey = Keys.None;
 
         float currentAngle = 0.0f;
@@ -86,6 +87,7 @@ namespace Codesmith.SmithNgine.Gfx
                 {
                     if (k == activationKey)
                     {
+                        activePlayerIndex = e.player;
                         GainFocus();
                     }
                 }

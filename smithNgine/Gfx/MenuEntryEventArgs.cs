@@ -1,21 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Microsoft.Xna.Framework;
+using System;
 
 namespace Codesmith.SmithNgine.Gfx
 {
     public class MenuEntryEventArgs : EventArgs
     {
-        public int Id
+        public PlayerIndex? ControllingPlayer
         {
             get;
             internal set;
         }
 
-        public MenuEntryEventArgs( int id )
+        public MenuEntryEventArgs(PlayerIndex? index)
         {
-            Id = id;
+            ControllingPlayer = index;
         }
     }
 }
