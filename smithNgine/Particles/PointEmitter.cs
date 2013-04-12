@@ -19,26 +19,14 @@ namespace Codesmith.SmithNgine.Particles
         {
         }
 
-        protected override Particle GenerateParticle()
+        protected override void GenerateParticle(Particle p)
         {
-            Texture2D texture = Configuration.Texture;
-            Particle p = new Particle(texture);
-
+            // Spawn randomly to any direction from the point
+            float direction = MathHelper.Lerp((float)-Math.PI, (float)Math.PI, (float)random.NextDouble());
             p.Position = this.Position;
             p.LinearVelocity = new Vector2(
-                    1f * (float)(random.NextDouble() * 2 - 1),
-                    1f * (float)(random.NextDouble() * 2 - 1));
-            p.Rotation = 0;
+                (float)Math.Sin(direction) * p.Speed, (float)-Math.Cos(direction) * p.Speed);
             p.AngularVelocity = 0.1f * (float)(random.NextDouble() * 2 - 1);
-            p.Color = new Color(
-                    (float)random.NextDouble(),
-                    (float)random.NextDouble(),
-                    (float)random.NextDouble());
-            p.Opacity = (float)random.NextDouble();
-            p.Scale = (float)random.NextDouble();
-            p.TimeToLive = TimeSpan.FromSeconds(1.0f + random.NextDouble() * 2);
-
-            return p;
         }
 
     }

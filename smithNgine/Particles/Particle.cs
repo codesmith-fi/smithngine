@@ -28,12 +28,24 @@ namespace Codesmith.SmithNgine.Particles
             set;
         }
 
+        public float Speed
+        {
+            get;
+            set;
+        }
+
         public Vector2 Position 
         { 
             get; 
             set; 
         }
-        
+
+        public float VelocityDamping
+        {
+            get;
+            set;
+        }
+
         public Vector2 LinearVelocity 
         { 
             get; 
@@ -70,13 +82,19 @@ namespace Codesmith.SmithNgine.Particles
             set; 
         }
 
+        public float ScaleDamping
+        {
+            set;
+            get;
+        }
+
         public float Depth
         {
             get;
             set;
         }
 
-        public TimeSpan TimeToLive
+        public float TTL
         {
             get;
             set;
@@ -92,19 +110,35 @@ namespace Codesmith.SmithNgine.Particles
         {
         }
 
+        public Particle(ParticleGenerationParams p)
+        {
+            Texture = p.Texture;
+            Color = p.Color;
+            Opacity = p.Opacity;
+            Rotation = p.Rotation;
+            Scale = p.Scale;
+            Speed = p.Speed;
+            VelocityDamping = p.SpeedDamping;
+            ScaleDamping = p.ScaleDamping;
+            TTL = p.TTL;
+            Origin = new Vector2(Texture.Width / 2, Texture.Height / 2);
+        }
+
         public Particle(Texture2D texture, Vector2 position, Vector2 velocity)
         {
             Texture = texture;
             Origin = new Vector2(texture.Width / 2, texture.Height / 2);
             Position = position;
             LinearVelocity = velocity;
+            VelocityDamping = 1.0f;
             Rotation = 0.0f;
             AngularVelocity = 0.0f;
             Color = Color.White;
             Scale = 1.0f;
+            ScaleDamping = 1.0f;
             Depth = 0.0f;
             Opacity = 1.0f;
-            TimeToLive = TimeSpan.FromSeconds(5.0f);
+            TTL = 500.0f;
         }
         #endregion
 
@@ -115,8 +149,11 @@ namespace Codesmith.SmithNgine.Particles
         /// <param name="gameTime">Current GameTime</param>
         public virtual void Update(GameTime gameTime)
         {
+            LinearVelocity *= VelocityDamping;
+            Scale *= ScaleDamping;
             Position += LinearVelocity;
             Rotation += AngularVelocity;
+            
         }
 
         /// <summary>

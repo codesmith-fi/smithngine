@@ -81,9 +81,9 @@ namespace Codesmith.SmithNgine.Particles
                     {
                         particles.AddRange(em.Generate(em.Configuration.Quantity));
                     }
-                    else if (timeLeft >= TimeSpan.Zero)
+                    else if (timeLeft > TimeSpan.Zero)
                     {
-                        particles.AddRange(em.Generate(10));
+                        particles.AddRange(em.Generate(em.Configuration.Quantity));
                         timeLeft -= gameTime.ElapsedGameTime;
                     }
 
@@ -96,8 +96,8 @@ namespace Codesmith.SmithNgine.Particles
                 Particle p = particles[i];
                 p.Update(gameTime);
                 p.LinearVelocity += GravityVector;
-                p.TimeToLive -= gameTime.ElapsedGameTime;
-                if (p.TimeToLive <= TimeSpan.Zero)
+                p.TTL -= (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                if (p.TTL <= 0.0f)
                 {
                     particles.RemoveAt(i);
                     i--;
@@ -109,14 +109,16 @@ namespace Codesmith.SmithNgine.Particles
         /// <summary>
         /// Draws all the particles in this effect
         /// </summary>
-        /// <param name="spriteBatch">SpriteBatch, Begin() must've been called</param>
+        /// <param name="spriteBatch">SpriteBatch</param>
         public void Draw(SpriteBatch spriteBatch)
         {
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
             // Draw all existing particles
             foreach (Particle particle in particles)
             {
                 particle.Draw(spriteBatch);
             }
+            spriteBatch.End();
         }
 
         public void Generate(TimeSpan duration)

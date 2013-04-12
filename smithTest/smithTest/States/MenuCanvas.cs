@@ -65,19 +65,31 @@ namespace Codesmith.SmithTest
             particleEffect = new ParticleEffect();
             particleEffect.GravityVector = new Vector2(0.0f, 0.04f);
 
+//            emitter = new ConeEmitter(animSprite.Position, MathHelper.ToRadians(90), MathHelper.ToRadians(90));
             emitter = new PointEmitter(animSprite.Position);
             ParticleGenerationParams emitterparams1 = new ParticleGenerationParams();
             emitterparams1.AddTexture(StateManager.Content.Load<Texture2D>("Images/flower"));
             emitterparams1.AddTexture(StateManager.Content.Load<Texture2D>("Images/circle"));
             emitterparams1.QuantityRange = new Vector2(10, 10);
+            emitterparams1.ScaleRange = new Vector2(0.1f, 1.0f);
+            emitterparams1.OpacityRange = new Vector2(0.1f, 1.0f);
+            emitterparams1.SpeedRange = new Vector2(0.1f, 2.0f);
+            emitterparams1.ScaleDamping = 1.01f;
+            emitterparams1.Color = Color.Green;
+            emitterparams1.SpeedDamping = 0.99f;
+            emitterparams1.TTLRange = new Vector2(500.0f, 1500.0f);
             emitter.Configuration = emitterparams1;
             emitter.AutoGenerate = false;
             particleEffect.AddEmitter(emitter);
 
-            ParticleEmitter lineEmitter = new LineEmitter(Vector2.Zero, new Vector2(Bounds.Width, 0));
+            ParticleEmitter lineEmitter = new LineEmitter(Vector2.Zero, new Vector2(Bounds.Width, 0f));
             ParticleGenerationParams emitterparams2 = new ParticleGenerationParams();
             emitterparams2.AddTexture(StateManager.Content.Load<Texture2D>("Images/flower"));
             emitterparams2.QuantityRange = new Vector2(10, 10);
+            emitterparams2.SpeedRange = new Vector2(0.1f, 1.0f);
+            emitterparams2.ScaleRange = new Vector2(0.1f, 1.0f);
+            emitterparams2.OpacityRange = new Vector2(0.1f, 1.0f);
+            emitterparams2.TTLRange = new Vector2(1500.0f, 2000.0f);
             lineEmitter.Configuration = emitterparams2;
             particleEffect.AddEmitter(lineEmitter);
 
@@ -116,7 +128,6 @@ namespace Codesmith.SmithTest
             {
                 StateManager.SwitchToState(physicsState);
             }
-
         }
         
         public override void Update(GameTime gameTime)
@@ -125,7 +136,8 @@ namespace Codesmith.SmithTest
             if (StateManager.Input.IsMouseButtonHeld(SmithNgine.Input.MouseButton.Right))
             {
                 particleEffect.AddParticles( emitter.Generate(10) );
-                //particleEffect.Generate(TimeSpan.FromSeconds(1.0f));
+                emitter.Rotation += 0.1f;
+//                particleEffect.Generate(TimeSpan.FromSeconds(0.5f));
             }
             particleSystem.Update(gameTime);
             base.Update(gameTime);
@@ -146,12 +158,7 @@ namespace Codesmith.SmithTest
 
             spriteBatch.End();
 
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
             particleSystem.Draw(spriteBatch);
-            spriteBatch.End();
-
-
-
         }
 
         private void ShowParticleStatus(SpriteBatch batch)

@@ -37,6 +37,12 @@ namespace Codesmith.SmithNgine.Particles
             set;
         }
 
+        public float Rotation
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -74,7 +80,9 @@ namespace Codesmith.SmithNgine.Particles
             List<Particle> pl = new List<Particle>();
             for (int i = 0; i < count; i++)
             {
-                pl.Add(GenerateParticle());
+                Particle p = new Particle(Configuration);
+                GenerateParticle(p);
+                pl.Add(p);
             }
             return pl;
         }
@@ -83,7 +91,7 @@ namespace Codesmith.SmithNgine.Particles
         /// Generates one new particle, must be implemented by concrete classes
         /// </summary>
         /// <returns>new Particle</returns>
-        protected abstract Particle GenerateParticle();
+        protected abstract void GenerateParticle(Particle p);
         #endregion
     }
 }

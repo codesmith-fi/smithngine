@@ -25,27 +25,17 @@ namespace Codesmith.SmithNgine.Particles
             endVector = lineEnd;
         }
 
-        protected override Particle GenerateParticle()
+        protected override void GenerateParticle(Particle p)
         {
-            Texture2D texture = Configuration.Texture;
-            Particle p = new Particle(texture);
-
             // Get a point along the line specified for this line emitter
             p.Position = Vector2.Lerp(startVector, endVector, (float)random.NextDouble());
-            p.LinearVelocity = new Vector2(
-                    1f * (float)(random.NextDouble() * 2 - 1),
-                    1f * (float)(random.NextDouble() * 2 - 1));
-            p.Rotation = 0;
-            p.AngularVelocity = 0.1f * (float)(random.NextDouble() * 2 - 1);
-            p.Color = new Color(
-                    (float)random.NextDouble(),
-                    (float)random.NextDouble(),
-                    (float)random.NextDouble());
-            p.Opacity = (float)random.NextDouble();
-            p.Scale = (float)random.NextDouble();
-            p.TimeToLive = TimeSpan.FromSeconds(1.0f + random.NextDouble() * 2);
 
-            return p;
+            // Spawn randomly to any direction (should change probably to 
+            // cast the particle to perpendicular direction from the line
+            float direction = MathHelper.Lerp((float)-Math.PI, (float)Math.PI, (float)random.NextDouble());
+            p.LinearVelocity = new Vector2(
+                (float)Math.Sin(direction) * p.Speed, (float)-Math.Cos(direction) * p.Speed);
+            p.AngularVelocity = 0.1f * (float)(random.NextDouble() * 2 - 1);
         }
 
     }
