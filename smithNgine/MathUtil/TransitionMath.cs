@@ -6,6 +6,13 @@ namespace Codesmith.SmithNgine.MathUtil
 {
     public static class TransitionMath
     {
+        public static Vector2 GetRandomRectanglePoint(Rectangle rect, Random r)
+        {
+            float x = (float)(r.NextDouble() * rect.Width) - rect.Width / 2;
+            float y = (float)(r.NextDouble() * rect.Height) - rect.Height / 2;
+            return new Vector2(x, y);
+        }
+
         public static bool LinearTransition2(TimeSpan elapsed, TimeSpan interval, int direction, 
             ref float transitionValue, float minLimit, float maxLimit )
         {
