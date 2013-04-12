@@ -79,7 +79,7 @@ namespace Codesmith.SmithTest
 
         private MenuEntry CreateMenuEntry(Texture2D t, String label, Vector2 position, Keys key = Keys.None)
         {
-            MenuEntry entry = new MenuEntry(0, t, label, StateManager.Font);
+            MenuEntry entry = new MenuEntry(t, label, StateManager.Font);
             entry.InputEventSource = StateManager.Input;
             entry.TransitionSource = State;
             entry.Position = position;
