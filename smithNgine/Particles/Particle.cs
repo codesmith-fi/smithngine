@@ -53,7 +53,7 @@ namespace Codesmith.SmithNgine.Particles
             Texture = p.Texture;
             Color = p.Color;
             Opacity = InitialOpacity;
-            Rotation = InitialOpacity;
+            Rotation = InitialRotation;
             Speed = InitialSpeed;
             Scale = InitialScale;
             AngularVelocity = p.InitialAngularVelocity;
