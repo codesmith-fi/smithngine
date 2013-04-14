@@ -14,41 +14,58 @@ namespace Codesmith.SmithNgine.Collision
     public class CollisionManager : ObjectBase
     {
         private List<ICollidableObject> objects = new List<ICollidableObject>();
+        private List<ICollidableObject> collidingObjects = new List<ICollidableObject>();
         public event EventHandler<CollisionEventArgs> ObjectsCollided;
 
         public CollisionManager()
         {
+            
         }
 
         public void AddCollidable(ICollidableObject collidable)
         {
-            this.objects.Add(collidable);
+            if (!objects.Contains(collidable))
+            {
+                this.objects.Add(collidable);
+            }
+        }
+
+        public void RemoveCollidable(ICollidableObject collidable)
+        {
+            objects.Remove(collidable);
+            collidingObjects.Remove(collidable);
         }
 
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-
-            foreach(ICollidableObject obj1 in this.objects)
+            for(int i=0; i<objects.Count; ++i)
             {
-                List<ICollidableObject> targets = new List<ICollidableObject>();
-                foreach (ICollidableObject obj2 in this.objects)
+                ICollidableObject obj1 = objects[i];
+                for( int j=i+1; j<objects.Count; j++)
                 {
-                    if (obj1 == obj2)
-                    {
-                        continue;
-                    }
-
+                    ICollidableObject obj2 = objects[j];
                     if (obj1.CheckCollision(obj2))
-                    {                        
-                        targets.Add(obj2);
-                    }
-                }
+                    {
+                        if (!collidingObjects.Contains(obj1))
+                        {
+                            collidingObjects.Add(obj1);
+                            collidingObjects.Add(obj2);
 
-                if (this.ObjectsCollided != null && targets.Count > 0)
-                {
-                    CollisionEventArgs args = new CollisionEventArgs(obj1, targets);
-                    this.ObjectsCollided(this, args);
+                            if (this.ObjectsCollided != null)
+                            {
+                                CollisionEventArgs args = new CollisionEventArgs(obj1, obj2);
+                                this.ObjectsCollided(this, args);
+                            }
+                        }
+
+                    }
+                    else
+                    {
+                        collidingObjects.Remove(obj1);
+                        collidingObjects.Remove(obj2);
+                    }
+
                 }
             }
         }

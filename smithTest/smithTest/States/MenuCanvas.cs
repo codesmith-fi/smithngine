@@ -67,12 +67,11 @@ namespace Codesmith.SmithTest
             particleEffect = new ParticleEffect();
             particleEffect.Rotation = 0f;
             particleEffect.Position = Vector2.Zero;
-//            particleEffect.GravityVector = new Vector2(0.0f, 0.04f);
+            particleEffect.GravityVector = new Vector2(0.0f, 0.04f);
 
-            Circle circle = new Circle(100.0f, Vector2.Zero);
-            smokeEmitter1 = new PointEmitter(Vector2.Zero);
-            smokeEmitter1 = new CircleEmitter(circle);
-            smokeEmitter2 = new PointEmitter(Vector2.Zero);
+//            smokeEmitter1 = new PointEmitter(Vector2.Zero);
+            smokeEmitter1 = new CircleEmitter(new Circle(100.0f, Vector2.Zero));
+            smokeEmitter2 = new CircleEmitter(new Circle(80.0f, Vector2.Zero));
             //            emitter = new PointEmitter(animSprite.Position);
             ParticleGenerationParams smokeEmitterParams1 = new ParticleGenerationParams();
             ParticleGenerationParams smokeEmitterParams2 = new ParticleGenerationParams();
@@ -80,6 +79,8 @@ namespace Codesmith.SmithTest
             smokeEmitterParams1.AddTexture(StateManager.Content.Load<Texture2D>("Images/smoke1"));
             smokeEmitterParams2.AddTexture(StateManager.Content.Load<Texture2D>("Images/smoke2"));
             smokeEmitterParams2.AddTexture(StateManager.Content.Load<Texture2D>("Images/smoke3"));
+            smokeEmitterParams1.ColorRangeStart = Color.Red;
+            smokeEmitterParams1.ColorRangeEnd = Color.Yellow;
             smokeEmitterParams1.QuantityRange = new Vector2(10, 100);
             smokeEmitterParams1.Flags = EmitterCastStyle.None;
             smokeEmitterParams1.ScaleRange = new Vector2(0.1f, 1.1f);
@@ -89,7 +90,6 @@ namespace Codesmith.SmithTest
             smokeEmitterParams1.SpeedDamping = 0.99f;
             smokeEmitterParams1.RotationRange = new Vector2(-1.0f, 1.0f);
             smokeEmitterParams1.InitialRotationVariation = 1.0f;
-            smokeEmitterParams1.Color = Color.White;
             smokeEmitterParams1.TTLRange = new Vector2(500.0f, 4000.0f);
             smokeEmitterParams2.QuantityRange = new Vector2(5, 100);
             smokeEmitterParams2.ScaleRange = new Vector2(2.0f, 0.2f);
@@ -99,10 +99,10 @@ namespace Codesmith.SmithTest
             smokeEmitterParams2.InitialSpeedRange = new Vector2(0.1f, 2.0f);
             smokeEmitterParams2.RotationRange = new Vector2(0.0f, -4f);
             smokeEmitterParams1.InitialRotationVariation = 1.0f;
-            smokeEmitterParams2.Color = Color.White;
+            smokeEmitterParams2.Color = Color.Yellow;
             smokeEmitterParams2.TTLRange = new Vector2(500.0f, 5000.0f);
             smokeEmitterParams2.SpeedDamping = 0.99f;
-
+            smokeEmitterParams2.Flags = EmitterCastStyle.RandomPosition;
             smokeEmitter1.Configuration = smokeEmitterParams1;
             smokeEmitter1.AutoGenerate = false;
             smokeEmitter2.Configuration = smokeEmitterParams2;
@@ -178,7 +178,7 @@ namespace Codesmith.SmithTest
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
             foreach (MenuEntry m in menuEntries)
             {
-                m.Draw(spriteBatch);
+                //m.Draw(spriteBatch);
             }
             //animSprite.Draw(spriteBatch);
 

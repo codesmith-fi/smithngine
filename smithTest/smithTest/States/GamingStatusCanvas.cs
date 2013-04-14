@@ -72,9 +72,6 @@ namespace Codesmith.SmithTest
 
         void collisionManager_ObjectsCollided(object sender, CollisionEventArgs e)
         {
-            foreach (ICollidableObject obj in e.CollidedObjects)
-            {
-            }
         }
 
         private void sprite_BeingDragged(object sender, DragEventArgs e)

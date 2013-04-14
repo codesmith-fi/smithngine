@@ -60,6 +60,7 @@ namespace Codesmith.SmithNgine.Input
         #region Events
         public event EventHandler<GamepadEventArgs> GamepadConnected;
         public event EventHandler<GamepadEventArgs> GamepadDisconnected;
+//        public event EventHandler<GamepadEventArgs> GamepadButtonPressed;
         public event EventHandler<MouseEventArgs> MousePositionChanged;
         public event EventHandler<MouseEventArgs> MouseWheelChanged;
         public event EventHandler<MouseEventArgs> MouseButtonPressed;

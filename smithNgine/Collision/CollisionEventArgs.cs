@@ -17,16 +17,16 @@ namespace Codesmith.SmithNgine.Collision
             protected set;
         }
 
-        public List<ICollidableObject> CollidedObjects
+        public ICollidableObject TargetObject
         {
             get;
             protected set;
         }
 
-        public CollisionEventArgs(ICollidableObject source, List<ICollidableObject> objects)
+        public CollisionEventArgs(ICollidableObject source, ICollidableObject target)
         {
             this.SourceObject = source;
-            this.CollidedObjects = objects;
+            this.TargetObject = target;
         }
     }
 }
