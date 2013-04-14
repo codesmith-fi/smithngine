@@ -1,10 +1,14 @@
-﻿using Microsoft.Xna.Framework;
+﻿/**
+ * SmithNgine Game Framework
+ * 
+ * Copyright (C) 2013 by Erno Pakarinen / Codesmith (www.codesmith.fi)
+ * All Rights Reserved
+ */
 using System;
 using System.Collections.Generic;
-
-using Codesmith.SmithNgine.MathUtil;
-using Codesmith.SmithNgine.Primitives;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Codesmith.SmithNgine.MathUtil;
 
 namespace Codesmith.SmithNgine.Particles
 {
