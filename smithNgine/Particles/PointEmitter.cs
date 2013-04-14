@@ -26,7 +26,6 @@ namespace Codesmith.SmithNgine.Particles
             p.Position = this.Position;
             p.LinearVelocity = new Vector2(
                 (float)Math.Sin(direction) * p.Speed, (float)-Math.Cos(direction) * p.Speed);
-            p.AngularVelocity = 0.1f * (float)(random.NextDouble() * 2 - 1);
         }
 
     }

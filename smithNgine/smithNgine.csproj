@@ -199,6 +199,7 @@
     <Compile Include="FarseerPhysics\Factories\LinkFactory.cs" />
     <Compile Include="FarseerPhysics\Settings.cs" />
     <Compile Include="General\IContentManagerService.cs" />
+    <Compile Include="Particles\CircleEmitter.cs" />
     <Compile Include="Particles\ConeEmitter.cs" />
     <Compile Include="Primitives\Circle.cs" />
     <Compile Include="General\DefaultTransitionSource.cs" />

@@ -18,11 +18,11 @@ namespace Codesmith.SmithNgine.Particles
     {
         #region Fields
         protected Random random;
-        protected ParticleGenerationParams generationParams;
         protected List<Particle> particles;
         #endregion
 
         #region Properties
+
         public ParticleGenerationParams Configuration
         {
             get;
@@ -109,12 +109,13 @@ namespace Codesmith.SmithNgine.Particles
 
                 p.TTLPercent += (float)elapsedMs / p.TTL;
 
-                p.LinearVelocity *= p.VelocityDamping;
-                p.Scale = MathHelper.Lerp(Configuration.ScaleRange.X, Configuration.ScaleRange.Y, p.TTLPercent);
-                p.Opacity =  MathHelper.Lerp(Configuration.OpacityRange.X, Configuration.OpacityRange.Y, p.TTLPercent);
-                p.Rotation = MathHelper.Lerp(Configuration.RotationRange.X, Configuration.RotationRange.Y, p.TTLPercent);
+                p.Scale = MathHelper.Lerp(p.InitialScale, Configuration.ScaleRange.Y, p.TTLPercent);
+                p.Opacity =  MathHelper.Lerp(p.InitialOpacity, Configuration.OpacityRange.Y, p.TTLPercent);
+                p.Rotation = MathHelper.Lerp(p.InitialRotation, Configuration.RotationRange.Y, p.TTLPercent);
+                p.AngularVelocity = MathHelper.Lerp(p.InitialAngularVelocity, Configuration.AngularVelocityRange.Y, p.TTLPercent);
                 p.Position += p.LinearVelocity;
-//                p.Rotation += p.AngularVelocity;
+                p.Rotation += p.AngularVelocity;
+                p.LinearVelocity *= p.SpeedDamping;
 
                 p.LinearVelocity += globalGravity;
                 if (p.TTLPercent >= 1.0f)

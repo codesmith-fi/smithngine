@@ -3,7 +3,7 @@ using System;
 
 namespace Codesmith.SmithNgine.Primitives
 {
-    class Circle : IEquatable<Circle>
+    public class Circle : IEquatable<Circle>
     {
         public Vector2 Position;
         public float Radius;
@@ -28,6 +28,34 @@ namespace Codesmith.SmithNgine.Primitives
         {
             this.Radius = radius;
             this.Position = new Vector2(x, y);
+        }
+
+        /// <summary>
+        /// Linearly interpolate along the circle perimeter. Get a point along the circle
+        /// </summary>
+        /// <param name="amount">Amount to interpolate, from 0 (=-PI) to 1.0f (PI)</param>
+        /// <returns></returns>
+        public Vector2 Lerp(float amount)
+        {
+            float angle = MathHelper.Lerp(-MathHelper.Pi, MathHelper.Pi, amount);
+            return new Vector2((float)(Math.Sin(angle) * Radius) + Position.X, (float)(Math.Cos(angle) * Radius) + Position.Y);
+        }
+
+        /// <summary>
+        /// Get a point from the circle perimeter
+        /// </summary>
+        /// <param name="angle"></param>
+        /// <returns></returns>
+        public Vector2 GetPoint(float angle)
+        {
+            return new Vector2((float)(Math.Sin(angle) * Radius) + Position.X, (float)(Math.Cos(angle) * Radius)+Position.Y); 
+        }
+
+        public Vector2 GetRandomContainedPoint(Random r)
+        {
+            double angle = r.NextDouble() * MathHelper.TwoPi;
+            double radius = r.NextDouble() * Radius;
+            return new Vector2((float)(Math.Sin(angle) * radius) + Position.X, (float)(-Math.Cos(angle) * radius)+Position.Y);
         }
 
         public bool Equals(Circle other)

@@ -35,7 +35,6 @@ namespace Codesmith.SmithNgine.Particles
             float direction = MathHelper.Lerp((float)-Math.PI, (float)Math.PI, (float)random.NextDouble());
             p.LinearVelocity = new Vector2(
                 (float)Math.Sin(direction) * p.Speed, (float)-Math.Cos(direction) * p.Speed);
-            p.AngularVelocity = 0.1f * (float)(random.NextDouble() * 2 - 1);
         }
 
     }

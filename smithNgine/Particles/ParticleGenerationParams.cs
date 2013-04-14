@@ -8,6 +8,14 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Codesmith.SmithNgine.Particles
 {
+    [Flags]
+    public enum EmitterCastStyle : int
+    {
+        None = 0,
+        RandomPosition = 1,
+        RandomDirection = RandomPosition << 1
+    }
+
     /// <summary>
     /// Configuration parameters for ParticleEmitter
     /// </summary>
@@ -26,6 +34,11 @@ namespace Codesmith.SmithNgine.Particles
         private List<Texture2D> textures;
 
         // Initial velocity for new particles, range X=min, Y=max
+        public EmitterCastStyle Flags
+        {
+            get;
+            set;
+        }
 
         public Vector2 InitialSpeedRange
         {
@@ -33,12 +46,18 @@ namespace Codesmith.SmithNgine.Particles
             set { speed = value; }
         }
 
+        public float InitialSpeedVariation
+        {
+            get;
+            set;
+        }
+
         public float InitialSpeed
         {
             get
             {
                 return (int)MathHelper.Lerp(speed.X, speed.Y,
-                    (float)random.NextDouble());
+                    (float)random.NextDouble() * InitialSpeedVariation);
             }
         }
 
@@ -55,6 +74,21 @@ namespace Codesmith.SmithNgine.Particles
             set { angularvelocity = value; }
         }
 
+        public float InitialAngularVelocityVariation
+        {
+            get;
+            set;
+        }
+
+        public float InitialAngularVelocity
+        {
+            get
+            {
+                return (int)MathHelper.Lerp(angularvelocity.X, angularvelocity.Y,
+                    (float)random.NextDouble() * InitialAngularVelocityVariation);
+            }
+        }
+
         // Opacity range for new particles, x=min, y=max
         public Vector2 OpacityRange
         {
@@ -62,11 +96,41 @@ namespace Codesmith.SmithNgine.Particles
             set { opacity = value; }
         }
 
+        public float InitialOpacityVariation
+        {
+            get;
+            set;
+        }
+
+        public float InitialOpacity
+        {
+            get
+            {
+                return MathHelper.Lerp(opacity.X, opacity.Y,
+                    (float)random.NextDouble() * InitialOpacityVariation);
+            }
+        }
+
+        public float InitialRotationVariation
+        {
+            get;
+            set;
+        }
+
         // Initial rotation range for new particles, x=min, y=max
         public Vector2 RotationRange
         {
             get { return rotation; }
             set { rotation = value; }
+        }
+
+        public float InitialRotation
+        {
+            get
+            {
+                return MathHelper.Lerp(rotation.X, rotation.Y,
+                    (float)random.NextDouble() * InitialRotationVariation);
+            }
         }
 
         public Vector2 DepthRange
@@ -84,11 +148,27 @@ namespace Codesmith.SmithNgine.Particles
             }
         }
 
+        public float InitialScaleVariation
+        {
+            get;
+            set;
+        }
+
         public Vector2 ScaleRange
         {
             get { return scale; }
             set { scale = value; }
         }
+
+        public float InitialScale
+        {
+            get
+            {
+                return MathHelper.Lerp(scale.X, scale.Y,
+                    (float)random.NextDouble() * InitialScaleVariation);
+            }
+        }
+
 
         // Color of the created particle
         public Color Color
@@ -151,12 +231,18 @@ namespace Codesmith.SmithNgine.Particles
             angularvelocity = Vector2.Zero;
             scale = new Vector2(1.0f, 1.0f);
             depth = new Vector2(1.0f, 1.0f);
+            InitialSpeedVariation = 0.0f;
+            InitialAngularVelocityVariation = 0.0f;
+            InitialRotationVariation = 0.0f;
+            InitialScaleVariation = 0.0f;
+            InitialOpacityVariation = 0.0f;
             rotation = Vector2.Zero;
             opacity = new Vector2(1.0f, 1.0f);
             quantity = Vector2.Zero;
             Color = Color.White;
             textures = new List<Texture2D>();
             ttl = new Vector2(500.0f, 500.0f);
+            Flags = EmitterCastStyle.RandomDirection | EmitterCastStyle.RandomPosition;
         }
 
         public void AddTexture(Texture2D tex)
