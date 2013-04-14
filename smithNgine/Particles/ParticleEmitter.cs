@@ -11,14 +11,26 @@ using System.Collections.Generic;
 
 namespace Codesmith.SmithNgine.Particles
 {
+    [Flags]
+    public enum EmitterMode : int
+    {
+        PositionAbsolute = 1,
+        PositionRelative = PositionAbsolute << 1,
+        RotationAbsolute = PositionAbsolute << 2,
+        RotationRelative = PositionAbsolute << 3
+    }
+
     /// <summary>
     /// Base class for a particle emitter class, for extension only
     /// </summary>
     public abstract class ParticleEmitter
     {
         #region Fields
+        protected EmitterMode positionFlags;
         protected Random random;
         protected List<Particle> particles;
+        private Vector2 position;
+        private float rotation;
         #endregion
 
         #region Properties
@@ -29,10 +41,28 @@ namespace Codesmith.SmithNgine.Particles
             set;
         }
 
+        public Vector2 EffectPosition
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// Get the position of this emitter
         /// </summary>
         public Vector2 Position
+        {
+            get
+            {               
+                return positionFlags.HasFlag(EmitterMode.PositionRelative) ? position+EffectPosition : position;
+            }
+            set
+            {
+                position = value;
+            }
+        }
+
+        public float EffectRotation
         {
             get;
             set;
@@ -40,8 +70,14 @@ namespace Codesmith.SmithNgine.Particles
 
         public float Rotation
         {
-            get;
-            set;
+            get
+            {
+                return positionFlags.HasFlag(EmitterMode.RotationRelative) ? rotation + EffectRotation : rotation;
+            }
+            set
+            {
+                rotation = value;
+            }
         }
 
         /// <summary>
@@ -69,6 +105,8 @@ namespace Codesmith.SmithNgine.Particles
             Configuration = new ParticleGenerationParams();
             particles = new List<Particle>();
             random = new Random();
+            // by default, emitter is relative to the effect position
+            positionFlags = EmitterMode.PositionRelative | EmitterMode.RotationRelative;
             Position = position;
             AutoGenerate = true;
             

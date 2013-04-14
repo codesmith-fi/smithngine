@@ -65,12 +65,14 @@ namespace Codesmith.SmithTest
 
             particleSystem = new ParticleSystem();
             particleEffect = new ParticleEffect();
+            particleEffect.Rotation = 0f;
+            particleEffect.Position = Vector2.Zero;
 //            particleEffect.GravityVector = new Vector2(0.0f, 0.04f);
 
-            Circle circle = new Circle(100.0f, animSprite.Position);
-//            smokeEmitter1 = new PointEmitter(animSprite.Position);// MathHelper.ToRadians(90));
+            Circle circle = new Circle(100.0f, Vector2.Zero);
+            smokeEmitter1 = new PointEmitter(Vector2.Zero);
             smokeEmitter1 = new CircleEmitter(circle);
-            smokeEmitter2 = new PointEmitter(animSprite.Position);//, MathHelper.ToRadians(180));
+            smokeEmitter2 = new PointEmitter(Vector2.Zero);
             //            emitter = new PointEmitter(animSprite.Position);
             ParticleGenerationParams smokeEmitterParams1 = new ParticleGenerationParams();
             ParticleGenerationParams smokeEmitterParams2 = new ParticleGenerationParams();
@@ -79,7 +81,7 @@ namespace Codesmith.SmithTest
             smokeEmitterParams2.AddTexture(StateManager.Content.Load<Texture2D>("Images/smoke2"));
             smokeEmitterParams2.AddTexture(StateManager.Content.Load<Texture2D>("Images/smoke3"));
             smokeEmitterParams1.QuantityRange = new Vector2(10, 100);
-            smokeEmitterParams1.Flags = EmitterCastStyle.RandomPosition;
+            smokeEmitterParams1.Flags = EmitterCastStyle.None;
             smokeEmitterParams1.ScaleRange = new Vector2(0.1f, 1.1f);
             smokeEmitterParams1.DepthRange = new Vector2(0.0f, 1.0f);
             smokeEmitterParams1.OpacityRange = new Vector2(0.6f, 0f);
@@ -106,7 +108,7 @@ namespace Codesmith.SmithTest
             smokeEmitter2.Configuration = smokeEmitterParams2;
             smokeEmitter2.AutoGenerate = false;
             particleEffect.AddEmitter(smokeEmitter1);
-//            particleEffect.AddEmitter(smokeEmitter2);
+            particleEffect.AddEmitter(smokeEmitter2);
             /*
                         ParticleEmitter lineEmitter = new LineEmitter(Vector2.Zero, new Vector2(Bounds.Width, 0f));
                         ParticleGenerationParams emitterparams2 = new ParticleGenerationParams();
@@ -158,8 +160,7 @@ namespace Codesmith.SmithTest
         
         public override void Update(GameTime gameTime)
         {
-            smokeEmitter1.Position = new Vector2(StateManager.Input.MouseX, StateManager.Input.MouseY);
-            smokeEmitter2.Position = new Vector2(StateManager.Input.MouseX, StateManager.Input.MouseY);
+            particleEffect.Position = new Vector2(StateManager.Input.MouseX, StateManager.Input.MouseY);
             if (StateManager.Input.IsMouseButtonHeld(SmithNgine.Input.MouseButton.Right))
             {
                 particleEffect.Generate(10);

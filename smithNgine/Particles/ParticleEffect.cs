@@ -22,6 +22,8 @@ namespace Codesmith.SmithNgine.Particles
 
         private List<ParticleEmitter> emitters;
         private TimeSpan timeLeft = TimeSpan.Zero;
+        private Vector2 position;
+        private float rotation;
 
         /// <summary>
         /// Gravity vector which gives a velocity modifier for every particle
@@ -31,6 +33,32 @@ namespace Codesmith.SmithNgine.Particles
         {
             get;
             set;
+        }
+
+        public Vector2 Position
+        {
+            get { return position; }
+            set
+            {
+                position = value;
+                foreach (ParticleEmitter em in emitters)
+                {
+                    em.EffectPosition = position;
+                }
+            }
+        }
+
+        public float Rotation
+        {
+            get { return rotation; }
+            set
+            {
+                rotation = value;
+                foreach (ParticleEmitter em in emitters)
+                {
+                    em.EffectRotation = rotation;
+                }
+            }
         }
 
         /// <summary>

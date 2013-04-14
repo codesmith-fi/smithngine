@@ -29,6 +29,10 @@ namespace Codesmith.SmithNgine.Particles
         {
             // Get a point along the line specified for this line emitter
             p.Position = Vector2.Lerp(startVector, endVector, (float)random.NextDouble());
+            if( positionFlags.HasFlag(EmitterMode.PositionRelative))
+            {
+                p.Position+=EffectPosition;
+            }
 
             // Spawn randomly to any direction (should change probably to 
             // cast the particle to perpendicular direction from the line
