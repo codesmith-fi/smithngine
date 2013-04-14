@@ -26,6 +26,7 @@ namespace Codesmith.SmithNgine.Particles
     public class ParticleGenerationParams
     {
         private Random random;
+        private Color color;
         private Vector2 speed;
         private Vector2 opacity;
         private Vector2 rotation;
@@ -173,12 +174,27 @@ namespace Codesmith.SmithNgine.Particles
             }
         }
 
+        public Color ColorRangeStart
+        {
+            get;
+            set;
+        }
+
+        public Color ColorRangeEnd
+        {
+            get;
+            set;
+        }
 
         // Color of the created particle
         public Color Color
         {
-            get;
-            set;
+            get { return Color.Lerp(ColorRangeStart, ColorRangeEnd, (float)random.NextDouble()); }
+            set 
+            { 
+                ColorRangeStart = value;
+                ColorRangeEnd = value;
+            }
         }
 
         // range for quantity of particles to create per trigger
@@ -240,6 +256,8 @@ namespace Codesmith.SmithNgine.Particles
             InitialRotationVariation = 0.0f;
             InitialScaleVariation = 0.0f;
             InitialOpacityVariation = 0.0f;
+            ColorRangeEnd = Color.White;
+            ColorRangeStart = Color.White;
             rotation = Vector2.Zero;
             opacity = new Vector2(1.0f, 1.0f);
             quantity = Vector2.Zero;
