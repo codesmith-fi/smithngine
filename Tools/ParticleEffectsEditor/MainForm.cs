@@ -7,11 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Codesmith.smithNgine.ParticleEffectsEditor.Nodes;
 
 namespace Codesmith.smithNgine.ParticleEffectsEditor
 {
     public partial class MainForm : Form
     {
+        private TreeNode rootEffectTreeNode;
+
         public MainForm()
         {
             InitializeComponent();
@@ -19,18 +22,30 @@ namespace Codesmith.smithNgine.ParticleEffectsEditor
 
         private void uiEffectPreview_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            throw new System.NotImplementedException();
         }
 
         private void uiEffectPreview_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            throw new System.NotImplementedException();
         }
 
         private void uiEffectPreview_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            throw new System.NotImplementedException();
         }
 
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            uiEffectConfigurationTreeView.Nodes.Clear();
+            rootEffectTreeNode = new ParticleEffectTreeNode(uiEffectPreview.Effect);
+            uiEffectConfigurationTreeView.Nodes.Add(rootEffectTreeNode);
+        }
+
+        private void uiEffectConfigurationTreeView_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            uiEffectPropertyGrid.SelectedObject = e.Node.Tag;
+        }
+
+        private void addEmitterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+        }
     }
 }
