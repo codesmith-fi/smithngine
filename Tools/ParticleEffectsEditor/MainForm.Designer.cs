@@ -45,6 +45,7 @@
             this.uiEffectTreeContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.addEmitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uiEffectPreview = new Codesmith.smithNgine.ParticleEffectsEditor.EffectPreviewControl();
+            this.resetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.uiVerticalSplitter)).BeginInit();
             this.uiVerticalSplitter.Panel1.SuspendLayout();
             this.uiVerticalSplitter.Panel2.SuspendLayout();
@@ -181,9 +182,10 @@
             // uiEffectTreeContextMenu
             // 
             this.uiEffectTreeContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.resetToolStripMenuItem,
             this.addEmitterToolStripMenuItem});
             this.uiEffectTreeContextMenu.Name = "contextMenuStrip1";
-            this.uiEffectTreeContextMenu.Size = new System.Drawing.Size(159, 50);
+            this.uiEffectTreeContextMenu.Size = new System.Drawing.Size(159, 74);
             // 
             // addEmitterToolStripMenuItem
             // 
@@ -205,6 +207,12 @@
             this.uiEffectPreview.MouseDown += new System.Windows.Forms.MouseEventHandler(this.uiEffectPreview_MouseDown);
             this.uiEffectPreview.MouseMove += new System.Windows.Forms.MouseEventHandler(this.uiEffectPreview_MouseMove);
             this.uiEffectPreview.MouseUp += new System.Windows.Forms.MouseEventHandler(this.uiEffectPreview_MouseUp);
+            // 
+            // resetToolStripMenuItem
+            // 
+            this.resetToolStripMenuItem.Name = "resetToolStripMenuItem";
+            this.resetToolStripMenuItem.Size = new System.Drawing.Size(158, 24);
+            this.resetToolStripMenuItem.Text = "Reset";
             // 
             // MainForm
             // 
@@ -249,6 +257,7 @@
         private System.Windows.Forms.PropertyGrid uiEffectPropertyGrid;
         private System.Windows.Forms.ContextMenuStrip uiEffectTreeContextMenu;
         private System.Windows.Forms.ToolStripMenuItem addEmitterToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem resetToolStripMenuItem;
 
     }
 }
