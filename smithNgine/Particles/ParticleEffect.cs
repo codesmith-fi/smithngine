@@ -25,6 +25,12 @@ namespace Codesmith.SmithNgine.Particles
         private Vector2 position;
         private float rotation;
 
+        public string Name
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// Gravity vector which gives a velocity modifier for every particle
         /// maintained by this ParticleEffect
@@ -38,27 +44,18 @@ namespace Codesmith.SmithNgine.Particles
         public Vector2 Position
         {
             get { return position; }
-            set
-            {
-                position = value;
-                foreach (ParticleEmitter em in emitters)
-                {
-                    em.EffectPosition = position;
-                }
-            }
+            set { position = value; }
         }
 
         public float Rotation
         {
             get { return rotation; }
-            set
-            {
-                rotation = value;
-                foreach (ParticleEmitter em in emitters)
-                {
-                    em.EffectRotation = rotation;
-                }
-            }
+            set { rotation = value; }
+        }
+
+        public IList<ParticleEmitter> Emitters
+        {
+            get { return this.emitters.AsReadOnly(); }
         }
 
         /// <summary>
@@ -95,6 +92,7 @@ namespace Codesmith.SmithNgine.Particles
         {
             emitters = new List<ParticleEmitter>();
             GravityVector = new Vector2(0.0f, 0.0f);
+            Name = "Default Effect";
         }
 
         /// <summary>
@@ -162,6 +160,7 @@ namespace Codesmith.SmithNgine.Particles
 
         public void AddEmitter(ParticleEmitter emitter)
         {
+            emitter.Effect = this;
             emitters.Add(emitter);
         }
 

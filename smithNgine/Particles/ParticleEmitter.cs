@@ -8,6 +8,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Codesmith.SmithNgine.Particles
 {
@@ -26,22 +27,33 @@ namespace Codesmith.SmithNgine.Particles
     public abstract class ParticleEmitter
     {
         #region Fields
+        private ParticleEffect hostEffect;
         protected EmitterMode positionFlags;
         protected Random random;
         protected List<Particle> particles;
         private Vector2 position;
         private float rotation;
+        private string name;
         #endregion
 
         #region Properties
-
-        public ParticleGenerationParams Configuration
+        public string Name
         {
-            get;
-            set;
+            get { return name; }
+            internal set { name = value; }
         }
 
-        public Vector2 EffectPosition
+        public EmitterMode Flags
+        {
+            get { return positionFlags; }
+            set { positionFlags = value; }
+        }
+       
+        /// <summary>
+        /// Configuration for particle generation
+        /// </summary>
+        [Browsable(false)]
+        public ParticleGenerationParams Configuration
         {
             get;
             set;
@@ -54,7 +66,8 @@ namespace Codesmith.SmithNgine.Particles
         {
             get
             {               
-                return positionFlags.HasFlag(EmitterMode.PositionRelative) ? position+EffectPosition : position;
+                return (positionFlags.HasFlag(EmitterMode.PositionRelative) && hostEffect != null)?
+                    position + hostEffect.Position : position;
             }
             set
             {
@@ -62,17 +75,12 @@ namespace Codesmith.SmithNgine.Particles
             }
         }
 
-        public float EffectRotation
-        {
-            get;
-            set;
-        }
-
         public float Rotation
         {
             get
             {
-                return positionFlags.HasFlag(EmitterMode.RotationRelative) ? rotation + EffectRotation : rotation;
+                return (positionFlags.HasFlag(EmitterMode.RotationRelative) && hostEffect != null)? 
+                    rotation + hostEffect.Rotation : rotation;
             }
             set
             {
@@ -88,9 +96,17 @@ namespace Codesmith.SmithNgine.Particles
             get;
             set;
         }
+
         public int ParticleCount
         {
             get { return particles.Count; }
+        }
+
+        [Browsable(false)]
+        public ParticleEffect Effect
+        {
+            get { return hostEffect; }
+            internal set { hostEffect = value; }
         }
 
         #endregion
@@ -109,7 +125,7 @@ namespace Codesmith.SmithNgine.Particles
             positionFlags = EmitterMode.PositionRelative | EmitterMode.RotationRelative;
             Position = position;
             AutoGenerate = true;
-            
+            name = "AbstractEmitter";            
         }
         #endregion
 

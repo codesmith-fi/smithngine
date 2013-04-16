@@ -23,6 +23,7 @@ namespace Codesmith.SmithNgine.Particles
         {
             startVector = lineStart;
             endVector = lineEnd;
+            Name = "LineEmitter";
         }
 
         protected override void GenerateParticle(Particle p)
@@ -31,7 +32,7 @@ namespace Codesmith.SmithNgine.Particles
             p.Position = Vector2.Lerp(startVector, endVector, (float)random.NextDouble());
             if( positionFlags.HasFlag(EmitterMode.PositionRelative))
             {
-                p.Position+=EffectPosition;
+                p.Position+=Effect.Position;
             }
 
             // Spawn randomly to any direction (should change probably to 

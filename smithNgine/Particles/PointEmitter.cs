@@ -17,6 +17,7 @@ namespace Codesmith.SmithNgine.Particles
     {
         public PointEmitter(Vector2 position) : base(position)
         {
+            Name = "PointEmitter";
         }
 
         protected override void GenerateParticle(Particle p)

@@ -25,6 +25,7 @@ namespace Codesmith.SmithNgine.Particles
             : base(position)
         {
             Spread = spread;
+            Name = "ConeEmitter";
         }
 
         protected override void GenerateParticle(Particle p)
