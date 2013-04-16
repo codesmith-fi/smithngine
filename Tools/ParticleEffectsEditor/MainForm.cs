@@ -7,7 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.Xna.Framework;
 using Codesmith.smithNgine.ParticleEffectsEditor.Nodes;
+
 
 namespace Codesmith.smithNgine.ParticleEffectsEditor
 {
@@ -26,9 +28,17 @@ namespace Codesmith.smithNgine.ParticleEffectsEditor
 
         private void uiEffectPreview_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
         {
+            if (e.Button == MouseButtons.Left)
+            {
+                uiEffectPreview.Effect.Position = new Vector2(e.Location.X, e.Location.Y);
+            }
         }
 
         private void uiEffectPreview_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+        }
+
+        private void uiEffectPreview_Click(object sender, EventArgs e)
         {
         }
 

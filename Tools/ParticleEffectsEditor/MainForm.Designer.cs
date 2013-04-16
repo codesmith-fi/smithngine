@@ -30,7 +30,13 @@
         {
             this.components = new System.ComponentModel.Container();
             this.uiVerticalSplitter = new System.Windows.Forms.SplitContainer();
+            this.uiEffectConfigurationTreeView = new System.Windows.Forms.TreeView();
+            this.uiEffectTreeContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.resetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addEmitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uiHorizSplitter = new System.Windows.Forms.SplitContainer();
+            this.uiEffectPreview = new Codesmith.smithNgine.ParticleEffectsEditor.EffectPreviewControl();
+            this.uiEffectPropertyGrid = new System.Windows.Forms.PropertyGrid();
             this.uiMenuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -40,22 +46,16 @@
             this.exitToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.uiEffectConfigurationTreeView = new System.Windows.Forms.TreeView();
-            this.uiEffectPropertyGrid = new System.Windows.Forms.PropertyGrid();
-            this.uiEffectTreeContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.addEmitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.uiEffectPreview = new Codesmith.smithNgine.ParticleEffectsEditor.EffectPreviewControl();
-            this.resetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.uiVerticalSplitter)).BeginInit();
             this.uiVerticalSplitter.Panel1.SuspendLayout();
             this.uiVerticalSplitter.Panel2.SuspendLayout();
             this.uiVerticalSplitter.SuspendLayout();
+            this.uiEffectTreeContextMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.uiHorizSplitter)).BeginInit();
             this.uiHorizSplitter.Panel1.SuspendLayout();
             this.uiHorizSplitter.Panel2.SuspendLayout();
             this.uiHorizSplitter.SuspendLayout();
             this.uiMenuStrip.SuspendLayout();
-            this.uiEffectTreeContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // uiVerticalSplitter
@@ -75,6 +75,37 @@
             this.uiVerticalSplitter.SplitterDistance = 215;
             this.uiVerticalSplitter.TabIndex = 0;
             // 
+            // uiEffectConfigurationTreeView
+            // 
+            this.uiEffectConfigurationTreeView.ContextMenuStrip = this.uiEffectTreeContextMenu;
+            this.uiEffectConfigurationTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.uiEffectConfigurationTreeView.Location = new System.Drawing.Point(0, 0);
+            this.uiEffectConfigurationTreeView.Name = "uiEffectConfigurationTreeView";
+            this.uiEffectConfigurationTreeView.Size = new System.Drawing.Size(215, 458);
+            this.uiEffectConfigurationTreeView.TabIndex = 0;
+            this.uiEffectConfigurationTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.uiEffectConfigurationTreeView_AfterSelect);
+            // 
+            // uiEffectTreeContextMenu
+            // 
+            this.uiEffectTreeContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.resetToolStripMenuItem,
+            this.addEmitterToolStripMenuItem});
+            this.uiEffectTreeContextMenu.Name = "contextMenuStrip1";
+            this.uiEffectTreeContextMenu.Size = new System.Drawing.Size(159, 52);
+            // 
+            // resetToolStripMenuItem
+            // 
+            this.resetToolStripMenuItem.Name = "resetToolStripMenuItem";
+            this.resetToolStripMenuItem.Size = new System.Drawing.Size(158, 24);
+            this.resetToolStripMenuItem.Text = "Reset";
+            // 
+            // addEmitterToolStripMenuItem
+            // 
+            this.addEmitterToolStripMenuItem.Name = "addEmitterToolStripMenuItem";
+            this.addEmitterToolStripMenuItem.Size = new System.Drawing.Size(158, 24);
+            this.addEmitterToolStripMenuItem.Text = "Add Emitter";
+            this.addEmitterToolStripMenuItem.Click += new System.EventHandler(this.addEmitterToolStripMenuItem_Click);
+            // 
             // uiHorizSplitter
             // 
             this.uiHorizSplitter.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -92,6 +123,29 @@
             this.uiHorizSplitter.Size = new System.Drawing.Size(428, 458);
             this.uiHorizSplitter.SplitterDistance = 247;
             this.uiHorizSplitter.TabIndex = 0;
+            // 
+            // uiEffectPreview
+            // 
+            this.uiEffectPreview.Cursor = System.Windows.Forms.Cursors.Cross;
+            this.uiEffectPreview.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.uiEffectPreview.Effect = null;
+            this.uiEffectPreview.Location = new System.Drawing.Point(0, 0);
+            this.uiEffectPreview.Name = "uiEffectPreview";
+            this.uiEffectPreview.Size = new System.Drawing.Size(428, 247);
+            this.uiEffectPreview.TabIndex = 0;
+            this.uiEffectPreview.Text = "Particle Preview";
+            this.uiEffectPreview.MouseDown += new System.Windows.Forms.MouseEventHandler(this.uiEffectPreview_MouseDown);
+            this.uiEffectPreview.MouseMove += new System.Windows.Forms.MouseEventHandler(this.uiEffectPreview_MouseMove);
+            this.uiEffectPreview.MouseUp += new System.Windows.Forms.MouseEventHandler(this.uiEffectPreview_MouseUp);
+            // 
+            // uiEffectPropertyGrid
+            // 
+            this.uiEffectPropertyGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.uiEffectPropertyGrid.Location = new System.Drawing.Point(0, 0);
+            this.uiEffectPropertyGrid.Name = "uiEffectPropertyGrid";
+            this.uiEffectPropertyGrid.Size = new System.Drawing.Size(428, 207);
+            this.uiEffectPropertyGrid.TabIndex = 0;
+            this.uiEffectPropertyGrid.ToolbarVisible = false;
             // 
             // uiMenuStrip
             // 
@@ -160,60 +214,6 @@
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(119, 24);
             this.aboutToolStripMenuItem.Text = "About";
             // 
-            // uiEffectConfigurationTreeView
-            // 
-            this.uiEffectConfigurationTreeView.ContextMenuStrip = this.uiEffectTreeContextMenu;
-            this.uiEffectConfigurationTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.uiEffectConfigurationTreeView.Location = new System.Drawing.Point(0, 0);
-            this.uiEffectConfigurationTreeView.Name = "uiEffectConfigurationTreeView";
-            this.uiEffectConfigurationTreeView.Size = new System.Drawing.Size(215, 458);
-            this.uiEffectConfigurationTreeView.TabIndex = 0;
-            this.uiEffectConfigurationTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.uiEffectConfigurationTreeView_AfterSelect);
-            // 
-            // uiEffectPropertyGrid
-            // 
-            this.uiEffectPropertyGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.uiEffectPropertyGrid.Location = new System.Drawing.Point(0, 0);
-            this.uiEffectPropertyGrid.Name = "uiEffectPropertyGrid";
-            this.uiEffectPropertyGrid.Size = new System.Drawing.Size(428, 207);
-            this.uiEffectPropertyGrid.TabIndex = 0;
-            this.uiEffectPropertyGrid.ToolbarVisible = false;
-            // 
-            // uiEffectTreeContextMenu
-            // 
-            this.uiEffectTreeContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.resetToolStripMenuItem,
-            this.addEmitterToolStripMenuItem});
-            this.uiEffectTreeContextMenu.Name = "contextMenuStrip1";
-            this.uiEffectTreeContextMenu.Size = new System.Drawing.Size(159, 74);
-            // 
-            // addEmitterToolStripMenuItem
-            // 
-            this.addEmitterToolStripMenuItem.Name = "addEmitterToolStripMenuItem";
-            this.addEmitterToolStripMenuItem.Size = new System.Drawing.Size(158, 24);
-            this.addEmitterToolStripMenuItem.Text = "Add Emitter";
-            this.addEmitterToolStripMenuItem.Click += new System.EventHandler(this.addEmitterToolStripMenuItem_Click);
-            // 
-            // uiEffectPreview
-            // 
-            this.uiEffectPreview.Cursor = System.Windows.Forms.Cursors.Cross;
-            this.uiEffectPreview.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.uiEffectPreview.Effect = null;
-            this.uiEffectPreview.Location = new System.Drawing.Point(0, 0);
-            this.uiEffectPreview.Name = "uiEffectPreview";
-            this.uiEffectPreview.Size = new System.Drawing.Size(428, 247);
-            this.uiEffectPreview.TabIndex = 0;
-            this.uiEffectPreview.Text = "Particle Preview";
-            this.uiEffectPreview.MouseDown += new System.Windows.Forms.MouseEventHandler(this.uiEffectPreview_MouseDown);
-            this.uiEffectPreview.MouseMove += new System.Windows.Forms.MouseEventHandler(this.uiEffectPreview_MouseMove);
-            this.uiEffectPreview.MouseUp += new System.Windows.Forms.MouseEventHandler(this.uiEffectPreview_MouseUp);
-            // 
-            // resetToolStripMenuItem
-            // 
-            this.resetToolStripMenuItem.Name = "resetToolStripMenuItem";
-            this.resetToolStripMenuItem.Size = new System.Drawing.Size(158, 24);
-            this.resetToolStripMenuItem.Text = "Reset";
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -228,13 +228,13 @@
             this.uiVerticalSplitter.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.uiVerticalSplitter)).EndInit();
             this.uiVerticalSplitter.ResumeLayout(false);
+            this.uiEffectTreeContextMenu.ResumeLayout(false);
             this.uiHorizSplitter.Panel1.ResumeLayout(false);
             this.uiHorizSplitter.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.uiHorizSplitter)).EndInit();
             this.uiHorizSplitter.ResumeLayout(false);
             this.uiMenuStrip.ResumeLayout(false);
             this.uiMenuStrip.PerformLayout();
-            this.uiEffectTreeContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
