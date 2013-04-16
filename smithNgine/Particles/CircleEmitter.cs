@@ -16,12 +16,14 @@ namespace Codesmith.SmithNgine.Particles
         public CircleEmitter(Circle circle) : base(circle.Position)
         {
             emitCircle = circle;
-            
+            Name = "CircleEmitter";
         }
 
         protected override void GenerateParticle(Particle p)
         {
-            float angle = MathHelper.Lerp((float)-Math.PI, (float)Math.PI, (float)random.NextDouble());
+//            float angle = MathHelper.Lerp((float)-Math.PI, (float)Math.PI, (float)random.NextDouble());
+            float angle = (float)random.NextDouble() * MathHelper.TwoPi;
+
             emitCircle.Position = Position;
             if (Configuration.Flags.HasFlag(EmitterCastStyle.RandomPosition))
             {
@@ -29,7 +31,7 @@ namespace Codesmith.SmithNgine.Particles
             }
             else
             {
-                p.Position = emitCircle.GetPoint(angle);
+                p.Position = emitCircle.GetPoint(angle);                
             }
 
             if (Configuration.Flags.HasFlag(EmitterCastStyle.RandomDirection))
@@ -38,7 +40,7 @@ namespace Codesmith.SmithNgine.Particles
             }
 
             // This causes particles to go away along the normal line in this point
-            p.LinearVelocity = new Vector2((float)Math.Sin(angle) * p.Speed, (float)-Math.Cos(angle) * p.Speed);
+            p.LinearVelocity = new Vector2((float)Math.Sin(angle) * p.Speed, (float)Math.Cos(angle) * p.Speed);
         }
     }
 }
