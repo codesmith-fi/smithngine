@@ -34,7 +34,6 @@ namespace Codesmith.SmithNgine.Particles
             p.Position = Position;
             float spr = MathHelper.Lerp(Rotation - Spread / 2, Rotation + Spread / 2, (float)random.NextDouble());
             p.LinearVelocity = new Vector2((float)Math.Sin(spr) * p.Speed, (float)-Math.Cos(spr) * p.Speed);
-            p.AngularVelocity = 0.1f * (float)(random.NextDouble() * 2 - 1);
         }
     }
 }

@@ -21,7 +21,6 @@ namespace Codesmith.SmithNgine.Particles
 
         protected override void GenerateParticle(Particle p)
         {
-//            float angle = MathHelper.Lerp((float)-Math.PI, (float)Math.PI, (float)random.NextDouble());
             float angle = (float)random.NextDouble() * MathHelper.TwoPi;
 
             emitCircle.Position = Position;
