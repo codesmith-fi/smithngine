@@ -23,7 +23,7 @@ namespace Codesmith.SmithNgine.Gfx
         #endregion
 
         #region Properties
-        public Color Color
+        public Color TextColor
         {
             get;
             set;
@@ -40,7 +40,7 @@ namespace Codesmith.SmithNgine.Gfx
         {
             this.font = font;
             this.label = label;
-            Color = Color.Black;
+            TextColor = Color.Black;
             entryOrigin = font.MeasureString(label) / 2;
         }
         #endregion
@@ -56,7 +56,7 @@ namespace Codesmith.SmithNgine.Gfx
             base.Draw(spriteBatch);
 
             // Draw the text
-            spriteBatch.DrawString(font, label, this.Position, Color, Rotation, entryOrigin, Scale, SpriteEffects.None, Order);
+            spriteBatch.DrawString(font, label, this.Position, TextColor, Rotation, entryOrigin, Scale, SpriteEffects.None, Order);
         }
         #endregion
 
