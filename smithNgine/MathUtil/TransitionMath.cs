@@ -11,6 +11,11 @@ namespace Codesmith.SmithNgine.MathUtil
 {
     public static class TransitionMath
     {
+        public static float LinearInterpolate(float start, float end, float amount)
+        {
+            return start + ((end - start) * amount);
+        }
+
         public static Vector2 GetRandomRectanglePoint(Rectangle rect, Random r)
         {
             float x = (float)(r.NextDouble() * rect.Width) - rect.Width / 2;
