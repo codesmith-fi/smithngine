@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Codesmith.SmithNgine.Input;
 using Codesmith.SmithNgine.General;
+using System.Diagnostics;
 #endregion
 
 namespace Codesmith.SmithNgine.GameState
@@ -340,8 +341,18 @@ namespace Codesmith.SmithNgine.GameState
 
         protected virtual void AddComponent(IActivatableObject obj)
         {
+            if (children.Contains(obj))
+            {
+                Debug.Fail("Trying to add same component twice" + obj.ToString());
+            }
             children.Add(obj);
         }
+
+        protected virtual void RemoveComponent(IActivatableObject obj)
+        {
+            children.Remove(obj);
+        }
+
         public bool Equals(GameState other)
         {
             return this.Name.Equals(other.Name);

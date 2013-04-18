@@ -11,6 +11,8 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Codesmith.SmithNgine.Input;
 using Codesmith.SmithNgine.General;
+using System.Diagnostics;
+using System.Text;
 #endregion
 
 namespace Codesmith.SmithNgine.GameState
@@ -73,7 +75,16 @@ namespace Codesmith.SmithNgine.GameState
         #region New methods
         public virtual void AddComponent(IActivatableObject obj)
         {
+            if (children.Contains(obj))
+            {
+                Debug.Fail("Trying to add same component twice" + obj.ToString());
+            }
             this.children.Add(obj);
+        }
+
+        public virtual void RemoveComponent(IActivatableObject obj)
+        {
+            children.Remove(obj);
         }
 
         public virtual void LoadContent()

@@ -66,6 +66,15 @@ namespace Codesmith.SmithNgine.GameState
             private set;
         }
 
+        /// <summary>
+        /// Contains the previous active state
+        /// </summary>
+        public GameState PreviousState
+        {
+            get;
+            set;
+        }
+
         // The current state which gets input and is drawn and updated last
         public GameState CurrentState
         {
@@ -121,11 +130,10 @@ namespace Codesmith.SmithNgine.GameState
             {
                 this.Font = Content.Load<SpriteFont>(this.fontAsset);
             }
-
-            // Load each games state as well
-            foreach (GameState state in gameStates)
+            // TODO: This might be better do somehow else
+            if (PauseState != null)
             {
-                state.LoadContent();
+                PauseState.LoadContent();
             }
             base.LoadContent();
         }
@@ -232,7 +240,10 @@ namespace Codesmith.SmithNgine.GameState
                 state.StateManager = this;
                 state.StatusChanged += StateStatusChanged;
                 gameStates.Add(state);
-                PauseState = state;
+                if (isPauseState)
+                {
+                    PauseState = state;
+                }
             }
         }
 
@@ -245,6 +256,8 @@ namespace Codesmith.SmithNgine.GameState
 
             if (nextState != CurrentState && gameStates.Contains(nextState))
             {
+                nextState.LoadContent();
+                PreviousState = CurrentState;
                 // switch to next state
                 if (CurrentState != null)
                 {
@@ -287,6 +300,7 @@ namespace Codesmith.SmithNgine.GameState
             {
                 GameState state = (GameState)sender;
                 state.Dismiss();
+                if( state != PauseState ) state.UnloadContent();
             }
         }
         #endregion

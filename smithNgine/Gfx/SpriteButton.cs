@@ -186,6 +186,7 @@ namespace Codesmith.SmithNgine.Gfx
 
         public override void Dismiss()
         {
+            InputEventSource.KeysPressed -= keySource_KeysPressed; 
             this.direction = 0;
             this.Scale = 1.0f;
         }
