@@ -31,7 +31,7 @@ namespace Codesmith.SmithNgine.GameState
 
     #endregion
 
-    public abstract class GameState : ObjectBase, IEquatable<GameState>, ITransitionSource
+    public abstract class GameState : GameObjectBase, IEquatable<GameState>, ITransitionSource
     {
         #region Attributes/Fields
         private List<GameCanvas> canvasList = new List<GameCanvas>();

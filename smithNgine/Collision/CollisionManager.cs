@@ -11,7 +11,7 @@ using Codesmith.SmithNgine.General;
 
 namespace Codesmith.SmithNgine.Collision
 {
-    public class CollisionManager : ObjectBase
+    public class CollisionManager : GameObjectBase
     {
         private List<ICollidableObject> objects = new List<ICollidableObject>();
         private List<ICollidableObject> collidingObjects = new List<ICollidableObject>();

@@ -15,7 +15,7 @@ using Codesmith.SmithNgine.General;
 
 namespace Codesmith.SmithNgine.GameState
 {
-    public abstract class GameCanvas : ObjectBase
+    public abstract class GameCanvas : GameObjectBase
     {
         #region Fields/Attributes
         private List<IActivatableObject> children = new List<IActivatableObject>();

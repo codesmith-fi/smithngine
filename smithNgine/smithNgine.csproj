@@ -224,7 +224,7 @@
     <Compile Include="General\IRotatableObject.cs" />
     <Compile Include="MathUtil\MathValidator.cs" />
     <Compile Include="MathUtil\TransitionMath.cs" />
-    <Compile Include="General\ObjectBase.cs" />
+    <Compile Include="General\GameObjectBase.cs" />
     <Compile Include="General\OrderEventArgs.cs" />
     <Compile Include="General\RotationEventArgs.cs" />
     <Compile Include="General\ITransitionSource.cs" />

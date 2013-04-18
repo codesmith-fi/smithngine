@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 
 namespace Codesmith.SmithNgine.General
 {
-    public abstract class ObjectBase : IActivatableObject
+    public abstract class GameObjectBase : IActivatableObject
     {
         #region Fields
         private bool objectIsActive;
@@ -28,7 +28,7 @@ namespace Codesmith.SmithNgine.General
         public event EventHandler<EventArgs> ObjectDeactivated;
         #endregion
 
-        public ObjectBase()
+        public GameObjectBase()
         {
             TransitionSource = new DefaultTransitionSource();
         }
