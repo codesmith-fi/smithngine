@@ -20,6 +20,38 @@ namespace Codesmith.SmithNgine.General
     /// 
     /// Please add a listener to the event before using Start()
     /// 
+    /// <example>
+    /// <code>
+    ///     EventTrigger myTrigger = new EventTrigger(TimeSpan.FromSeconds(1.0f));
+    ///     myTrigger.Repeat = true;
+    ///     myTrigger.EventTriggered += myTrigger_EventTriggered;
+    ///     myTrigger.Start();
+    ///
+    /// </code>
+    /// Then in update loop:
+    /// <code>
+    ///     myTrigger.Update(gameTime);
+    ///     // Use the transition value (0.0 - 1.0) if you want
+    ///     float transitionValue = myTrigger.Transition;
+    /// </code>
+    /// In event callback:
+    /// <code>
+    ///     void myTrigger_EventTriggered(object obj, EventArgs e)
+    ///     {
+    ///         // do your kinky stuffz
+    ///         // restart the trigger if you want (can be done even it's not
+    ///         // autorepeating)
+    ///         myTrigger.Start(TimeSpan.FromSeconds(10.0f));
+    ///         
+    ///         // It will restart automatically with the initial interval if 
+    ///         // Repeat property is true
+    ///         
+    ///         // If you want to stop the trigger, call Cancel(). This will 
+    ///         // stop even automatically repeating trigger
+    ///         myTrigger.Cancel();
+    ///     }
+    /// </code>
+    /// </example>
     /// Event can be set to repeat or (by default) trigger only once 
     /// Use Event EventTriggered to listen for completion
     /// </summary>
@@ -138,14 +170,15 @@ namespace Codesmith.SmithNgine.General
 
                 if (timeLeft <= TimeSpan.Zero)
                 {
-                    if (EventTriggered != null)
-                    {
-                        EventTriggered(this, EventArgs.Empty);
-                    }
                     // If set to repeat, restart the timer
                     if (repeat)
                     {
                         Start();
+                    }
+                    // Call listeners
+                    if (EventTriggered != null)
+                    {
+                        EventTriggered(this, EventArgs.Empty);
                     }
                 }
             }
