@@ -20,7 +20,7 @@ namespace Codesmith.SmithTest
     public class MenuCanvas : GameCanvas
     {
         Texture2D entryTexture;
-        List<MenuEntry> menuEntries = new List<MenuEntry>();
+        List<MenuEntry> menuEntries;
         MenuEntry exitMenuEntry;
         MenuEntry playMenuEntry;
         MenuEntry physicsMenuEntry;
@@ -40,9 +40,32 @@ namespace Codesmith.SmithTest
             this.physicsState = physicState;
         }
 
+        public override void UnloadContent()
+        {
+            base.UnloadContent();
+
+            RemoveComponent(animSprite);
+            foreach (MenuEntry entry in menuEntries)
+            {
+                RemoveComponent(entry);
+            }
+            animSprite = null;
+            menuEntries.Clear();
+            exitMenuEntry = null;
+            playMenuEntry = null;
+            physicsMenuEntry = null;
+            optionsMenuEntry = null;
+            particleSystem = null;
+            smokeEmitter1 = null;
+            smokeEmitter2 = null;
+            particleEffect = null;
+            entryTexture = null;
+        }
+
         public override void LoadContent()
         {
             base.LoadContent();
+            menuEntries = new List<MenuEntry>();
             entryTexture = StateManager.Content.Load<Texture2D>("Images/button_clean");
             Vector2 pos = new Vector2(Bounds.Width / 2, 100);
             playMenuEntry = CreateMenuEntry(entryTexture, "Play", pos, Keys.F1);
@@ -67,7 +90,7 @@ namespace Codesmith.SmithTest
             particleEffect = new ParticleEffect();
             particleEffect.Rotation = 0f;
             particleEffect.Position = Vector2.Zero;
-            particleEffect.GravityVector = new Vector2(0.0f, 0.04f);
+//            particleEffect.GravityVector = new Vector2(0.0f, 0.04f);
 
 //            smokeEmitter1 = new PointEmitter(Vector2.Zero);
             smokeEmitter1 = new CircleEmitter(new Circle(100.0f, Vector2.Zero));
@@ -87,6 +110,7 @@ namespace Codesmith.SmithTest
             smokeEmitterParams1.DepthRange = new Vector2(0.0f, 1.0f);
             smokeEmitterParams1.OpacityRange = new Vector2(0.6f, 0f);
             smokeEmitterParams1.InitialSpeedRange = new Vector2(0.1f, 2.0f);
+            smokeEmitterParams1.InitialSpeedVariation = 1.0f;
             smokeEmitterParams1.SpeedDamping = 0.99f;
             smokeEmitterParams1.RotationRange = new Vector2(-1.0f, 1.0f);
             smokeEmitterParams1.InitialRotationVariation = 1.0f;
@@ -178,9 +202,9 @@ namespace Codesmith.SmithTest
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
             foreach (MenuEntry m in menuEntries)
             {
-                //m.Draw(spriteBatch);
+                m.Draw(spriteBatch);
             }
-            //animSprite.Draw(spriteBatch);
+            animSprite.Draw(spriteBatch);
 
             ShowParticleStatus(spriteBatch);
 

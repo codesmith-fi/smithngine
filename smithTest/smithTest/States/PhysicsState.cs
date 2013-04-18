@@ -61,6 +61,7 @@ namespace Codesmith.SmithTest
             screenCenter = new Vector2(
                 StateManager.GraphicsDevice.Viewport.Width / 2.00f,
                 StateManager.GraphicsDevice.Viewport.Height / 2.0f);
+
             physicsWorld = new World(new Vector2(0, 9.82f));
 
             /* Circle */

@@ -100,11 +100,17 @@ namespace Codesmith.SmithTest
 
             if (keyState.IsKeyDown(Keys.Right))
             {
-                stateManager.SwitchToState(state2);   
+                if (stateManager.CurrentState != state1)
+                {
+                    stateManager.SwitchToState(state2);
+                }
             }
             else if (keyState.IsKeyDown(Keys.Left))
             {
-                stateManager.SwitchToState(state1);
+                if (stateManager.CurrentState != state1)
+                {
+                    stateManager.SwitchToState(state1);
+                }
             }
         }
 

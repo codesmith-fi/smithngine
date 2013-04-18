@@ -27,6 +27,12 @@ namespace Codesmith.SmithTest
             this.PauseStateInterval = TimeSpan.FromSeconds(0.25f);
         }
 
+        public override void UnloadContent()
+        {
+            image = null;
+            base.UnloadContent();
+        }
+
         public override void LoadContent()
         {
             image = StateManager.Content.Load<Texture2D>("Images/snowmountain");

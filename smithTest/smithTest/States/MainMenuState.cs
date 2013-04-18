@@ -32,6 +32,12 @@ namespace Codesmith.SmithTest
             base.Initialize();
         }
 
+        public override void UnloadContent()
+        {
+            image = null;
+            base.UnloadContent();
+        }
+
         public override void LoadContent()
         {
             base.LoadContent();
@@ -69,13 +75,13 @@ namespace Codesmith.SmithTest
         {
             SpriteBatch spriteBatch = StateManager.SpriteBatch;
             Viewport viewport = StateManager.GraphicsDevice.Viewport;
-/*
+
             spriteBatch.Begin();
             spriteBatch.Draw(image, 
                 new Rectangle(0, 0, viewport.Width, viewport.Height), 
                 Color.White);
             spriteBatch.End();
-*/
+
             base.Draw(gameTime);
         }
     }

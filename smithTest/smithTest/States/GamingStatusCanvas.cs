@@ -41,6 +41,19 @@ namespace Codesmith.SmithTest
             base.Initialize();
         }
 
+        public override void UnloadContent()
+        {
+            RemoveComponent(collisionManager);
+            collisionManager = null;
+            foreach (Sprite sprite in sprites)
+            {
+                RemoveComponent(sprite);
+            }
+            sprites.Clear();
+
+            base.UnloadContent();
+        }
+
         public override void LoadContent()
         {
             collisionManager = new CollisionManager();

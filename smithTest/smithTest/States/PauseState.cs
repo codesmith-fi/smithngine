@@ -31,6 +31,14 @@ namespace Codesmith.SmithTest
             base.Initialize();
         }
 
+        public override void UnloadContent()
+        {
+            RemoveComponent(button);
+            button = null;
+            image = null;
+            base.UnloadContent();
+        }
+
         public override void LoadContent()
         {
             base.LoadContent();
