@@ -7,7 +7,7 @@ using Codesmith.SmithNgine.General;
 
 namespace Codesmith.SmithNgine.Gfx
 {
-    public class Sprite : ObjectBase, IMovableObject2D, IOrderableObject, IRotatableObject, IFocusableObject, IHoverableObject, ICollidableObject
+    public class Sprite : GameObjectBase, IMovableObject2D, IOrderableObject, IRotatableObject, IFocusableObject, IHoverableObject, ICollidableObject
     {
         #region Fields
         private IInputEventSource inputSource;
