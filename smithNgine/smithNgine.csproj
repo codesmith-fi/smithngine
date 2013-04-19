@@ -95,6 +95,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Camera\Camera.cs" />
+    <Compile Include="Camera\SimpleCamera.cs" />
     <Compile Include="Collision\CollisionEventArgs.cs" />
     <Compile Include="Collision\CollisionManager.cs" />
     <Compile Include="Collision\ICollidableObject.cs" />
