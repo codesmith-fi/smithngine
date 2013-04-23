@@ -175,6 +175,10 @@ namespace Codesmith.SmithNgine.General
                     {
                         Start();
                     }
+                    else
+                    {
+                        Cancel();
+                    }
                     // Call listeners
                     if (EventTriggered != null)
                     {
