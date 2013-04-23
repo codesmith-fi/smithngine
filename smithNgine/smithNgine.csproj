@@ -205,6 +205,7 @@
     <Compile Include="FarseerPhysics\Settings.cs" />
     <Compile Include="General\EventTrigger.cs" />
     <Compile Include="General\IContentManagerService.cs" />
+    <Compile Include="MathUtil\MathConstants.cs" />
     <Compile Include="Particles\CircleEmitter.cs" />
     <Compile Include="Particles\ConeEmitter.cs" />
     <Compile Include="Primitives\Circle.cs" />
