@@ -30,7 +30,7 @@ namespace Codesmith.SmithNgine.Particles
         {
             // Get a point along the line specified for this line emitter
             p.Position = Vector2.Lerp(startVector, endVector, (float)random.NextDouble());
-            if( positionFlags.HasFlag(EmitterMode.PositionRelative))
+            if (Configuration.Flags.HasFlag(EmitterModes.PositionRelative))
             {
                 p.Position+=Effect.Position;
             }

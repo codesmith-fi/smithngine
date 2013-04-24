@@ -24,7 +24,7 @@ namespace Codesmith.SmithNgine.Particles
             float angle = (float)random.NextDouble() * MathHelper.TwoPi;
 
             emitCircle.Position = Position;
-            if (Configuration.Flags.HasFlag(EmitterCastStyle.RandomPosition))
+            if (Configuration.Flags.HasFlag(EmitterModes.RandomPosition))
             {
                 p.Position = emitCircle.GetRandomContainedPoint(random);
             }
@@ -33,7 +33,7 @@ namespace Codesmith.SmithNgine.Particles
                 p.Position = emitCircle.GetPoint(angle);                
             }
 
-            if (Configuration.Flags.HasFlag(EmitterCastStyle.RandomDirection))
+            if (Configuration.Flags.HasFlag(EmitterModes.RandomDirection))
             {
                 angle = (float)random.NextDouble() * MathHelper.TwoPi;
             }

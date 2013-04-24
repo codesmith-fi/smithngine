@@ -13,11 +13,17 @@ using Codesmith.SmithNgine.MathUtil;
 namespace Codesmith.SmithNgine.Particles
 {
     [Flags]
-    public enum EmitterCastStyle : int
+    public enum EmitterModes : int
     {
         None = 0,
-        RandomPosition = 1,
-        RandomDirection = RandomPosition << 1
+        RandomPosition   = 1,
+        RandomDirection  = 1 << 1,
+        PositionAbsolute = 1 << 2,
+        PositionRelative = 1 << 3,
+        RotationAbsolute = 1 << 4,
+        RotationRelative = 1 << 5,
+        UseBudgetOnly    = 1 << 6,
+        AutoGenerate     = 1 << 7 
     }
 
     /// <summary>
@@ -39,7 +45,13 @@ namespace Codesmith.SmithNgine.Particles
         private List<Texture2D> textures;
 
         // Initial velocity for new particles, range X=min, Y=max
-        public EmitterCastStyle Flags
+        public EmitterModes Flags
+        {
+            get;
+            set;
+        }
+
+        public int ParticleBudget
         {
             get;
             set;
@@ -246,6 +258,7 @@ namespace Codesmith.SmithNgine.Particles
         public ParticleGenerationParams()
         {
             random = new Random();
+            ParticleBudget = -1;
             speed = Vector2.Zero;
             speedDamping = 1.0f;
             angularvelocity = Vector2.Zero;
@@ -264,7 +277,7 @@ namespace Codesmith.SmithNgine.Particles
             Color = Color.White;
             textures = new List<Texture2D>();
             ttl = new Vector2(500.0f, 500.0f);
-            Flags = EmitterCastStyle.RandomDirection | EmitterCastStyle.RandomPosition;
+            Flags = EmitterModes.PositionRelative | EmitterModes.RotationRelative;
         }
 
         public void AddTexture(Texture2D tex)

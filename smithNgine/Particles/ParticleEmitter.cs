@@ -12,15 +12,6 @@ using System.ComponentModel;
 
 namespace Codesmith.SmithNgine.Particles
 {
-    [Flags]
-    public enum EmitterMode : int
-    {
-        PositionAbsolute = 1,
-        PositionRelative = PositionAbsolute << 1,
-        RotationAbsolute = PositionAbsolute << 2,
-        RotationRelative = PositionAbsolute << 3
-    }
-
     /// <summary>
     /// Base class for a particle emitter class, for extension only
     /// </summary>
@@ -28,12 +19,13 @@ namespace Codesmith.SmithNgine.Particles
     {
         #region Fields
         private ParticleEffect hostEffect;
-        protected EmitterMode positionFlags;
+        private ParticleGenerationParams configuration;
         protected Random random;
         protected List<Particle> particles;
         private Vector2 position;
         private float rotation;
         private string name;
+        private int budget;
         #endregion
 
         #region Properties
@@ -42,21 +34,19 @@ namespace Codesmith.SmithNgine.Particles
             get { return name; }
             internal set { name = value; }
         }
-
-        public EmitterMode Flags
-        {
-            get { return positionFlags; }
-            set { positionFlags = value; }
-        }
-       
+      
         /// <summary>
         /// Configuration for particle generation
         /// </summary>
         [Browsable(false)]
         public ParticleGenerationParams Configuration
         {
-            get;
-            set;
+            get { return configuration; }
+            set 
+            {
+                configuration = value;
+                budget = configuration.ParticleBudget;
+            }
         }
 
         /// <summary>
@@ -65,8 +55,8 @@ namespace Codesmith.SmithNgine.Particles
         public Vector2 Position
         {
             get
-            {               
-                return (positionFlags.HasFlag(EmitterMode.PositionRelative) && hostEffect != null)?
+            {
+                return (configuration.Flags.HasFlag(EmitterModes.PositionRelative) && hostEffect != null) ?
                     position + hostEffect.Position : position;
             }
             set
@@ -79,22 +69,13 @@ namespace Codesmith.SmithNgine.Particles
         {
             get
             {
-                return (positionFlags.HasFlag(EmitterMode.RotationRelative) && hostEffect != null)? 
+                return (Configuration.Flags.HasFlag(EmitterModes.RotationRelative) && hostEffect != null) ? 
                     rotation + hostEffect.Rotation : rotation;
             }
             set
             {
                 rotation = value;
             }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public bool AutoGenerate
-        {
-            get;
-            set;
         }
 
         public int ParticleCount
@@ -122,9 +103,7 @@ namespace Codesmith.SmithNgine.Particles
             particles = new List<Particle>();
             random = new Random();
             // by default, emitter is relative to the effect position
-            positionFlags = EmitterMode.PositionRelative | EmitterMode.RotationRelative;
             Position = position;
-            AutoGenerate = true;
             name = "AbstractEmitter";            
         }
         #endregion
@@ -140,6 +119,11 @@ namespace Codesmith.SmithNgine.Particles
         {
             for (int i = 0; i < count; i++)
             {
+                if (Configuration.Flags.HasFlag(EmitterModes.UseBudgetOnly))
+                {
+                    budget--;
+                    if (budget < 0) return;
+                }
                 Particle p = new Particle(Configuration);
                 GenerateParticle(p);
                 particles.Add(p);

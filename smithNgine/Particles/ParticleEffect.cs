@@ -106,7 +106,7 @@ namespace Codesmith.SmithNgine.Particles
             {
                 if (ParticleCount < MaxParticles)
                 {
-                    if (em.AutoGenerate)
+                    if (em.Configuration.Flags.HasFlag(EmitterModes.AutoGenerate))
                     {
                         em.Generate(em.Configuration.Quantity);
                     }
@@ -115,7 +115,6 @@ namespace Codesmith.SmithNgine.Particles
                         em.Generate(em.Configuration.Quantity);
                         timeLeft -= gameTime.ElapsedGameTime;
                     }
-
                 }
                 em.Update(gameTime, GravityVector);
             }

@@ -105,7 +105,6 @@ namespace Codesmith.SmithTest
             smokeEmitterParams1.ColorRangeStart = Color.Red;
             smokeEmitterParams1.ColorRangeEnd = Color.Yellow;
             smokeEmitterParams1.QuantityRange = new Vector2(10, 100);
-            smokeEmitterParams1.Flags = EmitterCastStyle.None;
             smokeEmitterParams1.ScaleRange = new Vector2(0.1f, 1.1f);
             smokeEmitterParams1.DepthRange = new Vector2(0.0f, 1.0f);
             smokeEmitterParams1.OpacityRange = new Vector2(0.6f, 0f);
@@ -126,11 +125,9 @@ namespace Codesmith.SmithTest
             smokeEmitterParams2.Color = Color.Yellow;
             smokeEmitterParams2.TTLRange = new Vector2(500.0f, 5000.0f);
             smokeEmitterParams2.SpeedDamping = 0.99f;
-            smokeEmitterParams2.Flags = EmitterCastStyle.RandomPosition;
+            smokeEmitterParams2.Flags |= EmitterModes.RandomPosition;
             smokeEmitter1.Configuration = smokeEmitterParams1;
-            smokeEmitter1.AutoGenerate = false;
             smokeEmitter2.Configuration = smokeEmitterParams2;
-            smokeEmitter2.AutoGenerate = false;
             particleEffect.AddEmitter(smokeEmitter1);
             particleEffect.AddEmitter(smokeEmitter2);
             /*
