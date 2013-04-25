@@ -4,6 +4,7 @@ Menu:
 Use menu selection to select either play or quit. Options is not implemented yet.
 
 Play:
+Press F10 to toggle fullscreen
 Press PgUp/PgDown to zoom in/out
 Press BackSpace to immediately stop the ship (debug)
 Press End to quit to the main menu

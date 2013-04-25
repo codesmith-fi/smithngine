@@ -36,7 +36,7 @@ namespace Codesmith.SmithShooter
             graphics.PreferredBackBufferHeight = 720;
             Content.RootDirectory = "Content";
 
-            IsFixedTimeStep = true;
+            IsFixedTimeStep = false;
             TargetElapsedTime = TimeSpan.FromSeconds(1.0f / 60.0f);
         }
 
