@@ -33,12 +33,13 @@ namespace Codesmith.SmithNgine.GameState
     /// </summary>
     public class GameStateManager : DrawableGameComponent
     {
-        #region Attributes
+        #region Fields
         private InputManager input = new InputManager();
         private List<GameState> gameStates = new List<GameState>();
         private SpriteBatch spriteBatch;
         private string fontAsset = "";
         private bool isInitialized;
+        private bool exit;
         #endregion
 
         #region Properties
@@ -132,8 +133,14 @@ namespace Codesmith.SmithNgine.GameState
         /// </summary>
         public bool ExitRequested
         {
-            set;
-            get;
+            set 
+            { 
+                this.exit = value; 
+            }
+            get 
+            { 
+                return this.exit; 
+            }
         }
         #endregion
 
