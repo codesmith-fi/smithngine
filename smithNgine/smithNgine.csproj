@@ -95,8 +95,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Camera\Camera.cs" />
-    <Compile Include="Camera\SimpleCamera.cs" />
+    <Compile Include="View\Camera.cs" />
+    <Compile Include="View\SimpleCamera.cs" />
     <Compile Include="Collision\CollisionEventArgs.cs" />
     <Compile Include="Collision\CollisionManager.cs" />
     <Compile Include="Collision\ICollidableObject.cs" />
@@ -205,6 +205,8 @@
     <Compile Include="FarseerPhysics\Settings.cs" />
     <Compile Include="General\EventTrigger.cs" />
     <Compile Include="General\IContentManagerService.cs" />
+    <Compile Include="Gfx\Background.cs" />
+    <Compile Include="Gfx\BackgroundLayer.cs" />
     <Compile Include="MathUtil\MathConstants.cs" />
     <Compile Include="Particles\CircleEmitter.cs" />
     <Compile Include="Particles\ConeEmitter.cs" />

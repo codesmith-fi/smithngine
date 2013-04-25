@@ -7,7 +7,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Codesmith.SmithNgine.Camera
+namespace Codesmith.SmithNgine.View
 {
     /// <summary>
     /// Camera with Rotation, Scale and Parallax
@@ -29,10 +29,10 @@ namespace Codesmith.SmithNgine.Camera
         }
 
         /// <summary>
-        /// Zoom factor of the camera
-        /// <value>1.0 is normal zoom, smaller values zoom out</value>
+        /// Scaling factor of the camera
+        /// <value>1.0 is normal zoom, smaller values zoom out, bigger zoom in</value>
         /// </summary>
-        public float Zoom
+        public float Scale
         {
             get;
             set;
@@ -40,7 +40,7 @@ namespace Codesmith.SmithNgine.Camera
 
         /// <summary>
         /// Rotation of the camera
-        /// <value>Angle in radians</value>
+        /// <value>Rotation angle in radians</value>
         /// </summary>
         public float Rotation
         {
@@ -60,7 +60,7 @@ namespace Codesmith.SmithNgine.Camera
         {
             // Set origin to the center of the viewport
             Origin = new Vector2(viewPort.Width * 0.5f, viewPort.Height * 0.5f);
-            Zoom = 1.0f;
+            Scale = 1.0f;
             Rotation = 0.0f;
             viewPortRect = viewPort;
         }
@@ -79,7 +79,7 @@ namespace Codesmith.SmithNgine.Camera
                    // Rotation translation
                    Matrix.CreateRotationZ(Rotation) *
                    // Scaling translation
-                   Matrix.CreateScale(Zoom, Zoom, 1) *
+                   Matrix.CreateScale(Scale, Scale, 1) *
                    // Translate around center of the viewport
                    Matrix.CreateTranslation(
                     new Vector3(Origin, 0.0f));
@@ -101,7 +101,7 @@ namespace Codesmith.SmithNgine.Camera
                     // Rotation translation
                     Matrix.CreateRotationZ(Rotation) *
                     // Scaling translation
-                    Matrix.CreateScale(Zoom, Zoom, 1) *
+                    Matrix.CreateScale(Scale, Scale, 1) *
                     Matrix.CreateTranslation(new Vector3(origin, 0.0f));
             return viewMatrix;
         }

@@ -7,7 +7,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Codesmith.SmithNgine.Camera
+namespace Codesmith.SmithNgine.View
 {
     /// <summary>
     /// Very basic camera, only position and movement
