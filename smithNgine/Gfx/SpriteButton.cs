@@ -1,4 +1,10 @@
-﻿using System;
+﻿/**
+ * SmithNgine Game Framework
+ * 
+ * Copyright (C) 2013 by Erno Pakarinen / Codesmith (www.codesmith.fi)
+ * All Rights Reserved
+ */
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -7,15 +13,22 @@ using Codesmith.SmithNgine.MathUtil;
 
 namespace Codesmith.SmithNgine.Gfx
 {
+    // Defines the animation style of the spritebutton
     [Flags]
     public enum ButtonStyle : int
     {
         NoAnimation     = 1,
-        Highlight       = NoAnimation << 1,
-        AnimateOnPress  = NoAnimation << 2,
-        AnimateIdle     = NoAnimation << 3
+        Highlight       = NoAnimation << 1, // Scales a bit larger when hovered
+        AnimateOnPress  = NoAnimation << 2, // Animates when pressed
+        AnimateIdle     = NoAnimation << 3  // Animates slightly when idle
     }
 
+    /// <summary>
+    /// Implements a Button by extending a Sprite
+    /// 
+    /// Gains new event, ButtonClicked which is called when the button 
+    /// is either clicked with a mouse or bound shortcut key is pressed
+    /// </summary>
     public class SpriteButton : Sprite
     {
         #region Fields
@@ -67,31 +80,21 @@ namespace Codesmith.SmithNgine.Gfx
         #endregion
 
         #region Events
-        // Event which will trigger when this button was pressed
+        /// <summary>
+        /// Event which will trigger when this button was pressed
+        /// </summary>
         public event EventHandler<EventArgs> ButtonClicked;
         #endregion
 
         #region New methods 
-        // Causes this button to listen for the defined key. Acts like Mouse click
+        /// <summary>
+        /// Causes this button to listen for the defined key. Acts like Mouse click
+        /// </summary>
+        /// <param name="key">Key to bind to this button</param>
         public void BindKey(Keys key)
         {
             activationKey = key;
             InputEventSource.KeysPressed += keySource_KeysPressed;
-        }
-
-        void keySource_KeysPressed(object sender, KeyboardEventArgs e)
-        {
-            if (ObjectIsActive && e.keys.Length > 0 && activationKey != Keys.None )
-            {
-                foreach (Keys k in e.keys)
-                {
-                    if (k == activationKey)
-                    {
-                        activePlayerIndex = e.player;
-                        GainFocus();
-                    }
-                }
-            }
         }
         #endregion
 
@@ -125,9 +128,59 @@ namespace Codesmith.SmithNgine.Gfx
             Scale = hoverScale * animScale * idleScale;
         }
 
+        public override void GainFocus()
+        {
+            base.GainFocus();
+            LostDrag += SpriteButton_LostDrag;
+            if (this.ButtonClicked != null)
+            {
+                ButtonClicked(this, EventArgs.Empty);
+            }
+            animatingIn = true;
+            ResetAnimation();
+        }
+
+        public override void LooseFocus()
+        {
+            base.LooseFocus();
+            LostDrag -= SpriteButton_LostDrag;
+            this.direction = 0;
+        }
+
+        public override void Dismiss()
+        {
+            InputEventSource.KeysPressed -= keySource_KeysPressed; 
+            this.direction = 0;
+            this.Scale = 1.0f;
+        }
+        #endregion
+
+        #region Private methods
+        private void ResetAnimation()
+        {
+            currentAngle = AngleMin;
+            currentAmplify = 1.0f;
+            direction = 1;
+        }
+
+        private void keySource_KeysPressed(object sender, KeyboardEventArgs e)
+        {
+            if (ObjectIsActive && e.keys.Length > 0 && activationKey != Keys.None)
+            {
+                foreach (Keys k in e.keys)
+                {
+                    if (k == activationKey)
+                    {
+                        activePlayerIndex = e.player;
+                        GainFocus();
+                    }
+                }
+            }
+        }
+
         private float GetAnimationScale(GameTime gameTime)
         {
-            if (!TransitionMath.LinearTransition2(gameTime.ElapsedGameTime, ClickBounceSpeed, direction, ref currentAngle, AngleMin, AngleMax))
+            if (!Interpolations.LinearTransition2(gameTime.ElapsedGameTime, ClickBounceSpeed, direction, ref currentAngle, AngleMin, AngleMax))
             {
                 if (direction > 0)
                 {
@@ -157,25 +210,6 @@ namespace Codesmith.SmithNgine.Gfx
             return scale;
         }
 
-        public override void GainFocus()
-        {
-            base.GainFocus();
-            LostDrag += SpriteButton_LostDrag;
-            if (this.ButtonClicked != null)
-            {
-                ButtonClicked(this, EventArgs.Empty);
-            }
-            animatingIn = true;
-            ResetAnimation();
-        }
-
-        public override void LooseFocus()
-        {
-            base.LooseFocus();
-            LostDrag -= SpriteButton_LostDrag;
-            this.direction = 0;
-        }
-
         private void SpriteButton_LostDrag(object sender, DragEventArgs e)
         {
             LostDrag -= SpriteButton_LostDrag;
@@ -183,20 +217,6 @@ namespace Codesmith.SmithNgine.Gfx
             animatingOut = true;
             ResetAnimation();
         }
-
-        public override void Dismiss()
-        {
-            InputEventSource.KeysPressed -= keySource_KeysPressed; 
-            this.direction = 0;
-            this.Scale = 1.0f;
-        }
         #endregion
-
-        private void ResetAnimation()
-        {
-            currentAngle = AngleMin;
-            currentAmplify = 1.0f;
-            direction = 1;
-        }
     }
 }

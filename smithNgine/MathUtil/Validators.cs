@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework;
 
 namespace Codesmith.SmithNgine.MathUtil
 {
-    public static class MathValidator
+    public static class Validators
     {
         /// <summary>
         /// This methods just ensures that a range is valid. It makes

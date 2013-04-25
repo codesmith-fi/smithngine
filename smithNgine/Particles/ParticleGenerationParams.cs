@@ -213,7 +213,7 @@ namespace Codesmith.SmithNgine.Particles
         public Vector2 QuantityRange
         {
             get { return quantity; }
-            set { quantity = MathValidator.ValidateRange(value); }
+            set { quantity = Validators.ValidateRange(value); }
         }
 
         public int Quantity
@@ -243,7 +243,7 @@ namespace Codesmith.SmithNgine.Particles
         public Vector2 TTLRange
         {
             get { return ttl; }
-            set { ttl = MathValidator.ValidateRange(value); }
+            set { ttl = Validators.ValidateRange(value); }
         }
 
         // milliseconds

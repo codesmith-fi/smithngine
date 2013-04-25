@@ -96,6 +96,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Gfx\ScaleEventArgs.cs" />
+    <Compile Include="MathUtil\Random.cs" />
     <Compile Include="View\Camera.cs" />
     <Compile Include="View\SimpleCamera.cs" />
     <Compile Include="Collision\CollisionEventArgs.cs" />
@@ -208,7 +209,7 @@
     <Compile Include="General\IContentManagerService.cs" />
     <Compile Include="Gfx\Background.cs" />
     <Compile Include="Gfx\BackgroundLayer.cs" />
-    <Compile Include="MathUtil\MathConstants.cs" />
+    <Compile Include="MathUtil\Constants.cs" />
     <Compile Include="Particles\CircleEmitter.cs" />
     <Compile Include="Particles\ConeEmitter.cs" />
     <Compile Include="Primitives\Circle.cs" />
@@ -232,8 +233,8 @@
     <Compile Include="Input\KeyboardEventArgs.cs" />
     <Compile Include="General\IOrderableObject.cs" />
     <Compile Include="General\IRotatableObject.cs" />
-    <Compile Include="MathUtil\MathValidator.cs" />
-    <Compile Include="MathUtil\TransitionMath.cs" />
+    <Compile Include="MathUtil\Validators.cs" />
+    <Compile Include="MathUtil\Interpolations.cs" />
     <Compile Include="General\GameObjectBase.cs" />
     <Compile Include="Gfx\OrderEventArgs.cs" />
     <Compile Include="Gfx\RotationEventArgs.cs" />

@@ -1,11 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿/**
+ * SmithNgine Game Framework
+ * 
+ * Copyright (C) 2013 by Erno Pakarinen / Codesmith (www.codesmith.fi)
+ * All Rights Reserved
+ */
+using System;
 
 namespace Codesmith.SmithNgine.MathUtil
 {
-    public static class MathConstants
+    public static class Constants
     {
         const float PI = (float)Math.PI;
         const float PIHalf = (float)Math.PI / 2f;
