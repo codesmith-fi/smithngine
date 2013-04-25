@@ -83,7 +83,10 @@ namespace Codesmith.SmithShooter.Gameplay
 
         void Input_GamepadConnected(object sender, GamepadEventArgs e)
         {
-            controller.ControllingPlayer = e.Player;
+            if (controller != null)
+            {
+                controller.ControllingPlayer = e.Player;
+            }
         }
         
         public override void Draw(GameTime gameTime)

@@ -1,0 +1,23 @@
+Short instructions for SmithShooter:
+
+Menu:
+Use menu selection to select either play or quit. Options is not implemented yet.
+
+Play:
+Press PgUp/PgDown to zoom in/out
+Press BackSpace to immediately stop the ship (debug)
+Press End to quit to the main menu
+Keyboard:
+	Use cursor keys to move
+	Use space to shoot
+Gamepad 
+	Left analog stick to move
+	Right trigger to shoot
+	
+Enemies do not explode yet, they do not shoot. But when you collide with them or shoot them they will start to chase you.
+
+It's a WIP and an example.
+
+-erno
+
+
