@@ -80,13 +80,10 @@ namespace Codesmith.SmithShooter.MainMenu
 
             Vector2 position = new Vector2(bounds.Width - menuTexture.Width/2 - 10, bounds.Height - (3 * menuTexture.Height + 10));
             MenuEntry menuentry = CreateMenuEntry(menuTexture, "Play", position, Keys.F1);
-            menuentry.MenuEntrySelected += menuentry_PlayMenuEntrySelected;
             position.Y += menuTexture.Height + 10;
             menuentry = CreateMenuEntry(menuTexture, "Options", position, Keys.F2);
-            menuentry.MenuEntrySelected += menuentry_OptionsMenuEntrySelected;
             position.Y += menuTexture.Height + 10;
             menuentry = CreateMenuEntry(menuTexture, "Quit", position, Keys.Escape);
-            menuentry.MenuEntrySelected += menuentry_ExitMenuEntrySelected;
         }
 
         private MenuEntry CreateMenuEntry(
@@ -98,6 +95,7 @@ namespace Codesmith.SmithShooter.MainMenu
             entry.AnimState = 0.0f;
             entry.ClickBounceSpeed = TimeSpan.FromSeconds(0.1f);
             entry.InputEventSource = StateManager.Input;
+            entry.MenuEntrySelected += menuentry_ExitMenuEntrySelected;
             if (key != Keys.None)
             {
                 entry.BindKey(key);
