@@ -76,7 +76,6 @@ namespace Codesmith.SmithTest
                 s.TransitionSource = this.State;
                 s.Position = new Vector2(i, 80);
                 s.Scale = scale;
-                this.collisionManager.AddCollidable(s);
                 i += 200;
             }
             this.collisionManager.ObjectsCollided += collisionManager_ObjectsCollided;

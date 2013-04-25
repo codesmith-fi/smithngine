@@ -95,6 +95,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Gfx\ScaleEventArgs.cs" />
     <Compile Include="View\Camera.cs" />
     <Compile Include="View\SimpleCamera.cs" />
     <Compile Include="Collision\CollisionEventArgs.cs" />
@@ -234,10 +235,10 @@
     <Compile Include="MathUtil\MathValidator.cs" />
     <Compile Include="MathUtil\TransitionMath.cs" />
     <Compile Include="General\GameObjectBase.cs" />
-    <Compile Include="General\OrderEventArgs.cs" />
-    <Compile Include="General\RotationEventArgs.cs" />
+    <Compile Include="Gfx\OrderEventArgs.cs" />
+    <Compile Include="Gfx\RotationEventArgs.cs" />
     <Compile Include="General\ITransitionSource.cs" />
-    <Compile Include="General\PositionEventArgs.cs" />
+    <Compile Include="Gfx\PositionEventArgs.cs" />
     <Compile Include="Particles\LineEmitter.cs" />
     <Compile Include="Particles\Particle.cs" />
     <Compile Include="Particles\ParticleEffect.cs" />

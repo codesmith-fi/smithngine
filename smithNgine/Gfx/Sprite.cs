@@ -1,3 +1,9 @@
+/**
+ * SmithNgine Game Framework
+ * 
+ * Copyright (C) 2013 by Erno Pakarinen / Codesmith (www.codesmith.fi)
+ * All Rights Reserved
+ */
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -7,22 +13,75 @@ using Codesmith.SmithNgine.General;
 
 namespace Codesmith.SmithNgine.Gfx
 {
-    public class Sprite : GameObjectBase, IMovableObject2D, IOrderableObject, IRotatableObject, IFocusableObject, IHoverableObject, ICollidableObject
+    /// <summary>
+    /// A base Sprite class. Draws a texture with no animation but can report events.
+    /// 
+    /// Sprite is a graphics entity which has several properties like:
+    /// <list type="bullet">
+    /// <item>
+    /// <term>Texture</term>
+    /// <description>Texture to be drawn when drawing the Sprite</description>
+    /// </item>
+    /// <item>
+    /// <term>Position</term>
+    /// <description>Position of the sprite (Sprite origin affects how position is used)</description>
+    /// </item>
+    /// <item>
+    /// <term>Origin</term>
+    /// <description>Sprite origin, default origin is the centre of the sprite bounds</description>
+    /// </item>
+    /// <item>
+    /// <term>Rotation</term>
+    /// <description>Rotation of the sprite, 0.0f is no rotation</description>
+    /// </item>
+    /// <item>
+    /// <term>Scale</term>
+    /// <description>Scale factor of the Sprite, 1.0f is normal scale</description>
+    /// </item>
+    /// <item>
+    /// <term>Color</term>
+    /// <description>Default is Color.White, sprite color is tinted towards the set color</description>
+    /// </item>
+    /// <item>
+    /// <term>Order</term>
+    /// <description>Order of sprite entity in the Sprite base, can be used to control in which order the sprites are drawn</description>
+    /// </item>
+    /// </list>
+    /// 
+    /// Sprite can report several events for example:
+    /// - Dragging (Mouse is dragged with mouse)
+    /// - Focusing (Mouse was clicked on it)
+    /// - Loosing focus (Mouse was clicked outside the sprite)
+    /// - Changing of position, rotation, order
+    /// - Hovering (Mouse is moving on top of the sprite)
+    /// 
+    /// </summary>
+    public class Sprite : GameObjectBase, IMovableObject2D, IOrderableObject, IRotatableObject, IFocusableObject, IHoverableObject
     {
         #region Fields
+        // Input source for this Sprite
         private IInputEventSource inputSource;
-        protected Texture2D texture;
+        // Position of the sprite
         private Vector2 position = Vector2.Zero;
+        // Rotation of the sprite
         private float rotation = 0.0f;
+        // Scale factor of the sprite
+        private float scale = 1.0f;
+        // Order of the sprite
         private float order = 1.0f;
-        bool dragEnabled = false;
+        // Original frame size of the sprite
         private Rectangle frameSize;
+        // Texture to be used
+        protected Texture2D texture;
+        // Set when drag is enabled 
+        protected bool dragEnabled = false;
         #endregion
 
         #region Events
         public event EventHandler<PositionEventArgs> PositionChanged;
         public event EventHandler<OrderEventArgs> OrderChanged;
         public event EventHandler<RotationEventArgs> RotationChanged;
+        public event EventHandler<ScaleEventArgs> ScaleChanged;
         public event EventHandler<EventArgs> FocusGained;
         public event EventHandler<EventArgs> FocusLost;
         public event EventHandler<HoverEventArgs> BeingHovered;
@@ -31,30 +90,45 @@ namespace Codesmith.SmithNgine.Gfx
         #endregion
 
         #region Properties
+        /// <summary>
+        /// <value>True if Sprite has focus (mouse was clicked inside the Sprite)</value>
+        /// </summary>
         public bool HasFocus
         {
             get;
             protected set;
         }
 
+        /// <summary>
+        /// Default origin is set to the center of the sprite. 
+        /// Origin is drawn to the Sprites position. 
+        /// Origin affects also to the rotation, Sprite is rotated around the Origin point
+        /// <value>Sprite origin</value>
+        /// </summary>
         public Vector2 Origin
         {
             get;
             set;
         }
-
-        public float Scale
-        {
-            get;
-            set;
-        }
-
+        
+        /// <summary>
+        /// Color of the sprite, default is Color.White
+        /// Sprite texture is tinted towards the given color when drawn. White = no effect
+        /// <value>Color</value>
+        /// </summary>
         public Color Color
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Set or Get sprite position.
+        /// <value>Position of the sprite</value>
+        /// </summary>
+        /// <remarks>
+        /// Setting a new position causes PositionChanged event
+        /// </remarks>
         public Vector2 Position
         {
             get { return this.position; }
@@ -70,6 +144,13 @@ namespace Codesmith.SmithNgine.Gfx
             }
         }
 
+        /// <summary>
+        /// Set or Get sprite rotation/orientation. Default is 0.0f (no rotation)
+        /// <value>Rotation of the sprite</value>
+        /// </summary>
+        /// <remarks>
+        /// Setting a new rotation causes RotationChanged event
+        /// </remarks>        
         public float Rotation
         {
             get { return this.rotation; }
@@ -85,9 +166,33 @@ namespace Codesmith.SmithNgine.Gfx
         }
 
         /// <summary>
-        /// Set or get the Order of the Sprite
-        /// Setting triggers event OrderChanged
+        /// Set or Get sprite scale.
+        /// <value>Scale of the sprite, Default is 1.0f (=no scaling)</value>
         /// </summary>
+        /// <remarks>
+        /// Setting a new value for scale, causes ScaleChanged event
+        /// </remarks>
+        public float Scale
+        {
+            get { return this.scale; }
+            set
+            {
+                float oldScale = this.scale;
+                if (oldScale != value)
+                {
+                    this.scale = value;
+                    this.OnScaleChanged(oldScale, this.scale);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Set or Get the order value of the sprite. 
+        /// <value>Order, between 0.0f and 1.0f</value>
+        /// </summary>
+        /// <remarks>
+        /// Setting a new value for Order causes OrderChanged event
+        /// </remarks>
         public float Order
         {
             get { return this.order; }
@@ -96,21 +201,19 @@ namespace Codesmith.SmithNgine.Gfx
                 float oldOrder = this.order;
                 if (oldOrder != value)
                 {
-                    this.order = value;
+                    this.order = MathHelper.Clamp(value, 0.0f, 1.0f);
                     this.OnOrderChanged(oldOrder, this.order);
                 }
             }
         }
 
+        /// <summary>
+        /// <value>True if sprite is being hovered</value>
+        /// </summary>
         public bool IsHovered
         {
             get;
             private set;
-        }
-
-        public Rectangle CollisionBounds
-        {
-            get { return Bounds; }
         }
 
         /// <summary>
@@ -129,9 +232,12 @@ namespace Codesmith.SmithNgine.Gfx
 
         /// <summary>
         /// Set or get the input event source for this Sprite
+        /// </summary>
+        /// <remarks>
         /// When set, Sprite starts to listen for mouse button press/release and mouse change
         /// so it can report activation, focus and dragging etc.
-        /// </summary>
+        /// If not set, sprite can not report mouse/touch related events
+        /// </remarks>
         public IInputEventSource InputEventSource
         {
             get { return inputSource; }
@@ -167,6 +273,9 @@ namespace Codesmith.SmithNgine.Gfx
             }
         }
 
+        /// <summary>
+        /// Set or get the texture of the sprite
+        /// </summary>
         public Texture2D Texture
         {
             get { return this.texture; }
@@ -255,11 +364,6 @@ namespace Codesmith.SmithNgine.Gfx
                 BeingHovered(this, args);
             }
         }
-
-        public bool CheckCollision(ICollidableObject another)
-        {
-            return this.CollisionBounds.Intersects(another.CollisionBounds);
-        }
         #endregion
 
         #region Private methods
@@ -278,6 +382,15 @@ namespace Codesmith.SmithNgine.Gfx
             {
                 RotationEventArgs args = new RotationEventArgs(oldRotation, newRotation);
                 RotationChanged(this, args);
+            }
+        }
+
+        private void OnScaleChanged(float oldScale, float newScale)
+        {
+            if (ScaleChanged != null)
+            {
+                ScaleEventArgs args = new ScaleEventArgs(oldScale, newScale);
+                ScaleChanged(this, args);
             }
         }
 
