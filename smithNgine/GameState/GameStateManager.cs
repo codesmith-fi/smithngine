@@ -25,7 +25,7 @@ namespace Codesmith.SmithNgine.GameState
     /// 
     /// StateManager calls Initialize on all States when StateManager
     /// itself is initialized
-    /// LoadContent is on a state when State is brought active (using SwitchToState)
+    /// LoadContent is called on a state when State is brought active (using SwitchToState)
     /// UnloadContent is called when state becomes hidden. As is Dismiss.
     /// Draw and Update are called in game loop during each frame.
     /// 
@@ -226,10 +226,20 @@ namespace Codesmith.SmithNgine.GameState
             }
         }
 
+        /// <summary>
+        /// StateManager draws each active state on a RenderTarget2D (texture2d).
+        /// This is done to enable smooth transition between states.
+        /// The entering state and the exiting state are drawn on top of 
+        /// eachother. This means that when state is entering, two states might
+        /// be active at the same time.
+        /// </summary>
+        /// <param name="gameTime"></param>
         public override void Draw(GameTime gameTime)
         {
-            // Update exiting state if it is exiting
+            // A list of gamestates to draw
             List<GameState> statesToDraw = new List<GameState>();
+
+            // Draw the exiting state when it is exiting
             if (ExitingState != null)
             {
                 if (ExitingState.Status == GameStateStatus.Exiting)
@@ -243,6 +253,7 @@ namespace Codesmith.SmithNgine.GameState
                 }
             }
 
+            // Draw the current state
             if (CurrentState != null)
             {
                 DrawGameState(CurrentState, gameTime);
@@ -262,12 +273,17 @@ namespace Codesmith.SmithNgine.GameState
                     RasterizerState.CullNone, state.PostProcessingEffect);
                 Color color = new Color( 1.0f, 1.0f, 1.0f, state.TransitionValue );
                 Rectangle t = state.RenderTarget.Bounds;
-//                t.Inflate(-100, -100);
                 spriteBatch.Draw((Texture2D)state.RenderTarget, t, Color.White * state.TransitionValue);
                 spriteBatch.End();
             }
         }
 
+        /// <summary>
+        /// Draw a GameState to it's RenderTarget
+        /// The rendertarget will be used later to actually make the state visible.
+        /// </summary>
+        /// <param name="state">State to draw</param>
+        /// <param name="gameTime">The GameTime</param>
         private void DrawGameState(GameState state, GameTime gameTime)
         {
             GraphicsDevice.SetRenderTarget(state.RenderTarget);
