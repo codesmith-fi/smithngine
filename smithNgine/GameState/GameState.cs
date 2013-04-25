@@ -1,10 +1,9 @@
-﻿// ***************************************************************************
-// ** SmithNgine.GameState.GameState                                        **
-// **                                                                       **
-// ** Copyright (C) 2013 by Erno Pakarinen. All Rights Reserved.            **
-// ** Contact: erno(at)codesmith(dot)fi                                     **
-// ***************************************************************************
-
+﻿/**
+ * SmithNgine Game Framework
+ * 
+ * Copyright (C) 2013 by Erno Pakarinen / Codesmith (www.codesmith.fi)
+ * All Rights Reserved
+ */
 #region Using statements
 using System;
 using System.Collections.Generic;
@@ -18,6 +17,9 @@ using System.Diagnostics;
 namespace Codesmith.SmithNgine.GameState
 {
     #region Types
+    /// <summary>
+    /// Status enumerations for a GameState class
+    /// </summary>
     public enum GameStateStatus
     {
         Hidden,
@@ -32,13 +34,34 @@ namespace Codesmith.SmithNgine.GameState
 
     #endregion
 
+    /// <summary>
+    /// An abstract class implementing a GameState and managed by GameStateManager
+    /// 
+    /// GameState is a single state in a game application, for example:
+    /// PauseState
+    /// MainMenuState 
+    /// PlayingState
+    /// etc.
+    /// 
+    /// GameStates can contain multiple canvases, draw component, handle input etc.
+    /// 
+    /// GameStateManager can be ordered to switch between states.
+    /// 
+    /// State is drawn to a Texture2D using RenderTarget2D. During transition
+    /// from hidden to active two states are active and drawn.
+    /// </summary>
     public abstract class GameState : GameObjectBase, IEquatable<GameState>, ITransitionSource
     {
         #region Attributes/Fields
+        // List of owned canvases
         private List<GameCanvas> canvasList = new List<GameCanvas>();
+        // List of owned children components
         private List<IActivatableObject> children = new List<IActivatableObject>();
+        // Time interval for activating this state
         private TimeSpan enterStateInterval = TimeSpan.FromSeconds(0.5f);
+        // Time interval for deactivating this state
         private TimeSpan exitStateInterval = TimeSpan.FromSeconds(0.5f);
+        // Time interval for activating a pause state
         private TimeSpan pauseStateInterval = TimeSpan.Zero;
         private bool isInitialized = false;
         private float transitionValue = 1.0f;
@@ -49,38 +72,54 @@ namespace Codesmith.SmithNgine.GameState
         #endregion
 
         #region Properties
+        /// <summary>
+        /// Graphics bounds for this state
+        /// </summary>
         public Rectangle Bounds
         {
             get;
             set;
         }
 
+        /// <summary>
+        ///  Get the value of transition. When State is transitioning from Hidden to Running or
+        ///  Running to Hidden this value can transitions between 0.0 - 1.0.
+        /// </summary>
         public float TransitionValue
         {
             get { return this.transitionValue; }
         }
 
-        // Time interval for how long the pause transition takes
+        /// <summary>
+        /// Time interval for how long the pause transition takes
+        /// </summary>
         public TimeSpan PauseStateInterval
         {
             get { return this.pauseStateInterval; }
             protected set { this.pauseStateInterval = value; }
         }
 
-        // Time interval for how long state takes to enter
+        /// <summary>
+        /// Time interval for how long state takes to enter from Hidden to Running
+        /// </summary>
         public TimeSpan EnterStateInterval
         {
             get { return this.enterStateInterval; }
             protected set { this.enterStateInterval = value; }
         }
 
-        // Time interval for how long the state takes to exit
+        /// <summary>
+        /// Time interval for how long the state takes to exit (from Running to Hidden)
+        /// </summary>
         public TimeSpan ExitStateInterval
         {
             get { return this.exitStateInterval; }
             protected set { this.exitStateInterval = value; }
         }
 
+        /// <summary>
+        /// true if state is active (running, entering or exiting) but not hidden
+        /// </summary>
         public bool IsActive
         {
             get
@@ -91,6 +130,9 @@ namespace Codesmith.SmithNgine.GameState
             }
         }
 
+        /// <summary>
+        /// True if state is entering or exiting pause mode, or paused
+        /// </summary>
         public bool IsPaused
         {
             get
@@ -101,6 +143,9 @@ namespace Codesmith.SmithNgine.GameState
             }
         }
 
+        /// <summary>
+        /// Get or set the status of the State
+        /// </summary>
         public GameStateStatus Status
         {
             get { return status; }
@@ -115,6 +160,9 @@ namespace Codesmith.SmithNgine.GameState
             }
         }
 
+        /// <summary>
+        /// Get or set the StateManager which manages this state
+        /// </summary>
         public GameStateManager StateManager
         {
             get;
@@ -127,27 +175,38 @@ namespace Codesmith.SmithNgine.GameState
             protected set;
         }
 
+        /// <summary>
+        /// Get or set the name of the state
+        /// </summary>
         public String Name
         {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Get or set the PostProcessingEffect for this state
+        /// </summary>
         public Effect PostProcessingEffect
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Get or set the RenderTarget for this state.
+        /// </summary>
         public RenderTarget2D RenderTarget
         {
             get;
             internal set;
         }
-
         #endregion
 
         #region Events
+        /// <summary>
+        /// Event for Status changes. 
+        /// </summary>
         public event EventHandler<GameStatusEventArgs> StatusChanged;
         #endregion
 
@@ -231,14 +290,6 @@ namespace Codesmith.SmithNgine.GameState
                 }
             }
         }
-
-        public virtual void Draw(GameTime gameTime)
-        {
-            foreach (GameCanvas canvas in canvasList)
-            {
-                canvas.Draw(gameTime);
-            }
-        }
         #endregion
 
         #region New methods - Virtual
@@ -289,6 +340,14 @@ namespace Codesmith.SmithNgine.GameState
                 {
                     canvas.HandleInput(input);
                 }
+            }
+        }
+
+        public virtual void Draw(GameTime gameTime)
+        {
+            foreach (GameCanvas canvas in canvasList)
+            {
+                canvas.Draw(gameTime);
             }
         }
 

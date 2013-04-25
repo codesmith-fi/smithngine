@@ -1,10 +1,9 @@
-﻿// ***************************************************************************
-// ** SmithNgine.GameState.GameCanvas                                       **
-// **                                                                       **
-// ** Copyright (C) 2013 by Erno Pakarinen. All Rights Reserved.            **
-// ** Contact: erno(at)codesmith(dot)fi                                     **
-// ***************************************************************************
-
+﻿/**
+ * SmithNgine Game Framework
+ * 
+ * Copyright (C) 2013 by Erno Pakarinen / Codesmith (www.codesmith.fi)
+ * All Rights Reserved
+ */
 #region Using statements
 using System;
 using System.Collections.Generic;
@@ -17,6 +16,12 @@ using System.Text;
 
 namespace Codesmith.SmithNgine.GameState
 {
+    /// <summary>
+    /// Implements a GameCanvas class
+    /// 
+    /// GameCanvas can be used inside a GameState class as a collection of drawable
+    /// components. 
+    /// </summary>
     public abstract class GameCanvas : GameObjectBase
     {
         #region Fields/Attributes
@@ -73,20 +78,34 @@ namespace Codesmith.SmithNgine.GameState
         #endregion
 
         #region New methods
+        /// <summary>
+        /// Add a component to this Canvas
+        /// All added components have their Update() called by the framework
+        /// during each frame. The call order is the addition order
+        /// </summary>
+        /// <remarks>
+        /// Component can be added only once.
+        /// </remarks>
+        /// <param name="obj">Component to add</param>
         public virtual void AddComponent(IActivatableObject obj)
         {
-            if (children.Contains(obj))
-            {
-                Debug.Fail("Trying to add same component twice" + obj.ToString());
-            }
+            Debug.Assert(!children.Contains(obj), "Trying to add same component twice!");
             this.children.Add(obj);
         }
 
+        /// <summary>
+        /// Remove a component from this canvas
+        /// </summary>
+        /// <param name="obj">Component to remove</param>
         public virtual void RemoveComponent(IActivatableObject obj)
         {
             children.Remove(obj);
         }
 
+        /// <summary>
+        /// Loads content for this canvas. This will be called by the 
+        /// GameState for all canvases owned by it. 
+        /// </summary>
         public virtual void LoadContent()
         {
             // Set bounds by default to the viewport bounds if it is not already set
@@ -96,19 +115,41 @@ namespace Codesmith.SmithNgine.GameState
             }
         }
 
+        /// <summary>
+        /// Unload content for canvas (free resources)
+        /// This will be called when a State becomes hidden.
+        /// </summary>
         public virtual void UnloadContent()
         {
         }
 
+        /// <summary>
+        /// Initializes the Canvas, load/initialize any non-graphic content
+        /// Called by GameState
+        /// </summary>
         public virtual void Initialize()
         {
             this.isInitialized = true;
         }
 
+        /// <summary>
+        /// Handle input on this canvas, called by gamestate for each canvas
+        /// </summary>
+        /// <param name="input">The input manager</param>
         public virtual void HandleInput(InputManager input)
         {
         }
 
+        /// <summary>
+        /// Draw the canvas
+        /// </summary>
+        /// <param name="gameTime">The GameTime</param>
+        public virtual void Draw(GameTime gameTime)
+        {
+        }
+        #endregion
+
+        #region Methods from base classes
         public override void Dismiss()
         {
             foreach (IActivatableObject obj in children)
@@ -125,10 +166,6 @@ namespace Codesmith.SmithNgine.GameState
                 obj.Update(gameTime);
             }
             base.Update(gameTime);
-        }
-
-        public virtual void Draw(GameTime gameTime)
-        {
         }
 
         #endregion

@@ -1,9 +1,9 @@
-﻿// ***************************************************************************
-// ** SmithNgine.Collision.ICollidableObject                                **
-// **                                                                       **
-// ** Copyright (C) 2013 by Erno Pakarinen. All Rights Reserved.            **
-// ** Contact: erno(at)codesmith(dot)fi                                     **
-// ***************************************************************************
+﻿/**
+ * SmithNgine Game Framework
+ * 
+ * Copyright (C) 2013 by Erno Pakarinen / Codesmith (www.codesmith.fi)
+ * All Rights Reserved
+ */
 using Microsoft.Xna.Framework;
 
 namespace Codesmith.SmithNgine.Collision
