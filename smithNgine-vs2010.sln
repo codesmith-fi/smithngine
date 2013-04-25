@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "smithTest", "smithTest\smit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "smithTestContent", "smithTest\smithTestContent\smithTestContent.contentproj", "{6DEC47B0-E551-45F3-ACFD-B578AED53EBA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmithShooter", "SmithShooter\SmithShooter\SmithShooter\SmithShooter.csproj", "{680E16F5-A17C-4291-AD79-C4357D47F771}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmithShooterContent", "SmithShooter\SmithShooter\SmithShooterContent\SmithShooterContent.contentproj", "{BA4592E5-3354-4E8D-A3CE-C2F1817DE759}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -23,6 +27,12 @@ Global
 		{913C3418-45D6-4C0D-86AF-F7EF539BF59B}.Release|x86.Build.0 = Release|x86
 		{6DEC47B0-E551-45F3-ACFD-B578AED53EBA}.Debug|x86.ActiveCfg = Debug|x86
 		{6DEC47B0-E551-45F3-ACFD-B578AED53EBA}.Release|x86.ActiveCfg = Release|x86
+		{680E16F5-A17C-4291-AD79-C4357D47F771}.Debug|x86.ActiveCfg = Debug|x86
+		{680E16F5-A17C-4291-AD79-C4357D47F771}.Debug|x86.Build.0 = Debug|x86
+		{680E16F5-A17C-4291-AD79-C4357D47F771}.Release|x86.ActiveCfg = Release|x86
+		{680E16F5-A17C-4291-AD79-C4357D47F771}.Release|x86.Build.0 = Release|x86
+		{BA4592E5-3354-4E8D-A3CE-C2F1817DE759}.Debug|x86.ActiveCfg = Debug|x86
+		{BA4592E5-3354-4E8D-A3CE-C2F1817DE759}.Release|x86.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
