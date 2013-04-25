@@ -1,6 +1,6 @@
 SmithNgine 2D Game Framework
 
-This is a XNA based 2D framework for making games. 
+This is a XNA based 2D framework for making games. This means it's done with C#. 
 
 This project provides following components
 

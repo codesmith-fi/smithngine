@@ -96,6 +96,18 @@ namespace Codesmith.SmithNgine.Gfx
             activationKey = key;
             InputEventSource.KeysPressed += keySource_KeysPressed;
         }
+
+        /// <summary>
+        /// Unbind the previously set key. 
+        /// </summary>
+        /// <param name="key">Key to unbind, if not bound before this does nothing</param>
+        public void UnbindKey(Keys key)
+        {
+            if (key == activationKey)
+            {
+                InputEventSource.KeysPressed -= keySource_KeysPressed;
+            }
+        }
         #endregion
 
         #region Methods overridden from base
