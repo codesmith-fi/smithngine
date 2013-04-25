@@ -1,10 +1,9 @@
-﻿// ***************************************************************************
-// ** SmithNgine.Input.InputManager                                         **
-// **                                                                       **
-// ** Copyright (C) 2013 by Erno Pakarinen. All Rights Reserved.            **
-// ** Contact: erno(at)codesmith(dot)fi                                     **
-// ***************************************************************************
-
+﻿/**
+ * SmithNgine Game Framework
+ * 
+ * Copyright (C) 2013 by Erno Pakarinen / Codesmith (www.codesmith.fi)
+ * All Rights Reserved
+ */
 #region Using statements
 using System;
 using System.Collections.Generic;
@@ -23,6 +22,12 @@ namespace Codesmith.SmithNgine.Input
     }
     #endregion
 
+    /// <summary>
+    /// The input manager of the framework. Owned usually by the GameStateManager
+    /// Listens to Keyboard, Mouse(touch) and GamePad changes.
+    /// 
+    /// Offers several events and methods to access the input states.
+    /// </summary>
     public class InputManager : IInputEventSource
     {
         #region Fields
@@ -35,22 +40,35 @@ namespace Codesmith.SmithNgine.Input
         #endregion
 
         #region Properties
+        /// <summary>
+        /// Set or get the number of max players managed by the input manager
+        /// XNA, don't use more than 4.
+        /// </summary>
         public int MaxPlayers
         {
             set;
             get;
         }
 
+        /// <summary>
+        /// Get the current mouse scrollwheelvalue
+        /// </summary>
         public int ScrollWheelValue
         {
             get { return mouseState.ScrollWheelValue; }
         }
 
+        /// <summary>
+        /// Get the current X coordinate of the mouse pointer
+        /// </summary>
         public int MouseX
         {
             get { return mouseState.X; }
         }
 
+        /// <summary>
+        /// Get the current Y coordinate of the mouse pointer
+        /// </summary>
         public int MouseY
         {
             get { return mouseState.Y; }

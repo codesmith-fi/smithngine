@@ -246,6 +246,11 @@ namespace Codesmith.SmithNgine.GameState
             {
                 obj.Dismiss();
             }
+
+            if (StateManager.ExitRequested)
+            {
+                StateManager.Game.Exit();
+            }
             base.Dismiss();
         }
 

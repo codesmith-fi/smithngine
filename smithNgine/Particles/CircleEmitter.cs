@@ -39,7 +39,8 @@ namespace Codesmith.SmithNgine.Particles
             }
 
             // This causes particles to go away along the normal line in this point
-            p.LinearVelocity = new Vector2((float)Math.Sin(angle) * p.Speed, (float)Math.Cos(angle) * p.Speed);
+            p.LinearVelocity = new Vector2((float)Math.Sin(angle) * p.Speed, 
+                (float)Math.Cos(angle) * p.Speed);
         }
     }
 }
