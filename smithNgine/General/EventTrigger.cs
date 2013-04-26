@@ -4,13 +4,16 @@
  * Copyright (C) 2013 by Erno Pakarinen / Codesmith (www.codesmith.fi)
  * All Rights Reserved
  */
-using System;
-using Codesmith.SmithNgine.General;
-using Microsoft.Xna.Framework;
-using System.Diagnostics;
 
 namespace Codesmith.SmithNgine.General
 {
+    #region Using statements
+    using System;
+    using Codesmith.SmithNgine.General;
+    using Microsoft.Xna.Framework;
+    using System.Diagnostics;
+    #endregion
+
     /// <summary>
     /// EventTimer class, encapsulates functionality to trigger event after
     /// given TimeSpan. This uses XNA GameTime and TimeSpan, not real timers

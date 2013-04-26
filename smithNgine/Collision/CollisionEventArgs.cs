@@ -4,11 +4,12 @@
  * Copyright (C) 2013 by Erno Pakarinen / Codesmith (www.codesmith.fi)
  * All Rights Reserved
  */
-using System;
-using System.Collections.Generic;
 
 namespace Codesmith.SmithNgine.Collision
 {
+    using System;
+    using System.Collections.Generic;
+
     public class CollisionEventArgs : EventArgs
     {
         public ICollidableObject SourceObject

@@ -4,10 +4,6 @@
  * Copyright (C) 2013 by Erno Pakarinen / Codesmith (www.codesmith.fi)
  * All Rights Reserved
  */
-using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Codesmith.SmithNgine.General;
 
 //
 // TODO! This is a work in progress and mostly not even needed at the moment
@@ -18,6 +14,11 @@ using Codesmith.SmithNgine.General;
 
 namespace Codesmith.SmithNgine.Collision
 {
+    using System;
+    using System.Collections.Generic;
+    using Microsoft.Xna.Framework;
+    using Codesmith.SmithNgine.General;
+
     public class CollisionManager : GameObjectBase
     {
         private List<ICollidableObject> objects = new List<ICollidableObject>();

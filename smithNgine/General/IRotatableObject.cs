@@ -4,10 +4,11 @@
  * Copyright (C) 2013 by Erno Pakarinen / Codesmith (www.codesmith.fi)
  * All Rights Reserved
  */
-using System;
-using Codesmith.SmithNgine.Gfx;
 namespace Codesmith.SmithNgine.General
 {
+    using System;
+    using Codesmith.SmithNgine.Gfx;
+
     interface IRotatableObject
     {
         float Rotation

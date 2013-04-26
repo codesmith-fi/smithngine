@@ -4,12 +4,13 @@
  * Copyright (C) 2013 by Erno Pakarinen / Codesmith (www.codesmith.fi)
  * All Rights Reserved
  */
-using System;
-using Microsoft.Xna.Framework;
-using Codesmith.SmithNgine.Gfx;
 
 namespace Codesmith.SmithNgine.General
 {
+    using System;
+    using Microsoft.Xna.Framework;
+    using Codesmith.SmithNgine.Gfx;
+
     public interface IMovableObject2D
     {
         // Movable 2D object has a position
