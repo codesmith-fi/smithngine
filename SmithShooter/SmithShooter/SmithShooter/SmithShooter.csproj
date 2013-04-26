@@ -114,10 +114,6 @@
     <Reference Include="mscorlib">
       <Private>False</Private>
     </Reference>
-    <Reference Include="smithNgine, Version=0.1.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\smithNgine\smithNgine\bin\x86\Release\smithNgine.dll</HintPath>
-    </Reference>
     <Reference Include="System">
       <Private>False</Private>
     </Reference>
@@ -298,6 +294,10 @@
     </PublishFile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\smithNgine\smithNgine.csproj">
+      <Project>{034e0336-746c-4f85-83cf-35f713a32891}</Project>
+      <Name>smithNgine</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SmithShooterContent\SmithShooterContent.contentproj">
       <Project>{BA4592E5-3354-4E8D-A3CE-C2F1817DE759}</Project>
       <Name>SmithShooterContent %28Content%29</Name>

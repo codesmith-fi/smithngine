@@ -4,14 +4,15 @@
  * Copyright (C) 2013 by Erno Pakarinen / Codesmith (www.codesmith.fi)
  * All Rights Reserved
  */
-using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
-using System.ComponentModel;
 
 namespace Codesmith.SmithNgine.Particles
 {
+    using System;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+
     /// <summary>
     /// Base class for a particle emitter class, for extension only
     /// </summary>
@@ -140,19 +141,20 @@ namespace Codesmith.SmithNgine.Particles
 
         public void Update(GameTime gameTime, Vector2 globalGravity)
         {
-            double elapsedMs = gameTime.ElapsedGameTime.TotalMilliseconds;
+            float elapsedMs = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+            float elapsedSeconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
             for (int i = 0; i < particles.Count; i++)
             {
                 Particle p = particles[i];
 
-                p.TTLPercent += (float)elapsedMs / p.TTL;
+                p.TTLPercent += elapsedMs / p.TTL;
 
                 p.Scale = MathHelper.Lerp(p.InitialScale, Configuration.ScaleRange.Y, p.TTLPercent);
                 p.Opacity =  MathHelper.Lerp(p.InitialOpacity, Configuration.OpacityRange.Y, p.TTLPercent);
                 p.Rotation = MathHelper.Lerp(p.InitialRotation, Configuration.RotationRange.Y, p.TTLPercent);
                 p.AngularVelocity = MathHelper.Lerp(p.InitialAngularVelocity, Configuration.AngularVelocityRange.Y, p.TTLPercent);
-                p.Position += p.LinearVelocity;
-                p.Rotation += p.AngularVelocity;
+                p.Position += p.LinearVelocity * elapsedSeconds;
+                p.Rotation += p.AngularVelocity * elapsedSeconds;
                 p.LinearVelocity *= p.SpeedDamping;
 
                 p.LinearVelocity += globalGravity;

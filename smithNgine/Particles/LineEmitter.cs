@@ -4,32 +4,38 @@
  * Copyright (C) 2013 by Erno Pakarinen / Codesmith (www.codesmith.fi)
  * All Rights Reserved
  */
-using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
 
 namespace Codesmith.SmithNgine.Particles
 {
+    using System;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+    using System.Collections.Generic;
+    using Codesmith.SmithNgine.Primitives;
+
     /// <summary>
+    /// Implements a Line emitter
+    /// 
+    /// Particles are spawned along the given line
     /// </summary>
     public class LineEmitter : ParticleEmitter
     {
-        private Vector2 startVector;
-        private Vector2 endVector;
+        //private Vector2 startVector;
+        //private Vector2 endVector;
+        private Line line;
+
 
         public LineEmitter(Vector2 lineStart, Vector2 lineEnd)
             : base(lineStart)
         {
-            startVector = lineStart;
-            endVector = lineEnd;
+            line = new Line(lineStart, lineEnd);
             Name = "LineEmitter";
         }
 
         protected override void GenerateParticle(Particle p)
         {
             // Get a point along the line specified for this line emitter
-            p.Position = Vector2.Lerp(startVector, endVector, (float)random.NextDouble());
+            p.Position = line.Lerp((float)random.NextDouble());
             if (Configuration.Flags.HasFlag(EmitterModes.PositionRelative))
             {
                 p.Position+=Effect.Position;

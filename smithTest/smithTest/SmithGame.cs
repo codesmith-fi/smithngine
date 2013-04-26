@@ -31,8 +31,7 @@ namespace Codesmith.SmithTest
             graphics.PreferredBackBufferHeight = 720;
             Content.RootDirectory = "Content";
 
-            IsFixedTimeStep = true;
-            TargetElapsedTime = TimeSpan.FromSeconds(1.0f / 80.0f);
+            IsFixedTimeStep = false;
         }
 
         public void TestStateStatusChanged(object sender, GameStatusEventArgs args)

@@ -4,14 +4,16 @@
  * Copyright (C) 2013 by Erno Pakarinen / Codesmith (www.codesmith.fi)
  * All Rights Reserved
  */
-using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
 
 namespace Codesmith.SmithNgine.Particles
 {
+    using System;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+    using System.Collections.Generic;
+
     /// <summary>
+    /// Implements a point emitter
     /// </summary>
     public class PointEmitter : ParticleEmitter
     {

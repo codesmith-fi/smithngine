@@ -4,12 +4,14 @@
  * Copyright (C) 2013 by Erno Pakarinen / Codesmith (www.codesmith.fi)
  * All Rights Reserved
  */
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
 
 namespace Codesmith.SmithNgine.Particles
 {
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+
     public enum ParticleSystemStatus
     {
         Idle,
@@ -17,6 +19,15 @@ namespace Codesmith.SmithNgine.Particles
         Paused
     }
 
+    /// <summary>
+    /// Implements a particle system.
+    /// 
+    /// Particle system manages a set of ParticleEffects.
+    /// 
+    /// Call Update() in gameloop.
+    /// 
+    /// 
+    /// </summary>
     public class ParticleSystem
     {
         #region Fields
@@ -40,6 +51,9 @@ namespace Codesmith.SmithNgine.Particles
             }
         }
 
+        /// <summary>
+        /// Get the number of effects managed by this system
+        /// </summary>
         public int EffectCount
         {
             get
@@ -48,6 +62,9 @@ namespace Codesmith.SmithNgine.Particles
             }
         }
 
+        /// <summary>
+        /// Get the number of particle emitters in the system
+        /// </summary>
         public int EmitterCount
         {
             get
@@ -61,6 +78,10 @@ namespace Codesmith.SmithNgine.Particles
             }
         }
 
+        /// <summary>
+        /// Is this particle system paused
+        /// <value>true if paused, false if running</value> 
+        /// </summary>
         public bool IsPaused
         {
             get
@@ -69,6 +90,10 @@ namespace Codesmith.SmithNgine.Particles
             }
         }
 
+        /// <summary>
+        /// Is this particle system running (means: Update() is called for subsystems)
+        /// <value>true if running, false if paused</value>
+        /// </summary>
         public bool IsRunning
         {
             get
@@ -77,47 +102,73 @@ namespace Codesmith.SmithNgine.Particles
             }
         }
 
+        /// <summary>
+        /// Constructs a new particle system
+        /// </summary>
         public ParticleSystem()
         {
             effects = new List<ParticleEffect>();
             this.status = ParticleSystemStatus.Idle;
+            Resume();
         }
 
+        /// <summary>
+        /// Add a particle effect to this system
+        /// </summary>
+        /// <param name="newEffect">ParticleEffect to be added</param>
         public void AddEffect(ParticleEffect newEffect)
         {
+            Debug.Assert(!effects.Contains(newEffect), "Can't add same effect twice");
             effects.Add(newEffect);
         }
 
+        /// <summary>
+        /// Remove particle effect from the system
+        /// </summary>
+        /// <param name="effect"></param>
         public void RemoveEffect(ParticleEffect effect)
         {
             effects.Remove(effect);
         }
 
+        /// <summary>
+        /// Pause the system
+        /// </summary>
         public void Pause()
         {
             this.status = ParticleSystemStatus.Paused;
         }
 
+        /// <summary>
+        /// Resume the system
+        /// </summary>
         public void Resume()
         {
             this.status = ParticleSystemStatus.Running;
         }
 
+        /// <summary>
+        /// Clear the system, removes all effects
+        /// </summary>
         public void Clear()
         {
             this.status = ParticleSystemStatus.Idle;
             effects.Clear();
         }
 
-        public void Update(GameTime gameTime)
+        public virtual void Update(GameTime gameTime)
         {
-            foreach (ParticleEffect eff in effects)
+            // Update particles unless the system is paused
+            if (IsRunning)
             {
-                eff.Update(gameTime);
+                foreach (ParticleEffect eff in effects)
+                {
+                    eff.Update(gameTime);
+                }
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public virtual void Draw(SpriteBatch spriteBatch)
         {
             foreach (ParticleEffect eff in effects)
             {

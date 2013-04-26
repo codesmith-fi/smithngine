@@ -4,25 +4,37 @@
  * Copyright (C) 2013 by Erno Pakarinen / Codesmith (www.codesmith.fi)
  * All Rights Reserved
  */
-using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Codesmith.SmithNgine.MathUtil;
 
 namespace Codesmith.SmithNgine.Particles
 {
+    using System;
+    using System.Collections.Generic;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+    using Codesmith.SmithNgine.MathUtil;
+
+    /// <summary>
+    /// Enumeration flags for Emitter modes
+    /// </summary>
     [Flags]
     public enum EmitterModes : int
     {
         None = 0,
+        // Emitter spawns particles from random position, e.g. CircleEmitter
         RandomPosition   = 1,
+        // Movement direction of new particles is random
         RandomDirection  = 1 << 1,
+        // Emitter position is absolute instead of relative to the effect position
         PositionAbsolute = 1 << 2,
+        // Emitter position is relative to the effect position
         PositionRelative = 1 << 3,
+        // Emitter rotation is absolute instead of relative to the effect rotation
         RotationAbsolute = 1 << 4,
+        // Emitter rotation is relative to the effect rotation
         RotationRelative = 1 << 5,
+        // Emitter uses the given budget only and stops generating stuff
         UseBudgetOnly    = 1 << 6,
+        // Emitter generates stuff automatically when ParticlSystem is updated
         AutoGenerate     = 1 << 7 
     }
 
@@ -32,7 +44,6 @@ namespace Codesmith.SmithNgine.Particles
     public class ParticleGenerationParams
     {
         private Random random;
-        private Color color;
         private Vector2 speed;
         private Vector2 opacity;
         private Vector2 rotation;
@@ -41,6 +52,11 @@ namespace Codesmith.SmithNgine.Particles
         private Vector2 quantity;
         private Vector2 angularvelocity;
         private float speedDamping;
+        private float speedVariation;
+        private float rotationSpeedVariation;
+        private float rotationVariation;
+        private float opacityVariation;
+        private float scaleVariation;
         private Vector2 ttl;
         private List<Texture2D> textures;
 
@@ -57,46 +73,72 @@ namespace Codesmith.SmithNgine.Particles
             set;
         }
 
+        /// <summary>
+        /// Range for initial speed
+        /// Units per second
+        /// </summary>
         public Vector2 InitialSpeedRange
         {
             get { return speed; }
             set { speed = value; }
         }
 
+        /// <summary>
+        /// Initial speed variation, between 0.0f and 1.0f, will be clamped
+        /// <value>if 0 returns the start of the speed range</value>
+        /// </summary>
         public float InitialSpeedVariation
         {
-            get;
-            set;
+            get { return speedVariation; }
+            set { speedVariation = MathHelper.Clamp(value, 0.0f, 1.0f); }
         }
 
+        /// <summary>
+        /// Get initial speed for a particle
+        /// <see cref="InitialSpeedVariation"/>
+        /// <see cref="InitialSpeedRange"/>
+        /// </summary>
         public float InitialSpeed
         {
             get
             {
-                return (int)MathHelper.Lerp(speed.X, speed.Y,
+                return (float)MathHelper.Lerp(speed.X, speed.Y,
                     (float)random.NextDouble() * InitialSpeedVariation);
             }
         }
 
+        /// <summary>
+        /// Speed damping, how much the particle slows down during update
+        /// </summary>
         public float SpeedDamping
         {
             get { return speedDamping; }
             set { speedDamping = value; }
         }
 
-        // Speed of rotation
+        /// <summary>
+        /// Get or set the range for rotation speed, radians per second
+        /// </summary>
         public Vector2 AngularVelocityRange
         {
             get { return angularvelocity; }
             set { angularvelocity = value; }
         }
 
+        /// <summary>
+        /// Get or set the variation for initial angle
+        /// </summary>
         public float InitialAngularVelocityVariation
         {
-            get;
-            set;
+            get { return rotationSpeedVariation; }
+            set { rotationSpeedVariation = MathHelper.Clamp(value, 0.0f, 1.0f); }
         }
 
+        /// <summary>
+        /// Get initial rotation speed.
+        /// <see cref="AngularVelocityRange"/>
+        /// <see cref="InitialAngularVelocityVariation"/>
+        /// </summary>
         public float InitialAngularVelocity
         {
             get
@@ -115,8 +157,8 @@ namespace Codesmith.SmithNgine.Particles
 
         public float InitialOpacityVariation
         {
-            get;
-            set;
+            get { return opacityVariation; }
+            set { opacityVariation = MathHelper.Clamp(value, 0.0f, 1.0f); }
         }
 
         public float InitialOpacity
@@ -130,8 +172,8 @@ namespace Codesmith.SmithNgine.Particles
 
         public float InitialRotationVariation
         {
-            get;
-            set;
+            get { return rotationVariation; }
+            set { rotationVariation = MathHelper.Clamp(value, 0.0f, 1.0f); }
         }
 
         // Initial rotation range for new particles, x=min, y=max
@@ -167,8 +209,8 @@ namespace Codesmith.SmithNgine.Particles
 
         public float InitialScaleVariation
         {
-            get;
-            set;
+            get { return scaleVariation; }
+            set { scaleVariation = MathHelper.Clamp(value, 0.0f, 1.0f); }
         }
 
         public Vector2 ScaleRange

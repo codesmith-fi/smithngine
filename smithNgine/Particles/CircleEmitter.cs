@@ -4,12 +4,20 @@
  * Copyright (C) 2013 by Erno Pakarinen / Codesmith (www.codesmith.fi)
  * All Rights Reserved
  */
-using System;
-using Microsoft.Xna.Framework;
-using Codesmith.SmithNgine.Primitives;
 
 namespace Codesmith.SmithNgine.Particles
 {
+    using System;
+    using Microsoft.Xna.Framework;
+    using Codesmith.SmithNgine.Primitives;
+
+    /// <summary>
+    /// Implements a CircleEmitter
+    /// 
+    /// This emitter can be configured to spawn particles from the perimeter
+    /// or from random point within the circle.
+    /// <see cref="EmitterModes"/>
+    /// </summary>
     public class CircleEmitter : ParticleEmitter
     {
         private Circle emitCircle;
