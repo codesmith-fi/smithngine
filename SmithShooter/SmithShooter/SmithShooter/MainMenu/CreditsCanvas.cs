@@ -159,7 +159,6 @@ namespace Codesmith.SmithShooter.MainMenu
 
         public override void Update(GameTime gameTime)
         {
-            int direction = ( state == CreditsState.CreditsFadeOut) ? -1 : 1;
             trigger.Update(gameTime);
             base.Update(gameTime);
         }
