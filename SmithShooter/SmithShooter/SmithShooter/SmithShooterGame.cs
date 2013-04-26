@@ -1,21 +1,21 @@
-﻿#region Using Statements
-using System;
-using System.Diagnostics;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Storage;
-using Microsoft.Xna.Framework.GamerServices;
-
-using Codesmith.SmithNgine.GameState;
-using Codesmith.SmithShooter.MainMenu;
-using Codesmith.SmithShooter.Gameplay;
-#endregion
-
-namespace Codesmith.SmithShooter
+﻿namespace Codesmith.SmithShooter
 {
+    #region Using Statements
+    using System;
+    using System.Diagnostics;
+    using System.Collections.Generic;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Content;
+    using Microsoft.Xna.Framework.Graphics;
+    using Microsoft.Xna.Framework.Input;
+    using Microsoft.Xna.Framework.Storage;
+    using Microsoft.Xna.Framework.GamerServices;
+
+    using Codesmith.SmithNgine.GameState;
+    using Codesmith.SmithShooter.MainMenu;
+    using Codesmith.SmithShooter.Gameplay;
+    #endregion
+
     /// <summary>
     /// This is the main type for your game
     /// </summary>
@@ -37,7 +37,6 @@ namespace Codesmith.SmithShooter
             Content.RootDirectory = "Content";
 
             IsFixedTimeStep = false;
-            TargetElapsedTime = TimeSpan.FromSeconds(1.0f / 60.0f);
         }
 
         protected override void Initialize()

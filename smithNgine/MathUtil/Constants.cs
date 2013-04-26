@@ -4,10 +4,13 @@
  * Copyright (C) 2013 by Erno Pakarinen / Codesmith (www.codesmith.fi)
  * All Rights Reserved
  */
-using System;
-
 namespace Codesmith.SmithNgine.MathUtil
 {
+    using System;
+
+    /// <summary>
+    /// Constants
+    /// </summary>
     public static class Constants
     {
         const float PI = (float)Math.PI;

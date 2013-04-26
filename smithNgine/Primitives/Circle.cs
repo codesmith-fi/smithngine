@@ -4,11 +4,11 @@
  * Copyright (C) 2013 by Erno Pakarinen / Codesmith (www.codesmith.fi)
  * All Rights Reserved
  */
-using Microsoft.Xna.Framework;
-using System;
-
 namespace Codesmith.SmithNgine.Primitives
 {
+    using Microsoft.Xna.Framework;
+    using System;
+
     /// <summary>
     /// Implements a Circle class which has a Radius and Position
     /// </summary>

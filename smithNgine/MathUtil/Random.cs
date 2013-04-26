@@ -4,10 +4,11 @@
  * Copyright (C) 2013 by Erno Pakarinen / Codesmith (www.codesmith.fi)
  * All Rights Reserved
  */
-using System;
 
 namespace Codesmith.SmithNgine.MathUtil
 {
+    using System;
+
     /// <summary>
     /// Extends Random class and gives new method for getting NextFloat()
     /// </summary>

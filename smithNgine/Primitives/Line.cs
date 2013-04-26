@@ -1,8 +1,18 @@
-﻿using Microsoft.Xna.Framework;
-using System;
-
+﻿/**
+ * SmithNgine Game Framework
+ * 
+ * Copyright (C) 2013 by Erno Pakarinen / Codesmith (www.codesmith.fi)
+ * All Rights Reserved
+ */
 namespace Codesmith.SmithNgine.Primitives
 {
+    using Microsoft.Xna.Framework;
+    using System;
+
+    /// <summary>
+    /// Implements a line primitive
+    /// Line has two vectors for start and end point
+    /// </summary>
     public class Line : IEquatable<Line>
     {
         public Vector2 Start

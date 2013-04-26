@@ -4,11 +4,11 @@
  * Copyright (C) 2013 by Erno Pakarinen / Codesmith (www.codesmith.fi)
  * All Rights Reserved
  */
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-
 namespace Codesmith.SmithNgine.View
 {
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+
     /// <summary>
     /// Very basic camera, only position and movement
     /// </summary>

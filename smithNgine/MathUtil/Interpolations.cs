@@ -4,11 +4,11 @@
  * Copyright (C) 2013 by Erno Pakarinen / Codesmith (www.codesmith.fi)
  * All Rights Reserved
  */
-using System;
-using Microsoft.Xna.Framework;
-
 namespace Codesmith.SmithNgine.MathUtil
 {
+    using System;
+    using Microsoft.Xna.Framework;
+
     /// <summary>
     /// Contains helper methods for interpolations
     /// </summary>
