@@ -4,12 +4,13 @@
  * Copyright (C) 2013 by Erno Pakarinen / Codesmith (www.codesmith.fi)
  * All Rights Reserved
  */
-using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace Codesmith.SmithNgine.Gfx
 {
+    using System;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+
     /// <summary>
     /// Simple menuentry which extends the spritebutton and gains it's behaviour.
     /// </summary>
@@ -19,7 +20,6 @@ namespace Codesmith.SmithNgine.Gfx
         private String label;
         private SpriteFont font;
         private Vector2 entryOrigin;
-        private int id;
         #endregion
 
         #region Properties

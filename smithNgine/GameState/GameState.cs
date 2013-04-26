@@ -4,18 +4,19 @@
  * Copyright (C) 2013 by Erno Pakarinen / Codesmith (www.codesmith.fi)
  * All Rights Reserved
  */
-#region Using statements
-using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Codesmith.SmithNgine.Input;
-using Codesmith.SmithNgine.General;
-using System.Diagnostics;
-#endregion
 
 namespace Codesmith.SmithNgine.GameState
 {
+    #region Using statements
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using Codesmith.SmithNgine.General;
+    using Codesmith.SmithNgine.Input;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+    #endregion
+
     #region Types
     /// <summary>
     /// Status enumerations for a GameState class

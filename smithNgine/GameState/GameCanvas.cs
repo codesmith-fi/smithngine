@@ -4,18 +4,17 @@
  * Copyright (C) 2013 by Erno Pakarinen / Codesmith (www.codesmith.fi)
  * All Rights Reserved
  */
-#region Using statements
-using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Codesmith.SmithNgine.Input;
-using Codesmith.SmithNgine.General;
-using System.Diagnostics;
-using System.Text;
-#endregion
 
 namespace Codesmith.SmithNgine.GameState
 {
+    #region Using statements
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using Codesmith.SmithNgine.General;
+    using Codesmith.SmithNgine.Input;
+    using Microsoft.Xna.Framework;
+    #endregion
+
     /// <summary>
     /// Implements a GameCanvas class
     /// 

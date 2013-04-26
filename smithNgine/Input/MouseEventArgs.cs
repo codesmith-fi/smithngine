@@ -4,12 +4,13 @@
  * Copyright (C) 2013 by Erno Pakarinen / Codesmith (www.codesmith.fi)
  * All Rights Reserved
  */
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
-using System;
 
 namespace Codesmith.SmithNgine.Input
 {
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Input;
+    using System;
+
     public class MouseParameters
     {
         public int X { get; internal set; }

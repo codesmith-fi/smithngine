@@ -4,14 +4,17 @@
  * Copyright (C) 2013 by Erno Pakarinen / Codesmith (www.codesmith.fi)
  * All Rights Reserved
  */
-using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Codesmith.SmithNgine.View;
 
 namespace Codesmith.SmithNgine.Gfx
 {
+    #region Using statements
+    using System;
+    using System.Collections.Generic;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+    using Codesmith.SmithNgine.View;
+    #endregion
+
     /// <summary>
     /// Class implements a multi-layer background. Each layer can 
     /// have a parallax value which effects how much the layer moves.

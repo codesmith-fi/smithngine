@@ -4,11 +4,12 @@
  * Copyright (C) 2013 by Erno Pakarinen / Codesmith (www.codesmith.fi)
  * All Rights Reserved
  */
-using Microsoft.Xna.Framework;
-using System;
 
 namespace Codesmith.SmithNgine.Gfx
 {
+    using System;
+    using Microsoft.Xna.Framework;
+
     public class MenuEntryEventArgs : EventArgs
     {
         public PlayerIndex? ControllingPlayer

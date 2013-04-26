@@ -4,10 +4,11 @@
  * Copyright (C) 2013 by Erno Pakarinen / Codesmith (www.codesmith.fi)
  * All Rights Reserved
  */
-using System;
 
 namespace Codesmith.SmithNgine.Gfx
 {
+    using System;
+
     public class ScaleEventArgs : EventArgs
     {
         public float oldScale = 0.0f;

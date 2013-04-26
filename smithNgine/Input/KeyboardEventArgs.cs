@@ -4,12 +4,13 @@
  * Copyright (C) 2013 by Erno Pakarinen / Codesmith (www.codesmith.fi)
  * All Rights Reserved
  */
-using System;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework;
 
 namespace Codesmith.SmithNgine.Input
 {
+    using System;
+    using Microsoft.Xna.Framework.Input;
+    using Microsoft.Xna.Framework;
+
     public class KeyboardEventArgs : EventArgs
     {
         // Array of pressed keys

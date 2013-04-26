@@ -4,15 +4,16 @@
  * Copyright (C) 2013 by Erno Pakarinen / Codesmith (www.codesmith.fi)
  * All Rights Reserved
  */
-#region Using statements
-using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
-#endregion
 
 namespace Codesmith.SmithNgine.Input
 {
+    #region Using statements
+    using System;
+    using System.Collections.Generic;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Input;
+    #endregion
+
     #region Types and Enums
     public enum MouseButton
     {

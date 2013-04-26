@@ -4,17 +4,18 @@
  * Copyright (C) 2013 by Erno Pakarinen / Codesmith (www.codesmith.fi)
  * All Rights Reserved
  */
-#region Using statements
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Content;
-using Codesmith.SmithNgine.Input;
-using Codesmith.SmithNgine.General;
-#endregion
 
 namespace Codesmith.SmithNgine.GameState
 {
+    #region Using statements
+    using System.Collections.Generic;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+    using Microsoft.Xna.Framework.Content;
+    using Codesmith.SmithNgine.Input;
+    using Codesmith.SmithNgine.General;
+    #endregion
+
     /// <summary>
     /// GameStateManager is a class responsible of all game states
     /// States are activated and deactivated through this.

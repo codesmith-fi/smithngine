@@ -4,10 +4,11 @@
  * Copyright (C) 2013 by Erno Pakarinen / Codesmith (www.codesmith.fi)
  * All Rights Reserved
  */
-using System;
 
 namespace Codesmith.SmithNgine.Input
 {
+    using System;
+
     public interface IInputEventSource
     {
         event EventHandler<MouseEventArgs> MousePositionChanged;

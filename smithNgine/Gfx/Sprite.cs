@@ -4,15 +4,16 @@
  * Copyright (C) 2013 by Erno Pakarinen / Codesmith (www.codesmith.fi)
  * All Rights Reserved
  */
-using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Codesmith.SmithNgine.Input;
-using Codesmith.SmithNgine.Collision;
-using Codesmith.SmithNgine.General;
 
 namespace Codesmith.SmithNgine.Gfx
 {
+    using System;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+    using Codesmith.SmithNgine.Input;
+    using Codesmith.SmithNgine.Collision;
+    using Codesmith.SmithNgine.General;
+
     /// <summary>
     /// A base Sprite class. Draws a texture with no animation but can report events.
     /// 

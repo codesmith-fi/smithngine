@@ -4,15 +4,18 @@
  * Copyright (C) 2013 by Erno Pakarinen / Codesmith (www.codesmith.fi)
  * All Rights Reserved
  */
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
-using Codesmith.SmithNgine.Particles;
-using Codesmith.SmithNgine.View;
-using System.Diagnostics;
 
 namespace Codesmith.SmithNgine.Gfx
 {
+    #region Using statements
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using Codesmith.SmithNgine.Particles;
+    using Codesmith.SmithNgine.View;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+    #endregion
+
     /// <summary>
     /// Implements one layer in the Background system.
     /// Each layer can have a separate parallax setting which controls

@@ -4,15 +4,16 @@
  * Copyright (C) 2013 by Erno Pakarinen / Codesmith (www.codesmith.fi)
  * All Rights Reserved
  */
-using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Codesmith.SmithNgine.Input;
-using Codesmith.SmithNgine.MathUtil;
 
 namespace Codesmith.SmithNgine.Gfx
 {
+    using System;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+    using Microsoft.Xna.Framework.Input;
+    using Codesmith.SmithNgine.Input;
+    using Codesmith.SmithNgine.MathUtil;
+
     // Defines the animation style of the spritebutton
     [Flags]
     public enum ButtonStyle : int
