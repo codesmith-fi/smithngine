@@ -1,4 +1,4 @@
-SmithNgine 2D Game Framework
+SmithNgine 2D Game Framework Version 0.2.0.1
 
 This is a XNA based 2D framework for making games. This means it's done with C#. 
 
