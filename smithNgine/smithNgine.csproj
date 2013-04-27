@@ -95,8 +95,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Gfx\AtlasSprite.cs" />
     <Compile Include="Gfx\DrawableGameObject.cs" />
     <Compile Include="Gfx\ScaleEventArgs.cs" />
+    <Compile Include="Gfx\TextureAtlas.cs" />
     <Compile Include="MathUtil\Random.cs" />
     <Compile Include="View\Camera.cs" />
     <Compile Include="View\SimpleCamera.cs" />

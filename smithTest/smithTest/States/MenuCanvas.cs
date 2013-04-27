@@ -31,6 +31,8 @@ namespace Codesmith.SmithTest
         ParticleEmitter emitter;
         ParticleEffect particleEffect;
         AnimatedSprite animSprite;
+        TextureAtlas atlas;
+        Sprite atlasSprite;
         Random random = new Random();
 
         public MenuCanvas(GameState playState, GameState physicState)
@@ -78,11 +80,18 @@ namespace Codesmith.SmithTest
             exitMenuEntry = CreateMenuEntry(entryTexture, "Exit", pos, Keys.Escape);
             exitMenuEntry.AnimState = 0.5f;
 
+            // AnimatedSprite
             animSprite = new AnimatedSprite(StateManager.Content, "Images/soniccd", 11, 1);
             animSprite.Position = new Vector2(Bounds.Width / 2, 400);
             animSprite.Style = AnimatedSprite.AnimationStyle.Manual;
             animSprite.InputEventSource = StateManager.Input;
             AddComponent(animSprite);
+
+            // TextureAtlas
+            atlas = new TextureAtlas(StateManager.Content.Load<Texture2D>("Images/soniccd"), 11, 1);
+            atlasSprite = atlas.MakeSprite(1);
+            atlasSprite.Position = new Vector2(Bounds.Width / 2, 600);
+            AddComponent(atlasSprite);
 
             particleSystem = new ParticleSystem();
             particleEffect = new ParticleEffect();
@@ -168,7 +177,7 @@ namespace Codesmith.SmithTest
                 m.Draw(spriteBatch, gameTime);
             }
             animSprite.Draw(spriteBatch, gameTime);
-
+            atlasSprite.Draw(spriteBatch, gameTime);
             ShowParticleStatus(spriteBatch);
             particleSystem.Draw(spriteBatch, gameTime);
             spriteBatch.End();
