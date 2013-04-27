@@ -90,6 +90,7 @@ namespace Codesmith.SmithTest
             particleEffect.Position = Vector2.Zero;
 
             emitter = new LineEmitter(new Vector2(-50,0), new Vector2(50,0));
+            emitter.GlobalGravity = new Vector2(1.1f, 0.0f);
             ParticleGenerationParams ep = new ParticleGenerationParams();           
             ep.SpeedRange = new Vector2(30.0f, 30.0f);
             ep.InitialSpeedVariation = 1.0f;
@@ -99,13 +100,13 @@ namespace Codesmith.SmithTest
             ep.InitialRotationVariation = 1.0f;
             ep.AngularVelocityRange = new Vector2(-1f, 1.0f);
             ep.InitialAngularVelocityVariation = 1.0f;
-            ep.TTLRange = new Vector2(500f,2000f);         
-            ep.SpeedDamping = 1.01f;
+            ep.OpacityRange = new Vector2(0.5f, 0.0f);
+            ep.InitialOpacityVariation = 1.0f;
+            ep.TTLRange = new Vector2(500f, 2000f);         
+            ep.SpeedDamping = 1.02f;
             ep.AddTexture(StateManager.Content.Load<Texture2D>("Images/smoke1"));
             ep.AddTexture(StateManager.Content.Load<Texture2D>("Images/smoke2"));
             ep.AddTexture(StateManager.Content.Load<Texture2D>("Images/smoke3"));
-            ep.OpacityRange = new Vector2(0.5f, 0.0f);
-            ep.InitialOpacityVariation = 1.0f;
             emitter.Configuration = ep;
             particleEffect.AddEmitter(emitter);
             particleSystem.AddEffect(particleEffect);

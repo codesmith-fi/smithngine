@@ -299,9 +299,23 @@ namespace Codesmith.SmithNgine.Particles
 
         public ParticleGenerationParams()
         {
+/*
+            ep.SpeedRange = new Vector2(30.0f, 30.0f);
+            ep.InitialSpeedVariation = 1.0f;
+            ep.ScaleRange = new Vector2(0.4f, 1.0f);
+            ep.InitialScaleVariation = 1.0f;
+            ep.RotationRange = new Vector2(0.0f, MathHelper.TwoPi);
+            ep.InitialRotationVariation = 1.0f;
+            ep.AngularVelocityRange = new Vector2(-1f, 1.0f);
+            ep.InitialAngularVelocityVariation = 1.0f;
+            ep.OpacityRange = new Vector2(0.5f, 0.0f);
+            ep.InitialOpacityVariation = 1.0f;
+            ep.TTLRange = new Vector2(500f, 2000f);         
+            ep.SpeedDamping = 1.02f;
+*/ 
             random = new Random();
             ParticleBudget = -1;
-            speed = new Vector2(1.0f, 1.0f);
+            SpeedRange = new Vector2(1.0f, 1.0f);
             speedDamping = 1.0f;
             angularvelocity = Vector2.Zero;
             scale = new Vector2(1.0f, 1.0f);

@@ -17,20 +17,34 @@ namespace Codesmith.SmithNgine.Particles
 
     /// <summary>
     /// Base class for a particle emitter class, for extension only
+    /// 
+    /// Emitter manages particles during their lifetime. 
+    /// AngularVelocity, Opacity and Scale are interpolated during lifetime.
+    /// LinearVelocity/speed of the particle is affected by the damping
+    /// Rotation and Position is modified by angular velocity and linear velocity
     /// </summary>
     public abstract class ParticleEmitter : DrawableGameObject, IRotatableObject
     {
         #region Fields
+        // ParticleEffect which owns this emitter
         private ParticleEffect hostEffect;
+        // Configuration for particle generation
         private ParticleGenerationParams configuration;
         protected Random random;
+        // Managed particles
         protected List<Particle> particles;
+        // Current rotation of the emitter
         private float rotation;
+        // Name of the emitter
         private string name;
+        // How many particles this emitter can still generate
         private int budget;
         #endregion
 
         #region Events
+        /// <summary>
+        /// Event which is triggered when Emitter rotation changes
+        /// </summary>
         public event EventHandler<RotationEventArgs> RotationChanged;
         #endregion
 
@@ -87,17 +101,26 @@ namespace Codesmith.SmithNgine.Particles
             }
         }
 
+        /// <summary>
+        /// Global "Gravity" which affects particles in this ParticleEmitter
+        /// </summary>
         public Vector2 GlobalGravity
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Get the count of particles active in this emitter
+        /// </summary>
         public int ParticleCount
         {
             get { return particles.Count; }
         }
 
+        /// <summary>
+        /// The host ParticleEffect
+        /// </summary>
         [Browsable(false)]
         public ParticleEffect Effect
         {
@@ -125,7 +148,7 @@ namespace Codesmith.SmithNgine.Particles
 
         #region New methods
         /// <summary>
-        /// Generates one or more particles, particle is created in the 
+        /// Immediately generates one or more particles, particle is created in the 
         /// concrete emitter class by the method GenerateParticle()
         /// </summary>
         /// <param name="count">How many particles to generate at once</param>
