@@ -12,7 +12,7 @@ namespace Codesmith.SmithNgine.MathUtil
     /// <summary>
     /// Extends Random class and gives new method for getting NextFloat()
     /// </summary>
-    class Random2 : Random
+    public class Random2 : Random
     {
         public Random2() 
             : base()
@@ -26,7 +26,7 @@ namespace Codesmith.SmithNgine.MathUtil
 
         public float NextFloat()
         {
-            return (float)base.NextDouble();
+            return (float)NextDouble();
         }
     }
 }
