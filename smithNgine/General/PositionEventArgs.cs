@@ -5,7 +5,7 @@
  * All Rights Reserved
  */
 
-namespace Codesmith.SmithNgine.Gfx
+namespace Codesmith.SmithNgine.General
 {
     using System;
     using Microsoft.Xna.Framework;

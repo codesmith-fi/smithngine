@@ -226,7 +226,7 @@
     <Compile Include="General\IActivatableObject.cs" />
     <Compile Include="General\IFocusableObject.cs" />
     <Compile Include="General\IHoverableObject.cs" />
-    <Compile Include="General\IMovableObject2D.cs" />
+    <Compile Include="General\MovableObject.cs" />
     <Compile Include="Input\GamepadEventArgs.cs" />
     <Compile Include="Input\IInputEventSource.cs" />
     <Compile Include="Input\MouseEventArgs.cs" />
@@ -239,7 +239,7 @@
     <Compile Include="Gfx\OrderEventArgs.cs" />
     <Compile Include="Gfx\RotationEventArgs.cs" />
     <Compile Include="General\ITransitionSource.cs" />
-    <Compile Include="Gfx\PositionEventArgs.cs" />
+    <Compile Include="General\PositionEventArgs.cs" />
     <Compile Include="Particles\LineEmitter.cs" />
     <Compile Include="Particles\Particle.cs" />
     <Compile Include="Particles\ParticleEffect.cs" />

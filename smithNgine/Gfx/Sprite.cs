@@ -57,13 +57,11 @@ namespace Codesmith.SmithNgine.Gfx
     /// - Hovering (Mouse is moving on top of the sprite)
     /// 
     /// </summary>
-    public class Sprite : GameObjectBase, IMovableObject2D, IOrderableObject, IRotatableObject, IFocusableObject, IHoverableObject
+    public class Sprite : MovableObject, IOrderableObject, IRotatableObject, IFocusableObject, IHoverableObject
     {
         #region Fields
         // Input source for this Sprite
         private IInputEventSource inputSource;
-        // Position of the sprite
-        private Vector2 position = Vector2.Zero;
         // Rotation of the sprite
         private float rotation = 0.0f;
         // Scale factor of the sprite
@@ -130,17 +128,17 @@ namespace Codesmith.SmithNgine.Gfx
         /// <remarks>
         /// Setting a new position causes PositionChanged event
         /// </remarks>
-        public Vector2 Position
+        public override Vector2 Position
         {
-            get { return this.position; }
+            get { return base.Position; }
             set
             {
-                Vector2 oldPos = this.position;
+                Vector2 oldPos = base.Position;
                 if (oldPos != value)
                 {
-                    this.position = value;
+                    base.Position = value;
                     // Call event after changing the position
-                    this.OnPositionChanged(oldPos, this.position);
+                    this.OnPositionChanged(oldPos, base.Position);
                 }
             }
         }
