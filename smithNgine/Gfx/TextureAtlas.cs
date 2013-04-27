@@ -12,14 +12,22 @@
     public class TextureAtlas : DrawableGameObject
     {
         #region Fields
+        // Texture which contains multiple images in a grid
         private Texture2D texture;
+        // Number of rows in texture
         private int rowCount;
+        // Number of columns in texture
         private int columnCount;
+        // Total number of frames
         private int frameCount;
+        // Size of one frame
         private Rectangle frameSize;
         #endregion
 
         #region Properties
+        /// <summary>
+        /// Get the texture containing all frames
+        /// </summary>
         public Texture2D Texture
         {
             get { return texture; }
@@ -51,6 +59,10 @@
             get { return frameCount; }
         }
 
+        /// <summary>
+        /// Get the frame size. Frame Size means the size of one sub-image
+        /// in this texture atlas.
+        /// </summary>
         public Rectangle FrameSize
         {
             get { return frameSize; }
@@ -66,8 +78,6 @@
         /// <remarks>
         /// This constructor assumes that each row has the same number of 
         /// columns! Use the other constructor if the last row is not full!
-        /// 
-        /// Defaults to 1 column, 1 row (= single texture)
         /// </remarks>
         /// <param name="textureAtlas">Texture to be used as a atlas</param>
         /// <param name="rows">Row count, default is 1</param>
@@ -104,21 +114,43 @@
 
         #region New methods
 
+        /// <summary>
+        /// Get row number for given frame
+        /// </summary>
+        /// <remarks>
+        /// Will fail in debug builds if frame number is
+        /// out of range.
+        /// </remarks>
+        /// <param name="frameNum">Frame in texture atlas</param>
+        /// <returns>(int)Row number where the frame exists</returns>
         public int Row(int frameNum)
         {
+            Debug.Assert((frameNum >= 0 && frameNum < frameCount),
+                "Requested frame does not exist");
             return frameNum / columnCount;
         }
 
+        /// <summary>
+        /// Get column number for given frame
+        /// </summary>
+        /// <remarks>
+        /// Will fail in debug builds if frame number is
+        /// out of range.
+        /// </remarks>
+        /// <param name="frameNum">Frame in texture atlas</param>
+        /// <returns>(int)Column number where the frame exists</returns>
         public int Column(int frameNum)
         {
+            Debug.Assert((frameNum >= 0 && frameNum < frameCount),
+                "Requested frame does not exist");
             return frameNum % columnCount;
         }
 
         /// <summary>
         /// Construct a sprite from a specific frame in this atlas
         /// </summary>
-        /// <param name="frameNum"></param>
-        /// <returns></returns>
+        /// <param name="frameNum">Frame in texture atlas</param>
+        /// <returns>(Sprite)new sprite containing the given frame, type is AtlasSprite</returns>
         public Sprite MakeSprite(int frameNum)
         {
             Debug.Assert((frameNum >= 0 && frameNum < frameCount),
@@ -127,17 +159,26 @@
             return new AtlasSprite(this, frameNum);
         }
 
+        /// <summary>
+        /// TODO: Not implemented yet, might be necessary
+        /// </summary>
+        /// <param name="frameNum">Frame in texture atlas</param>
+        /// <returns></returns>
         public Texture2D MakeTexture(int frameNum)
         {
             Debug.Assert((frameNum >= 0 && frameNum < frameCount),
                 "Requested frame does not exist");
             Rectangle frameRect = FrameRectangle(frameNum);
             Texture2D output = null;
-//            texture.GetData<Color>(
-            //Color[] imagePiece = GetImageData(imageData, image.Width, sourceRectangle);
+            // TODO!
             return output;
         }
 
+        /// <summary>
+        /// Get the area (as rectangle) containing the asked frame.
+        /// </summary>
+        /// <param name="frameNum">Frame in texture atlas</param>
+        /// <returns>(rectangle)Area containing the asked frame in this atlas</returns>
         public Rectangle FrameRectangle(int frameNum)
         {
             Debug.Assert((frameNum >= 0 && frameNum < frameCount),

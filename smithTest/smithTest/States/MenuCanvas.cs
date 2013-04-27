@@ -81,6 +81,7 @@ namespace Codesmith.SmithTest
             exitMenuEntry.AnimState = 0.5f;
 
             // AnimatedSprite
+            // This will make a sprite which animates when mouse is clicked in it.
             animSprite = new AnimatedSprite(StateManager.Content, "Images/soniccd", 11, 1);
             animSprite.Position = new Vector2(Bounds.Width / 2, 400);
             animSprite.Style = AnimatedSprite.AnimationStyle.Manual;
@@ -88,11 +89,16 @@ namespace Codesmith.SmithTest
             AddComponent(animSprite);
 
             // TextureAtlas
+            // This will use a image with 11 columns and 1 rows. And makes a 
+            // sprite for frame 1 (second frame).
             atlas = new TextureAtlas(StateManager.Content.Load<Texture2D>("Images/soniccd"), 11, 1);
             atlasSprite = atlas.MakeSprite(1);
             atlasSprite.Position = new Vector2(Bounds.Width / 2, 600);
+            // TODO: This adds a component to the canvas but canvas does not yet 
+            // Draw it automatically. See Draw() here, it does atlasSprite.Draw(..).
             AddComponent(atlasSprite);
 
+            // Set up a simple smoke effect
             particleSystem = new ParticleSystem();
             particleEffect = new ParticleEffect();
             particleEffect.Rotation = 0f;

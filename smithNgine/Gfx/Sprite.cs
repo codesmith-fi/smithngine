@@ -368,7 +368,8 @@ namespace Codesmith.SmithNgine.Gfx
 
         public override void Dispose()
         {
-            this.texture.Dispose();
+            //commented out for now
+            //this.texture.Dispose();
             base.Dispose();
         }
         #endregion
