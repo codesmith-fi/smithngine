@@ -268,7 +268,7 @@ namespace Codesmith.SmithNgine.Gfx
             {
                 frameSize = value;
                 // By default, sprite origin is the center
-                Origin = new Vector2(FrameSize.Width / 2, FrameSize.Height / 2);
+                Origin = new Vector2(frameSize.Width / 2, frameSize.Height / 2);
             }
         }
 
@@ -364,6 +364,12 @@ namespace Codesmith.SmithNgine.Gfx
             {
                 spriteBatch.Draw(this.texture, Position, null, Color, Rotation, Origin, Scale, SpriteEffects.None, Order);
             }
+        }
+
+        public override void Dispose()
+        {
+            this.texture.Dispose();
+            base.Dispose();
         }
         #endregion
 

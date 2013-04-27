@@ -142,7 +142,7 @@ namespace Codesmith.SmithNgine.Gfx
         {
             if (Texture != null)
             {
-                int currentRow = (int)((float)this.currentFrame / (float)countColumns);
+                int currentRow = this.currentFrame / countColumns;
                 int currentColumn = this.currentFrame % countColumns;
                 Rectangle frameRect = FrameSize;
                 frameRect.X = frameRect.Width * currentColumn;

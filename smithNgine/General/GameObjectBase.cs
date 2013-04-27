@@ -9,7 +9,7 @@ namespace Codesmith.SmithNgine.General
     using System;
     using Microsoft.Xna.Framework;
 
-    public abstract class GameObjectBase : IActivatableObject
+    public abstract class GameObjectBase : IActivatableObject, IDisposable
     {
         #region Fields
         private bool objectIsActive;
@@ -64,6 +64,11 @@ namespace Codesmith.SmithNgine.General
         public virtual void Dismiss()
         {
             objectIsActive = false;
+            Dispose();
+        }
+
+        public virtual void Dispose()
+        {
         }
     }
 }
