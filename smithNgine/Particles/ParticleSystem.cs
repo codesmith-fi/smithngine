@@ -11,6 +11,7 @@ namespace Codesmith.SmithNgine.Particles
     using Microsoft.Xna.Framework.Graphics;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using Codesmith.SmithNgine.Gfx;
 
     public enum ParticleSystemStatus
     {
@@ -28,7 +29,7 @@ namespace Codesmith.SmithNgine.Particles
     /// 
     /// 
     /// </summary>
-    public class ParticleSystem
+    public class ParticleSystem : DrawableGameObject
     {
         #region Fields
         private List<ParticleEffect> effects;
@@ -102,16 +103,19 @@ namespace Codesmith.SmithNgine.Particles
             }
         }
 
+        #region Constructor
         /// <summary>
         /// Constructs a new particle system
         /// </summary>
-        public ParticleSystem()
+        public ParticleSystem() 
         {
             effects = new List<ParticleEffect>();
             this.status = ParticleSystemStatus.Idle;
             Resume();
         }
+        #endregion
 
+        #region New methods
         /// <summary>
         /// Add a particle effect to this system
         /// </summary>
@@ -155,8 +159,10 @@ namespace Codesmith.SmithNgine.Particles
             this.status = ParticleSystemStatus.Idle;
             effects.Clear();
         }
+        #endregion
 
-        public virtual void Update(GameTime gameTime)
+        #region From Base class
+        public override void Update(GameTime gameTime)
         {
             // Update particles unless the system is paused
             if (IsRunning)
@@ -168,12 +174,13 @@ namespace Codesmith.SmithNgine.Particles
             }
         }
 
-        public virtual void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             foreach (ParticleEffect eff in effects)
             {
-                eff.Draw(spriteBatch);
+                eff.Draw(spriteBatch, gameTime);
             }
         }
+        #endregion
     }
 }

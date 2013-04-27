@@ -28,7 +28,7 @@ namespace Codesmith.SmithShooter.Gameplay
         public override void Draw(GameTime gameTime)
         {
             SpriteBatch spriteBatch = StateManager.SpriteBatch;
-            gameController.Layers.Draw(spriteBatch);
+            gameController.Layers.Draw(spriteBatch, gameTime);
             base.Draw(gameTime);
         }
 

@@ -57,7 +57,7 @@ namespace Codesmith.SmithNgine.Gfx
     /// - Hovering (Mouse is moving on top of the sprite)
     /// 
     /// </summary>
-    public class Sprite : MovableObject, IOrderableObject, IRotatableObject, IFocusableObject, IHoverableObject
+    public class Sprite : DrawableGameObject, IOrderableObject, IRotatableObject, IFocusableObject, IHoverableObject
     {
         #region Fields
         // Input source for this Sprite
@@ -312,14 +312,6 @@ namespace Codesmith.SmithNgine.Gfx
         #endregion
 
         #region New methods - can be overridden 
-        public virtual void Draw(SpriteBatch spriteBatch)
-        {
-            if (this.texture != null)
-            {
-                spriteBatch.Draw(this.texture, Position, null, Color, Rotation, Origin, Scale, SpriteEffects.None, Order);
-            }
-        }
-
         public virtual void GainFocus()
         {
             if (FocusGained != null && !HasFocus)
@@ -361,6 +353,16 @@ namespace Codesmith.SmithNgine.Gfx
                 HoverEventArgs args = new HoverEventArgs();
                 args.position = position;
                 BeingHovered(this, args);
+            }
+        }
+        #endregion
+
+        #region From Base class
+        public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+        {
+            if (this.texture != null)
+            {
+                spriteBatch.Draw(this.texture, Position, null, Color, Rotation, Origin, Scale, SpriteEffects.None, Order);
             }
         }
         #endregion

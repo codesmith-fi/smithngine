@@ -12,24 +12,32 @@ namespace Codesmith.SmithNgine.Particles
     using Microsoft.Xna.Framework.Graphics;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using Codesmith.SmithNgine.Gfx;
+    using Codesmith.SmithNgine.General;
 
     /// <summary>
     /// Base class for a particle emitter class, for extension only
     /// </summary>
-    public abstract class ParticleEmitter
+    public abstract class ParticleEmitter : DrawableGameObject, IRotatableObject
     {
         #region Fields
         private ParticleEffect hostEffect;
         private ParticleGenerationParams configuration;
         protected Random random;
         protected List<Particle> particles;
-        private Vector2 position;
         private float rotation;
         private string name;
         private int budget;
         #endregion
 
+        #region Events
+        public event EventHandler<RotationEventArgs> RotationChanged;
+        #endregion
+
         #region Properties
+        /// <summary>
+        /// Get or set the name of this ParticleEmitter
+        /// </summary>
         public string Name
         {
             get { return name; }
@@ -53,16 +61,12 @@ namespace Codesmith.SmithNgine.Particles
         /// <summary>
         /// Get the position of this emitter
         /// </summary>
-        public Vector2 Position
+        public override Vector2 Position
         {
             get
             {
                 return (configuration.Flags.HasFlag(EmitterModes.PositionRelative) && hostEffect != null) ?
-                    position + hostEffect.Position : position;
-            }
-            set
-            {
-                position = value;
+                    base.Position + hostEffect.Position : base.Position;
             }
         }
 
@@ -75,8 +79,18 @@ namespace Codesmith.SmithNgine.Particles
             }
             set
             {
+                if (value != rotation)
+                {
+                    OnRotationChanged(rotation, value);
+                }
                 rotation = value;
             }
+        }
+
+        public Vector2 GlobalGravity
+        {
+            get;
+            set;
         }
 
         public int ParticleCount
@@ -90,7 +104,6 @@ namespace Codesmith.SmithNgine.Particles
             get { return hostEffect; }
             internal set { hostEffect = value; }
         }
-
         #endregion
 
         #region Constructors
@@ -105,6 +118,7 @@ namespace Codesmith.SmithNgine.Particles
             random = new Random();
             // by default, emitter is relative to the effect position
             Position = position;
+            GlobalGravity = Vector2.Zero;
             name = "AbstractEmitter";            
         }
         #endregion
@@ -130,8 +144,10 @@ namespace Codesmith.SmithNgine.Particles
                 particles.Add(p);
             }
         }
+        #endregion
 
-        public void Draw(SpriteBatch spriteBatch)
+        #region From base class
+        public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             foreach (Particle p in particles)
             {
@@ -139,7 +155,7 @@ namespace Codesmith.SmithNgine.Particles
             }
         }
 
-        public void Update(GameTime gameTime, Vector2 globalGravity)
+        public override void Update(GameTime gameTime)
         {
             float elapsedMs = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             float elapsedSeconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -157,23 +173,33 @@ namespace Codesmith.SmithNgine.Particles
                 p.Rotation += p.AngularVelocity * elapsedSeconds;
                 p.LinearVelocity *= p.SpeedDamping;
 
-                p.LinearVelocity += globalGravity;
+                p.LinearVelocity += GlobalGravity;
                 if (p.TTLPercent >= 1.0f)
                 {
                     particles.RemoveAt(i);
                     i--;
                 }
             }
-
-
         }
+        #endregion
 
-
+        #region Abstract methods
         /// <summary>
         /// Generates one new particle, must be implemented by concrete classes
         /// </summary>
         /// <returns>new Particle</returns>
         protected abstract void GenerateParticle(Particle p);
+        #endregion
+
+        #region Private methods
+        private void OnRotationChanged(float oldRotation, float newRotation)
+        {
+            if (RotationChanged != null)
+            {
+                RotationEventArgs args = new RotationEventArgs(oldRotation, newRotation);
+                RotationChanged(this, args);
+            }
+        }
         #endregion
     }
 }

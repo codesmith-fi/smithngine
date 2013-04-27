@@ -30,7 +30,7 @@ namespace Codesmith.SmithNgine.Gfx
     /// Parallax factor controls how this layer moves when camera moves.
     /// 1.0 is normal movement, 0.5 is half the movement of camera, 2.0 is double speed.
     /// </summary>
-    public class BackgroundLayer
+    public class BackgroundLayer : DrawableGameObject
     {
         #region Fields
         // List of sprites contained in this layer
@@ -114,19 +114,21 @@ namespace Codesmith.SmithNgine.Gfx
         {
             sprites.Remove(sprite);
         }
+        #endregion
 
+        #region From base class
         /// <summary>
         /// Draws this layer.
         /// </summary>
         /// <param name="spriteBatch">SpriteBatch to be used for drawing. 
         /// Begin() will be called by this method.</param>
-        public void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             spriteBatch.Begin(SpriteSortMode.Deferred,
                 null, null, null, null, null, camera.GetViewMatrix(parallax));
             foreach (Sprite sprite in sprites)
             {
-                sprite.Draw(spriteBatch);
+                sprite.Draw(spriteBatch, gameTime);
             }
             spriteBatch.End();
 
@@ -134,7 +136,7 @@ namespace Codesmith.SmithNgine.Gfx
                 null, null, null, null, camera.GetViewMatrix(parallax)); ;
             foreach (ParticleEffect eff in effects)
             {
-                eff.Draw(spriteBatch, true);
+                eff.Draw(spriteBatch, gameTime);
             }
             spriteBatch.End();
 

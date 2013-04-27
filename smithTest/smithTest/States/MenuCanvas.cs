@@ -199,15 +199,13 @@ namespace Codesmith.SmithTest
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
             foreach (MenuEntry m in menuEntries)
             {
-                m.Draw(spriteBatch);
+                m.Draw(spriteBatch, gameTime);
             }
-            animSprite.Draw(spriteBatch);
+            animSprite.Draw(spriteBatch, gameTime);
 
             ShowParticleStatus(spriteBatch);
-
+            particleSystem.Draw(spriteBatch, gameTime);
             spriteBatch.End();
-
-            particleSystem.Draw(spriteBatch);
         }
 
         private void ShowParticleStatus(SpriteBatch batch)

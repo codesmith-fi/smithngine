@@ -45,20 +45,19 @@ namespace Codesmith.SmithNgine.Gfx
         }
         #endregion
 
-        #region New methods
+        #region From base class
         /// <summary>
         /// Draws the MenuEntry
         /// </summary>
         /// <param name="spriteBatch">SpriteBatch to use, Begin() must've been called</param>
-        public override void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             // Draw the spritebutton stuff first
-            base.Draw(spriteBatch);
+            base.Draw(spriteBatch, gameTime);
 
             // Draw the text
-            spriteBatch.DrawString(font, label, this.Position, TextColor, Rotation, entryOrigin, Scale, SpriteEffects.None, Order);
+            spriteBatch.DrawString(font, label, Position, TextColor, Rotation, entryOrigin, Scale, SpriteEffects.None, Order);
         }
-        #endregion
 
         /// <summary>
         /// Overridden, report focus gain as menuentry selection
@@ -72,5 +71,6 @@ namespace Codesmith.SmithNgine.Gfx
                 MenuEntrySelected(this, args);
             }
         }
+        #endregion
     }
 }

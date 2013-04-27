@@ -19,7 +19,7 @@ namespace Codesmith.SmithNgine.Gfx
     /// Class implements a multi-layer background. Each layer can 
     /// have a parallax value which effects how much the layer moves.
     /// </summary>
-    public class Background
+    public class Background : DrawableGameObject
     {
         #region Fields
         // Layers managed by this background system
@@ -128,7 +128,9 @@ namespace Codesmith.SmithNgine.Gfx
             }
             return layers[i];
         }
+        #endregion
 
+        #region From Base class
         /// <summary>
         /// Draw the Background system with the given SpriteBatch
         /// </summary>
@@ -136,11 +138,11 @@ namespace Codesmith.SmithNgine.Gfx
         /// Begin must not have been called before calling this Draw!
         /// </remarks>
         /// <param name="spriteBatch">SpriteBatch to be used, Begin() will be called</param>
-        public void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             foreach (BackgroundLayer layer in layers)
             {
-                layer.Draw(spriteBatch);
+                layer.Draw(spriteBatch, gameTime);
             }
         }
         #endregion

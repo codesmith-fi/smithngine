@@ -96,7 +96,7 @@ namespace Codesmith.SmithShooter.MainMenu
 
         public override void Draw(GameTime gameTime)
         {
-            background.Draw(StateManager.SpriteBatch);
+            background.Draw(StateManager.SpriteBatch, gameTime);
             base.Draw(gameTime);
         }
 

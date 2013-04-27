@@ -181,15 +181,15 @@ namespace Codesmith.SmithTest
             //Draw circle
             ballSprite.Position = physicsBallBody.Position * MeterInPixels;
             ballSprite.Rotation = physicsBallBody.Rotation;
-            ballSprite.Draw(spriteBatch);
+            ballSprite.Draw(spriteBatch, gameTime);
 
             ballSprite2.Position = physicsBallBody2.Position * MeterInPixels;
             ballSprite2.Rotation = physicsBallBody2.Rotation;
-            ballSprite2.Draw(spriteBatch);
+            ballSprite2.Draw(spriteBatch, gameTime);
 
             //Draw ground
             groundSprite.Position = groundPos;
-            groundSprite.Draw(spriteBatch);
+            groundSprite.Draw(spriteBatch, gameTime);
 
             spriteBatch.End();
 

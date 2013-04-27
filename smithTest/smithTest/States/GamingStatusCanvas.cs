@@ -139,7 +139,7 @@ namespace Codesmith.SmithTest
 
             foreach (Sprite sprite in this.sprites)
             {
-                sprite.Draw(spriteBatch);
+                sprite.Draw(spriteBatch, gameTime);
             }
             spriteBatch.End();
         }

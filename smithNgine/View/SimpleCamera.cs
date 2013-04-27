@@ -14,7 +14,7 @@ namespace Codesmith.SmithNgine.View
     /// <summary>
     /// Very basic camera, only position and movement
     /// </summary>
-    public class SimpleCamera : MovableObject
+    public class SimpleCamera : MovableGameObject
     {
         #region Constructors
         /// <summary>

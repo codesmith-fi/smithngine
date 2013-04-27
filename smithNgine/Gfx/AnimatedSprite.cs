@@ -138,7 +138,7 @@ namespace Codesmith.SmithNgine.Gfx
             base.Update(gameTime);
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             if (Texture != null)
             {

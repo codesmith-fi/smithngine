@@ -63,7 +63,7 @@ namespace Codesmith.SmithShooter.MainMenu
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
             foreach (MenuEntry m in menuEntries)
             {
-                m.Draw(spriteBatch);
+                m.Draw(spriteBatch, gameTime);
             }
             spriteBatch.End();
 

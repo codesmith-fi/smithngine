@@ -9,6 +9,8 @@ namespace Codesmith.SmithNgine.Particles
 {
     using System;
     using System.Collections.Generic;
+    using Codesmith.SmithNgine.General;
+    using Codesmith.SmithNgine.Gfx;
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
@@ -17,20 +19,33 @@ namespace Codesmith.SmithNgine.Particles
     /// Each effect can contain multiple emitters. 
     /// Particles are owned by the Effect
     /// </summary>
-    public class ParticleEffect
+    public class ParticleEffect : DrawableGameObject, IRotatableObject
     {
+        #region Fields
         const int MaxParticles = 10000;
-
         private List<ParticleEmitter> emitters;
         private TimeSpan timeLeft = TimeSpan.Zero;
-        private Vector2 position;
         private float rotation;
+        #endregion
 
+        #region Events
+        /// <summary>
+        /// Event for rotation changes
+        /// </summary>
+        public event EventHandler<RotationEventArgs> RotationChanged;
+        #endregion
+
+        #region Properties
+        /// <summary>
+        /// Get or set the name of this ParticleEffect
+        /// <value>String name</value>
+        /// </summary>
         public string Name
         {
             get;
             set;
         }
+        #endregion
 
         /// <summary>
         /// Gravity vector which gives a velocity modifier for every particle
@@ -42,16 +57,17 @@ namespace Codesmith.SmithNgine.Particles
             set;
         }
 
-        public Vector2 Position
-        {
-            get { return position; }
-            set { position = value; }
-        }
-
         public float Rotation
         {
             get { return rotation; }
-            set { rotation = value; }
+            set 
+            {
+                if (value != rotation)
+                {
+                    OnRotationChanged(rotation, value);
+                }
+                rotation = value; 
+            }
         }
 
         public IList<ParticleEmitter> Emitters
@@ -86,6 +102,7 @@ namespace Codesmith.SmithNgine.Particles
             }
         }
 
+        #region Constructors
         /// <summary>
         /// Constructor
         /// </summary>
@@ -95,55 +112,9 @@ namespace Codesmith.SmithNgine.Particles
             GravityVector = new Vector2(0.0f, 0.0f);
             Name = "Default Effect";
         }
+        #endregion
 
-        /// <summary>
-        /// Update method, should be called periodically for active effects
-        /// </summary>
-        /// <param name="gameTime"></param>
-        public void Update(GameTime gameTime)
-        {
-            // Create new particles with emitters
-            foreach (ParticleEmitter em in emitters)
-            {
-                if (ParticleCount < MaxParticles)
-                {
-                    if (em.Configuration.Flags.HasFlag(EmitterModes.AutoGenerate))
-                    {
-                        em.Generate(em.Configuration.Quantity);
-                    }
-                    else if (timeLeft > TimeSpan.Zero)
-                    {
-                        em.Generate(em.Configuration.Quantity);
-                        timeLeft -= gameTime.ElapsedGameTime;
-                    }
-                }
-                em.Update(gameTime, GravityVector);
-            }
-
-            // Update existing particles
-
-        }
-        /// <summary>
-        /// Draws all the particles in this effect
-        /// </summary>
-        /// <param name="spriteBatch">SpriteBatch</param>
-        public void Draw(SpriteBatch spriteBatch, bool started = false)
-        {
-            if (!started)
-            {
-                spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
-            }
-            // Draw all existing particles on emitters
-            foreach (ParticleEmitter em in emitters)
-            {
-                em.Draw(spriteBatch);
-            }
-            if (!started)
-            {
-                spriteBatch.End();
-            }
-        }
-
+        #region New methods
         public void Generate(TimeSpan duration)
         {
             timeLeft = duration;
@@ -156,7 +127,6 @@ namespace Codesmith.SmithNgine.Particles
                 em.Generate(amount);
             }
         }
-
 
         public void AddEmitter(ParticleEmitter emitter)
         {
@@ -173,5 +143,57 @@ namespace Codesmith.SmithNgine.Particles
         {
             emitters.Clear();
         }
+        #endregion
+
+        #region From base class
+        /// <summary>
+        /// Update method, should be called periodically for active effects
+        /// </summary>
+        /// <param name="gameTime"></param>
+        public override void Update(GameTime gameTime)
+        {
+            // Create new particles with emitters
+            foreach (ParticleEmitter em in emitters)
+            {
+                if (ParticleCount < MaxParticles)
+                {
+                    if (em.Configuration.Flags.HasFlag(EmitterModes.AutoGenerate))
+                    {
+                        em.Generate(em.Configuration.Quantity);
+                    }
+                    else if (timeLeft > TimeSpan.Zero)
+                    {
+                        em.Generate(em.Configuration.Quantity);
+                        timeLeft -= gameTime.ElapsedGameTime;
+                    }
+                }
+                em.Update(gameTime);
+            }
+        }
+
+        /// <summary>
+        /// Draws all the particles in this effect
+        /// </summary>
+        /// <param name="spriteBatch">SpriteBatch</param>
+        public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+        {
+            // Draw all existing particles on emitters
+            foreach (ParticleEmitter em in emitters)
+            {
+                em.Draw(spriteBatch, gameTime);
+            }
+        }
+        #endregion
+
+        #region Private methods
+        private void OnRotationChanged(float oldRotation, float newRotation)
+        {
+            if (RotationChanged != null)
+            {
+                RotationEventArgs args = new RotationEventArgs(oldRotation, newRotation);
+                RotationChanged(this, args);
+            }
+        }
+        #endregion
     }
 }

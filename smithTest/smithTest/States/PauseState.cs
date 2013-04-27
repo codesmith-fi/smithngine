@@ -76,7 +76,7 @@ namespace Codesmith.SmithTest
 
             spriteBatch.Begin();
             spriteBatch.Draw(image, imagePos, Color.White);
-            button.Draw(spriteBatch);
+            button.Draw(spriteBatch, gameTime);
             spriteBatch.End();
             base.Draw(gameTime);
         }

@@ -95,6 +95,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Gfx\DrawableGameObject.cs" />
     <Compile Include="Gfx\ScaleEventArgs.cs" />
     <Compile Include="MathUtil\Random.cs" />
     <Compile Include="View\Camera.cs" />
@@ -226,7 +227,7 @@
     <Compile Include="General\IActivatableObject.cs" />
     <Compile Include="General\IFocusableObject.cs" />
     <Compile Include="General\IHoverableObject.cs" />
-    <Compile Include="General\MovableObject.cs" />
+    <Compile Include="General\MovableGameObject.cs" />
     <Compile Include="Input\GamepadEventArgs.cs" />
     <Compile Include="Input\IInputEventSource.cs" />
     <Compile Include="Input\MouseEventArgs.cs" />
