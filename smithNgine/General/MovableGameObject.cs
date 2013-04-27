@@ -14,7 +14,7 @@ namespace Codesmith.SmithNgine.General
     /// <summary>
     /// Base class for objects that have a 2D position and can move
     /// </summary>
-    public abstract class MovableObject : GameObjectBase
+    public abstract class MovableGameObject : GameObjectBase
     {
         #region Fields
         private Vector2 position;
@@ -28,7 +28,14 @@ namespace Codesmith.SmithNgine.General
         public virtual Vector2 Position
         {
             get { return position; }
-            set { position = value; }
+            set 
+            {
+                if (value != position)
+                {
+                    OnPositionChanged(position, value);
+                }
+                position = value; 
+            }
         }
 
         /// Get the X position of the object
@@ -37,7 +44,14 @@ namespace Codesmith.SmithNgine.General
         public virtual float X
         {
             get { return position.X; }
-            set { position.X = value; }
+            set 
+            {
+                if (value != position.X)
+                {
+                    OnPositionChanged(position, new Vector2(value, position.Y));
+                }
+                position.X = value; 
+            }
         }
 
         /// <summary>
@@ -47,7 +61,14 @@ namespace Codesmith.SmithNgine.General
         public virtual float Y
         {
             get { return position.Y; }
-            set { position.Y = value; }
+            set
+            {
+                if (value != position.Y)
+                {
+                    OnPositionChanged(position, new Vector2(position.X, value));
+                }
+                position.Y = value;
+            }
         }
         #endregion
 
@@ -71,7 +92,7 @@ namespace Codesmith.SmithNgine.General
         /// <param name="delta">Amount of units to move as a Vector2(X,Y)</param>
         public virtual void Move(Vector2 delta)
         {
-            position += delta;
+            Position += delta;
         }
 
         /// <summary>
@@ -80,7 +101,7 @@ namespace Codesmith.SmithNgine.General
         /// <param name="deltaX">X coordinate delta as float</param>
         public virtual void MoveX(float deltaX)
         {
-            position.X += deltaX;
+            X += deltaX;
         }
 
         /// <summary>
@@ -89,7 +110,18 @@ namespace Codesmith.SmithNgine.General
         /// <param name="deltaX">Y coordinate delta as float</param>
         public virtual void MoveY(float deltaY)
         {
-            position.Y += deltaY;
+            Y += deltaY;
+        }
+        #endregion
+
+        #region Private methods
+        private void OnPositionChanged(Vector2 oldPosition, Vector2 newPosition)
+        {
+            if (PositionChanged != null)
+            {
+                PositionEventArgs args = new PositionEventArgs(oldPosition, newPosition);
+                PositionChanged(this, args);
+            }
         }
         #endregion
     }
