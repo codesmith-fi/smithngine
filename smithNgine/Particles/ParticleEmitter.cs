@@ -167,7 +167,6 @@ namespace Codesmith.SmithNgine.Particles
 
                 p.Scale = MathHelper.Lerp(p.InitialScale, Configuration.ScaleRange.Y, p.TTLPercent);
                 p.Opacity =  MathHelper.Lerp(p.InitialOpacity, Configuration.OpacityRange.Y, p.TTLPercent);
-                p.Rotation = MathHelper.Lerp(p.InitialRotation, Configuration.RotationRange.Y, p.TTLPercent);
                 p.AngularVelocity = MathHelper.Lerp(p.InitialAngularVelocity, Configuration.AngularVelocityRange.Y, p.TTLPercent);
                 p.Position += p.LinearVelocity * elapsedSeconds;
                 p.Rotation += p.AngularVelocity * elapsedSeconds;

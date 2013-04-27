@@ -25,7 +25,11 @@ namespace Codesmith.SmithNgine.Particles
         protected override void GenerateParticle(Particle p)
         {
             // Spawn randomly to any direction from the point
-            float direction = MathHelper.Lerp((float)-Math.PI, (float)Math.PI, (float)random.NextDouble());
+            float direction = Rotation;
+            if( Configuration.Flags.HasFlag( EmitterModes.RandomDirection ) )
+            {
+                direction = MathHelper.Lerp((float)-Math.PI, (float)Math.PI, (float)random.NextDouble());
+            }
             p.Position = this.Position;
             p.LinearVelocity = new Vector2(
                 (float)Math.Sin(direction) * p.Speed, (float)-Math.Cos(direction) * p.Speed);

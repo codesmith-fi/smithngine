@@ -238,7 +238,7 @@ namespace Codesmith.SmithShooter.Gameplay
             smokeEmitterParams1.ScaleRange = new Vector2(0.1f, 2.0f);
             smokeEmitterParams1.DepthRange = new Vector2(0.0f, 1.0f);
             smokeEmitterParams1.OpacityRange = new Vector2(0.6f, 0f);
-            smokeEmitterParams1.InitialSpeedRange = new Vector2(2.1f, 4.0f);
+            smokeEmitterParams1.SpeedRange = new Vector2(2.1f, 4.0f);
             smokeEmitterParams1.SpeedDamping = 0.99f;
             smokeEmitterParams1.RotationRange = new Vector2(-1.0f, 1.0f);
             smokeEmitterParams1.Color = Color.Green * 0.7f;
@@ -258,7 +258,7 @@ namespace Codesmith.SmithShooter.Gameplay
             smokeEmitterParams2.ScaleRange = new Vector2(0.1f, 2.0f);
             smokeEmitterParams2.DepthRange = new Vector2(0.0f, 1.0f);
             smokeEmitterParams2.OpacityRange = new Vector2(0.6f, 0f);
-            smokeEmitterParams2.InitialSpeedRange = new Vector2(2.1f, 4.0f);
+            smokeEmitterParams2.SpeedRange = new Vector2(2.1f, 4.0f);
             smokeEmitterParams2.SpeedDamping = 0.99f;
             smokeEmitterParams2.RotationRange = new Vector2(-1.0f, 1.0f);
             smokeEmitterParams2.Color = Color.Yellow;

@@ -24,12 +24,16 @@ namespace Codesmith.SmithNgine.Particles
         //private Vector2 endVector;
         private Line line;
 
+        public LineEmitter(Line newLine) 
+            : base(newLine.Start)
+        {
+            line = newLine;
+            Name = "LineEmitter";
+        }
 
         public LineEmitter(Vector2 lineStart, Vector2 lineEnd)
-            : base(lineStart)
-        {
-            line = new Line(lineStart, lineEnd);
-            Name = "LineEmitter";
+            : this(new Line(lineStart, lineEnd))
+        {           
         }
 
         protected override void GenerateParticle(Particle p)
@@ -43,7 +47,11 @@ namespace Codesmith.SmithNgine.Particles
 
             // Spawn randomly to any direction (should change probably to 
             // cast the particle to perpendicular direction from the line
-            float direction = MathHelper.Lerp((float)-Math.PI, (float)Math.PI, (float)random.NextDouble());
+            float direction = Rotation;
+            if (Configuration.Flags.HasFlag(EmitterModes.RandomDirection))
+            {
+                direction = MathHelper.Lerp((float)-Math.PI, (float)Math.PI, (float)random.NextDouble());
+            }
             p.LinearVelocity = new Vector2(
                 (float)Math.Sin(direction) * p.Speed, (float)-Math.Cos(direction) * p.Speed);
         }

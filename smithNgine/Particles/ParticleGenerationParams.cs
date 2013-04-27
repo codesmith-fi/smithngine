@@ -77,7 +77,7 @@ namespace Codesmith.SmithNgine.Particles
         /// Range for initial speed
         /// Units per second
         /// </summary>
-        public Vector2 InitialSpeedRange
+        public Vector2 SpeedRange
         {
             get { return speed; }
             set { speed = value; }
@@ -143,7 +143,7 @@ namespace Codesmith.SmithNgine.Particles
         {
             get
             {
-                return (int)MathHelper.Lerp(angularvelocity.X, angularvelocity.Y,
+                return MathHelper.Lerp(angularvelocity.X, angularvelocity.Y,
                     (float)random.NextDouble() * InitialAngularVelocityVariation);
             }
         }
@@ -301,7 +301,7 @@ namespace Codesmith.SmithNgine.Particles
         {
             random = new Random();
             ParticleBudget = -1;
-            speed = Vector2.Zero;
+            speed = new Vector2(1.0f, 1.0f);
             speedDamping = 1.0f;
             angularvelocity = Vector2.Zero;
             scale = new Vector2(1.0f, 1.0f);
