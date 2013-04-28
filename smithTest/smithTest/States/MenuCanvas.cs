@@ -90,10 +90,11 @@ namespace Codesmith.SmithTest
 
             // TextureAtlas
             // This will use a image with 11 columns and 1 rows. And makes a 
-            // sprite for frame 1 (second frame).
+            // sprite for frame 2 (second frame).
             atlas = new TextureAtlas(StateManager.Content.Load<Texture2D>("Images/soniccd"), 11, 1);
             atlasSprite = atlas.MakeSprite(1);
             atlasSprite.Position = new Vector2(Bounds.Width / 2, 600);
+            atlasSprite.Scale = 4.0f;
             // TODO: This adds a component to the canvas but canvas does not yet 
             // Draw it automatically. See Draw() here, it does atlasSprite.Draw(..).
             AddComponent(atlasSprite);
@@ -168,7 +169,10 @@ namespace Codesmith.SmithTest
             {
                 particleEffect.Generate(10);
             }
-            
+
+            // Just to test that rotation really works with atlas sprite
+            atlasSprite.Rotation += 0.02f;
+            atlasSprite.Rotation = MathHelper.WrapAngle(atlasSprite.Rotation);
             particleSystem.Update(gameTime);
             base.Update(gameTime);
         }
