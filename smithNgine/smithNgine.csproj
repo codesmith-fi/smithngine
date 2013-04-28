@@ -99,7 +99,15 @@
     <Compile Include="Gfx\DrawableGameObject.cs" />
     <Compile Include="Gfx\ScaleEventArgs.cs" />
     <Compile Include="Gfx\TextureAtlas.cs" />
-    <Compile Include="MathUtil\Random.cs" />
+    <Compile Include="MathUtil\MathFunctions.cs" />
+    <Compile Include="MathUtil\PseudoRandom.cs" />
+    <Compile Include="Particles\Generators\ConstantOpacityGenerator.cs" />
+    <Compile Include="Particles\Generators\PropertyGenerator.cs" />
+    <Compile Include="Particles\Generators\RandomOpacityGenerator.cs" />
+    <Compile Include="Particles\Generators\RandomSpeedGenerator.cs" />
+    <Compile Include="Particles\Modifiers\OpacityModifier1.cs" />
+    <Compile Include="Particles\Modifiers\ParticleModifier.cs" />
+    <Compile Include="Particles\Modifiers\OpacityModifier2.cs" />
     <Compile Include="View\Camera.cs" />
     <Compile Include="View\SimpleCamera.cs" />
     <Compile Include="Collision\CollisionEventArgs.cs" />
@@ -212,7 +220,7 @@
     <Compile Include="General\IContentManagerService.cs" />
     <Compile Include="Gfx\Background.cs" />
     <Compile Include="Gfx\BackgroundLayer.cs" />
-    <Compile Include="MathUtil\Constants.cs" />
+    <Compile Include="MathUtil\MathConstants.cs" />
     <Compile Include="Particles\CircleEmitter.cs" />
     <Compile Include="Particles\ConeEmitter.cs" />
     <Compile Include="Primitives\Circle.cs" />
@@ -256,7 +264,6 @@
     <Compile Include="GameState\GameCanvas.cs" />
     <Compile Include="GameState\GameStateManager.cs" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
   <!--

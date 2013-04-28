@@ -3,11 +3,14 @@
  * 
  * Copyright (C) 2013 by Erno Pakarinen / Codesmith (www.codesmith.fi)
  * All Rights Reserved
+ * 
+ * For licensing terms, see License.txt which reflects to the current license
+ * of this framework.
  */
-
 namespace Codesmith.SmithNgine.Particles
 {
     using System;
+    using Codesmith.SmithNgine.MathUtil;
     using Microsoft.Xna.Framework;
 
     /// <summary>
@@ -46,8 +49,13 @@ namespace Codesmith.SmithNgine.Particles
         {
             // Get a point along the line specified for this line emitter
             p.Position = Position;
-            float spr = MathHelper.Lerp(Rotation - Spread / 2, Rotation + Spread / 2, (float)random.NextDouble());
-            p.LinearVelocity = new Vector2((float)Math.Sin(spr) * p.Speed, (float)-Math.Cos(spr) * p.Speed);
+            float spr = Interpolations.LinearInterpolate(
+                Rotation - Spread / 2, 
+                Rotation + Spread / 2, 
+                random.NextFloat());
+            p.LinearVelocity = new Vector2(
+                MathFunctions.Sin(spr) * p.InitialSpeed, 
+                -MathFunctions.Cos(spr) * p.InitialSpeed);
         }
     }
 }

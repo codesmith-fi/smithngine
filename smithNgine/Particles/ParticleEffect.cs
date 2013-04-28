@@ -3,11 +3,14 @@
  * 
  * Copyright (C) 2013 by Erno Pakarinen / Codesmith (www.codesmith.fi)
  * All Rights Reserved
+ * 
+ * For licensing terms, see License.txt which reflects to the current license
+ * of this framework.
  */
-
 namespace Codesmith.SmithNgine.Particles
 {
     using System;
+    using System.Diagnostics;
     using System.Collections.Generic;
     using Codesmith.SmithNgine.General;
     using Codesmith.SmithNgine.Gfx;
@@ -57,6 +60,11 @@ namespace Codesmith.SmithNgine.Particles
             set;
         }
 
+        /// <summary>
+        /// Get or set the rotation for this ParticeEffect
+        /// Triggers OnRotationChanged when rotation actually changes
+        /// if someone has registered for the event
+        /// </summary>
         public float Rotation
         {
             get { return rotation; }
@@ -70,6 +78,9 @@ namespace Codesmith.SmithNgine.Particles
             }
         }
 
+        /// <summary>
+        /// Get readonly list of emitters
+        /// </summary>
         public IList<ParticleEmitter> Emitters
         {
             get { return this.emitters.AsReadOnly(); }
@@ -115,11 +126,19 @@ namespace Codesmith.SmithNgine.Particles
         #endregion
 
         #region New methods
+        /// <summary>
+        /// Generate particles for the given time period
+        /// </summary>
+        /// <param name="duration">Duration</param>
         public void Generate(TimeSpan duration)
         {
             timeLeft = duration;
         }
 
+        /// <summary>
+        /// Immediately generate the given amount of particles
+        /// </summary>
+        /// <param name="amount">How many to generate</param>
         public void Generate(int amount)
         {
             foreach (ParticleEmitter em in emitters)
@@ -128,17 +147,34 @@ namespace Codesmith.SmithNgine.Particles
             }
         }
 
+        /// <summary>
+        /// Add a ParticleEmitter to this ParticleEffect
+        /// <remarks>
+        /// Emitter can not be added twice! Fails in debug builds.
+        /// </remarks>
+        /// </summary>
+        /// <param name="emitter">The emitter to add</param>
         public void AddEmitter(ParticleEmitter emitter)
         {
+            Debug.Assert(!emitters.Contains(emitter), "Can't add emitter twice");
+
             emitter.Effect = this;
+            emitter.GlobalGravity = GravityVector;
             emitters.Add(emitter);
         }
 
+        /// <summary>
+        /// Remove the given emitter from this effect
+        /// </summary>
+        /// <param name="emitter">Emitter to remove</param>
         public void RemoveEmitter(ParticleEmitter emitter)
         {
             emitters.Remove(emitter);
         }
 
+        /// <summary>
+        /// Clear the whole Effect, removes all emitters
+        /// </summary>
         public void Clear()
         {
             emitters.Clear();
@@ -149,7 +185,7 @@ namespace Codesmith.SmithNgine.Particles
         /// <summary>
         /// Update method, should be called periodically for active effects
         /// </summary>
-        /// <param name="gameTime"></param>
+        /// <param name="gameTime">The game time</param>
         public override void Update(GameTime gameTime)
         {
             // Create new particles with emitters

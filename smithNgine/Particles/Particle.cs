@@ -3,8 +3,10 @@
  * 
  * Copyright (C) 2013 by Erno Pakarinen / Codesmith (www.codesmith.fi)
  * All Rights Reserved
+ * 
+ * For licensing terms, see License.txt which reflects to the current license
+ * of this framework.
  */
-
 namespace Codesmith.SmithNgine.Particles
 {
     using System;
@@ -24,7 +26,6 @@ namespace Codesmith.SmithNgine.Particles
         public float InitialRotation { get; set; }
         public float InitialOpacity { get; set; }
         public float InitialAngularVelocity { get; set; }
-        public float Speed { get; set; }
         public float SpeedDamping { get; set; }
         public Vector2 Position { get; set; }
         public float Rotation { get; set; }
@@ -39,11 +40,16 @@ namespace Codesmith.SmithNgine.Particles
         #endregion
 
         #region Constructors
-        public Particle(Texture2D texture)
-        {
-            Texture = texture;
-        }
-
+        /// <summary>
+        /// Constructs the particle from given parameters
+        /// 
+        /// TODO: This will change a lot in the future. I intend
+        /// to make PropertyGenerators to make it easier for extending
+        /// this functionality instead of using this huge monolithic
+        /// ParticleGenerationParams which contains everything!
+        /// 
+        /// </summary>
+        /// <param name="p"></param>
         public Particle(ParticleGenerationParams p)
         {
             InitialOpacity = p.InitialOpacity;
@@ -55,7 +61,6 @@ namespace Codesmith.SmithNgine.Particles
             Color = p.Color;
             Opacity = InitialOpacity;
             Rotation = InitialRotation;
-            Speed = InitialSpeed;
             Scale = InitialScale;
             AngularVelocity = p.InitialAngularVelocity;
             Depth = p.Depth;
@@ -68,7 +73,6 @@ namespace Codesmith.SmithNgine.Particles
         #endregion
 
         #region New methods
-
         /// <summary>
         /// Draws the particle
         /// </summary>

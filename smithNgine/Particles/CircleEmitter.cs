@@ -3,13 +3,16 @@
  * 
  * Copyright (C) 2013 by Erno Pakarinen / Codesmith (www.codesmith.fi)
  * All Rights Reserved
+ * 
+ * For licensing terms, see License.txt which reflects to the current license
+ * of this framework.
  */
-
 namespace Codesmith.SmithNgine.Particles
 {
     using System;
     using Microsoft.Xna.Framework;
     using Codesmith.SmithNgine.Primitives;
+    using Codesmith.SmithNgine.MathUtil;
 
     /// <summary>
     /// Implements a CircleEmitter
@@ -43,12 +46,13 @@ namespace Codesmith.SmithNgine.Particles
 
             if (Configuration.Flags.HasFlag(EmitterModes.RandomDirection))
             {
-                angle = (float)random.NextDouble() * MathHelper.TwoPi;
+                angle = random.NextFloat() * MathConstants.PI;
             }
 
             // This causes particles to go away along the normal line in this point
-            p.LinearVelocity = new Vector2((float)Math.Sin(angle) * p.Speed, 
-                (float)Math.Cos(angle) * p.Speed);
+            p.LinearVelocity = new Vector2(
+                MathFunctions.Sin(angle) * p.InitialSpeed, 
+                MathFunctions.Cos(angle) * p.InitialSpeed);
         }
     }
 }

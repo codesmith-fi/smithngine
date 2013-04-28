@@ -3,8 +3,10 @@
  * 
  * Copyright (C) 2013 by Erno Pakarinen / Codesmith (www.codesmith.fi)
  * All Rights Reserved
+ * 
+ * For licensing terms, see License.txt which reflects to the current license
+ * of this framework.
  */
-
 namespace Codesmith.SmithNgine.Particles
 {
     using System;
@@ -12,6 +14,7 @@ namespace Codesmith.SmithNgine.Particles
     using Microsoft.Xna.Framework.Graphics;
     using System.Collections.Generic;
     using Codesmith.SmithNgine.Primitives;
+    using Codesmith.SmithNgine.MathUtil;
 
     /// <summary>
     /// Implements a Line emitter
@@ -39,7 +42,7 @@ namespace Codesmith.SmithNgine.Particles
         protected override void GenerateParticle(Particle p)
         {
             // Get a point along the line specified for this line emitter
-            p.Position = line.Lerp((float)random.NextDouble());
+            p.Position = line.Lerp(random.NextFloat());
             if (Configuration.Flags.HasFlag(EmitterModes.PositionRelative))
             {
                 p.Position+=Effect.Position;
@@ -50,10 +53,12 @@ namespace Codesmith.SmithNgine.Particles
             float direction = Rotation;
             if (Configuration.Flags.HasFlag(EmitterModes.RandomDirection))
             {
-                direction = MathHelper.Lerp((float)-Math.PI, (float)Math.PI, (float)random.NextDouble());
+                direction = Interpolations.LinearInterpolate(
+                    -MathConstants.PI, MathConstants.PI, random.NextFloat());
             }
             p.LinearVelocity = new Vector2(
-                (float)Math.Sin(direction) * p.Speed, (float)-Math.Cos(direction) * p.Speed);
+                MathFunctions.Sin(direction) * p.InitialSpeed, 
+                -MathFunctions.Cos(direction) * p.InitialSpeed);
         }
 
     }
