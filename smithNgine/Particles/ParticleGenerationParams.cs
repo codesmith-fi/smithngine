@@ -47,10 +47,8 @@ namespace Codesmith.SmithNgine.Particles
     public class ParticleGenerationParams
     {
         private Random random;
-        private Vector2 speed;
         private Vector2 opacity;
         private Vector2 rotation;
-        private Vector2 scale;
         private Vector2 depth;
         private Vector2 quantity;
         private Vector2 angularvelocity;
@@ -75,41 +73,7 @@ namespace Codesmith.SmithNgine.Particles
             get;
             set;
         }
-
-        /// <summary>
-        /// Range for initial speed
-        /// Units per second
-        /// </summary>
-        public Vector2 SpeedRange
-        {
-            get { return speed; }
-            set { speed = value; }
-        }
-
-        /// <summary>
-        /// Initial speed variation, between 0.0f and 1.0f, will be clamped
-        /// <value>if 0 returns the start of the speed range</value>
-        /// </summary>
-        public float InitialSpeedVariation
-        {
-            get { return speedVariation; }
-            set { speedVariation = MathHelper.Clamp(value, 0.0f, 1.0f); }
-        }
-
-        /// <summary>
-        /// Get initial speed for a particle
-        /// <see cref="InitialSpeedVariation"/>
-        /// <see cref="InitialSpeedRange"/>
-        /// </summary>
-        public float InitialSpeed
-        {
-            get
-            {
-                return (float)MathHelper.Lerp(speed.X, speed.Y,
-                    (float)random.NextDouble() * InitialSpeedVariation);
-            }
-        }
-
+  
         /// <summary>
         /// Speed damping, how much the particle slows down during update
         /// </summary>
@@ -210,27 +174,6 @@ namespace Codesmith.SmithNgine.Particles
             }
         }
 
-        public float InitialScaleVariation
-        {
-            get { return scaleVariation; }
-            set { scaleVariation = MathHelper.Clamp(value, 0.0f, 1.0f); }
-        }
-
-        public Vector2 ScaleRange
-        {
-            get { return scale; }
-            set { scale = value; }
-        }
-
-        public float InitialScale
-        {
-            get
-            {
-                return MathHelper.Lerp(scale.X, scale.Y,
-                    (float)random.NextDouble() * InitialScaleVariation);
-            }
-        }
-
         public Color ColorRangeStart
         {
             get;
@@ -302,31 +245,13 @@ namespace Codesmith.SmithNgine.Particles
 
         public ParticleGenerationParams()
         {
-/*
-            ep.SpeedRange = new Vector2(30.0f, 30.0f);
-            ep.InitialSpeedVariation = 1.0f;
-            ep.ScaleRange = new Vector2(0.4f, 1.0f);
-            ep.InitialScaleVariation = 1.0f;
-            ep.RotationRange = new Vector2(0.0f, MathHelper.TwoPi);
-            ep.InitialRotationVariation = 1.0f;
-            ep.AngularVelocityRange = new Vector2(-1f, 1.0f);
-            ep.InitialAngularVelocityVariation = 1.0f;
-            ep.OpacityRange = new Vector2(0.5f, 0.0f);
-            ep.InitialOpacityVariation = 1.0f;
-            ep.TTLRange = new Vector2(500f, 2000f);         
-            ep.SpeedDamping = 1.02f;
-*/ 
             random = new Random();
             ParticleBudget = -1;
-            SpeedRange = new Vector2(1.0f, 1.0f);
             speedDamping = 1.0f;
             angularvelocity = Vector2.Zero;
-            scale = new Vector2(1.0f, 1.0f);
             depth = new Vector2(1.0f, 1.0f);
-            InitialSpeedVariation = 0.0f;
             InitialAngularVelocityVariation = 0.0f;
             InitialRotationVariation = 0.0f;
-            InitialScaleVariation = 0.0f;
             InitialOpacityVariation = 0.0f;
             ColorRangeEnd = Color.White;
             ColorRangeStart = Color.White;

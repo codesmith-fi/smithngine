@@ -21,10 +21,10 @@ namespace Codesmith.SmithNgine.Particles.Modifiers
             FinalOpacity = final;
         }
 
-        public override void Apply(Particle p, float amount)
+        public override void Apply(Particle p)
         {
             p.Opacity = Interpolations.LinearInterpolate(
-                InitialOpacity, FinalOpacity, amount);
+                InitialOpacity, FinalOpacity, p.TTLPercent);
         }
     }
 }

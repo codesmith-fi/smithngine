@@ -7,27 +7,26 @@
  * For licensing terms, see License.txt which reflects to the current license
  * of this framework.
  */
-namespace Codesmith.SmithNgine.Particles.Generators
+
+namespace Codesmith.SmithNgine.Particles.Modifiers
 {
     using System;
     using Codesmith.SmithNgine.MathUtil;
 
     [Serializable]
-    public class RandomScaleGenerator : RangePropertyGenerator
+    public class ScaleModifier1 : ParticleModifier
     {
-        public RandomScaleGenerator()
-        {
-        }
+        public float FinalScale { get; set; }
 
-        public RandomScaleGenerator(float start, float end, float variation)
-            : base(start, end, variation)
+        public ScaleModifier1(float final)
         {
+            FinalScale = final;
         }
 
         public override void Apply(Particle p)
         {
-            p.InitialScale = RandomValue;
-            p.Scale = p.InitialScale;
+            p.Scale = Interpolations.LinearInterpolate(
+                p.InitialScale, FinalScale, p.TTLPercent);
         }
     }
 }

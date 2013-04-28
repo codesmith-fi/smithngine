@@ -17,6 +17,9 @@ namespace Codesmith.SmithNgine.Particles
     using Codesmith.SmithNgine.Gfx;
     using Codesmith.SmithNgine.General;
     using Codesmith.SmithNgine.MathUtil;
+    using Codesmith.SmithNgine.Particles.Generators;
+    using Codesmith.SmithNgine.Particles.Modifiers;
+    using System.Diagnostics;
 
     /// <summary>
     /// Base class for a particle emitter class, for extension only
@@ -37,6 +40,10 @@ namespace Codesmith.SmithNgine.Particles
         protected PseudoRandom random;
         // Managed particles
         protected List<Particle> particles;
+        // List of generators for new particles
+        private List<PropertyGenerator> generators;
+        // List of modifiers for existing particles
+        private List<ParticleModifier> modifiers;
         // Current rotation of the emitter
         private float rotation;
         // Name of the emitter
@@ -142,6 +149,8 @@ namespace Codesmith.SmithNgine.Particles
         {
             Configuration = new ParticleGenerationParams();
             particles = new List<Particle>();
+            generators = new List<PropertyGenerator>();
+            modifiers = new List<ParticleModifier>();
             random = new PseudoRandom();
             // by default, emitter is relative to the effect position
             Position = position;
@@ -151,6 +160,34 @@ namespace Codesmith.SmithNgine.Particles
         #endregion
 
         #region New methods
+        /// <summary>
+        /// Add a new property generator to this emitter
+        /// </summary>
+        /// <remarks>
+        /// Generator can be added only once
+        /// </remarks>
+        /// <param name="generator">The PropertyGenerator to be added</param>
+        public void AddPropertyGenerator(PropertyGenerator generator)
+        {
+            Debug.Assert(!generators.Contains(generator), 
+                "Tried adding " + generator.ToString() + " twice");
+            generators.Add(generator);
+        }
+
+        /// <summary>
+        /// Add a new modifier to this emitter
+        /// </summary>
+        /// <remarks>
+        /// Modifier can be added only once
+        /// </remarks>
+        /// <param name="modifier">The ParticleModifier to be added</param>
+        public void AddParticleModifier(ParticleModifier modifier)
+        {
+            Debug.Assert(!modifiers.Contains(modifier), 
+                "Tried adding " + modifier.ToString() + " twice");
+            modifiers.Add(modifier);
+        }
+
         /// <summary>
         /// Immediately generates one or more particles, particle is created in the 
         /// concrete emitter class by the method GenerateParticle()
@@ -167,6 +204,12 @@ namespace Codesmith.SmithNgine.Particles
                     if (budget < 0) return;
                 }
                 Particle p = new Particle(Configuration);
+                // Apply all generators to this particle
+                foreach (PropertyGenerator g in generators)
+                {
+                    g.Apply(p);
+                }
+                // Call the concrete emitter for last modifications
                 GenerateParticle(p);
                 particles.Add(p);
             }
@@ -200,11 +243,11 @@ namespace Codesmith.SmithNgine.Particles
                 Particle p = particles[i];
 
                 p.TTLPercent += elapsedMs / p.TTL;
+                foreach (ParticleModifier mod in modifiers)
+                {
+                    mod.Apply(p);
+                }
 
-                p.Scale = Interpolations.LinearInterpolate(
-                    p.InitialScale, Configuration.ScaleRange.Y, p.TTLPercent);
-                p.Opacity = Interpolations.LinearInterpolate(
-                    p.InitialOpacity, Configuration.OpacityRange.Y, p.TTLPercent);
                 p.AngularVelocity = Interpolations.LinearInterpolate(
                     p.InitialAngularVelocity, Configuration.AngularVelocityRange.Y, p.TTLPercent);
                 p.Position += p.LinearVelocity * elapsedSeconds;

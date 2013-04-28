@@ -115,6 +115,8 @@
     <Compile Include="Particles\Modifiers\OpacityModifier1.cs" />
     <Compile Include="Particles\Modifiers\ParticleModifier.cs" />
     <Compile Include="Particles\Modifiers\OpacityModifier2.cs" />
+    <Compile Include="Particles\Modifiers\ScaleModifier1.cs" />
+    <Compile Include="Particles\Modifiers\ScaleModifier2.cs" />
     <Compile Include="View\Camera.cs" />
     <Compile Include="View\SimpleCamera.cs" />
     <Compile Include="Collision\CollisionEventArgs.cs" />

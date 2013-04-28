@@ -17,6 +17,6 @@
         /// </summary>
         /// <param name="p">The particle to modify</param>
         /// <param name="amount">The amount, value between 0.0 and 1.0</param>
-        public abstract void Apply(Particle p, float amount);
+        public abstract void Apply(Particle p);
     }
 }

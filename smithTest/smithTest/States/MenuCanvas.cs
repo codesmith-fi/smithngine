@@ -14,6 +14,8 @@ using Codesmith.SmithNgine.GameState;
 using Codesmith.SmithNgine.Gfx;
 using Codesmith.SmithNgine.Particles;
 using Codesmith.SmithNgine.Primitives;
+using Codesmith.SmithNgine.Particles.Generators;
+using Codesmith.SmithNgine.Particles.Modifiers;
 
 namespace Codesmith.SmithTest
 {
@@ -106,18 +108,24 @@ namespace Codesmith.SmithTest
             particleEffect.Position = Vector2.Zero;
 
             emitter = new LineEmitter(new Vector2(-50,0), new Vector2(50,0));
+            emitter.AddPropertyGenerator(
+                new RandomSpeedGenerator(30.0f, 30.0f, 1.0f) );
+            emitter.AddPropertyGenerator(
+                new RandomScaleGenerator(0.4f, 1.0f, 1.0f));
+            emitter.AddPropertyGenerator(
+                new RandomOpacityGenerator(0.5f, 0.0f, 1.0f));
+
+            emitter.AddParticleModifier(
+                new OpacityModifier1(0.0f) );
+            emitter.AddParticleModifier(
+                new ScaleModifier1(2.0f) );
+
             emitter.GlobalGravity = new Vector2(1.1f, 0.0f);
             ParticleGenerationParams ep = new ParticleGenerationParams();           
-            ep.SpeedRange = new Vector2(30.0f, 30.0f);
-            ep.InitialSpeedVariation = 1.0f;
-            ep.ScaleRange = new Vector2(0.4f, 1.0f);
-            ep.InitialScaleVariation = 1.0f;
             ep.RotationRange = new Vector2(0.0f, MathHelper.TwoPi);
             ep.InitialRotationVariation = 1.0f;
             ep.AngularVelocityRange = new Vector2(-1f, 1.0f);
             ep.InitialAngularVelocityVariation = 1.0f;
-            ep.OpacityRange = new Vector2(0.5f, 0.0f);
-            ep.InitialOpacityVariation = 1.0f;
             ep.TTLRange = new Vector2(500f, 2000f);         
             ep.SpeedDamping = 1.02f;
             ep.AddTexture(StateManager.Content.Load<Texture2D>("Images/smoke1"));

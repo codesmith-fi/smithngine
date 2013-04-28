@@ -52,10 +52,11 @@ namespace Codesmith.SmithNgine.Particles
         /// <param name="p"></param>
         public Particle(ParticleGenerationParams p)
         {
+            InitialSpeed = 0.0f;
+            InitialScale = 1.0f;
+
             InitialOpacity = p.InitialOpacity;
             InitialRotation = p.InitialRotation;
-            InitialScale = p.InitialScale;
-            InitialSpeed = p.InitialSpeed;
             InitialAngularVelocity = p.InitialAngularVelocity;
             Texture = p.Texture;
             Color = p.Color;

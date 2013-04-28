@@ -13,7 +13,7 @@ namespace Codesmith.SmithNgine.Particles.Generators
     using Codesmith.SmithNgine.MathUtil;
 
     [Serializable]
-    class RandomOpacityGenerator : RangePropertyGenerator
+    public class RandomOpacityGenerator : RangePropertyGenerator
     {
         public RandomOpacityGenerator()
         { 
