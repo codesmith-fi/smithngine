@@ -54,6 +54,37 @@ namespace Codesmith.SmithNgine.MathUtil
         public static float Atan2(float x, float y)
         {
             return (float)Math.Atan2(x, y);
-        }        
+        }
+
+        /// <summary>
+        /// Clamp the given value to range between 0.0f to 1.0f
+        /// </summary>
+        /// <param name="value">Value to clamp</param>
+        /// <returns>0.0f if value is smaller than 0.0f, 1.0f if value is larger than 1.0f</returns>
+        public static float Clamp(float value)
+        {
+            if (value < 0.0f)
+                return 0.0f;
+            else if (value > 1.0f)
+                return 1.0f;
+            else
+                return value;
+        }
+
+        /// <summary>
+        /// Clamp the given value to range between 0.0f to 1.0f
+        /// </summary>
+        /// <param name="value">Value to clamp</param>
+        /// <returns>0.0f if value is smaller than 0.0f, 1.0f if value is larger than 1.0f</returns>
+        public static float Clamp(float value, float min, float max)
+        {
+            if (value < min)
+                return min;
+            else if (value > max)
+                return max;
+            else
+                return value;
+        }
+
     }
 }

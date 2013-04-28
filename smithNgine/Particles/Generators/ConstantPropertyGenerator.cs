@@ -12,22 +12,27 @@ namespace Codesmith.SmithNgine.Particles.Generators
     using System;
     using Codesmith.SmithNgine.MathUtil;
 
-    [Serializable]
-    class RandomOpacityGenerator : RangePropertyGenerator
+    /// <summary>
+    /// Base class for PropertyGenerators which provide a 
+    /// constant value
+    /// </summary>
+    [Serializable]    
+    public class ConstantPropertyGenerator : PropertyGenerator
     {
-        public RandomOpacityGenerator()
-        { 
+        public float Value { get; set; }
+
+        public ConstantPropertyGenerator()
+        {
+            Value = 1.0f;
         }
 
-        public RandomOpacityGenerator(float start, float end, float variation)
-            : base(start,end,variation)
+        public ConstantPropertyGenerator(float value)
         {
+            Value = value;
         }
 
         public override void Apply(Particle p)
         {
-            p.InitialOpacity = RandomValue;
-            p.Opacity = p.InitialOpacity;
         }
     }
 }

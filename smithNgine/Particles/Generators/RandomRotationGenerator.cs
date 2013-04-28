@@ -26,23 +26,24 @@ namespace Codesmith.SmithNgine.Particles.Generators
     /// </remarks>
     /// </summary>
     [Serializable]
-    public class RandomSpeedGenerator : RangePropertyGenerator
+    public class RandomRotationGenerator : RangePropertyGenerator
     {
         #region Constructors
-        public RandomSpeedGenerator()
-        {             
+        public RandomRotationGenerator()
+        {
         }
 
-        public RandomSpeedGenerator(float start, float end, float variation)
+        public RandomRotationGenerator(float start, float end, float variation) 
             : base(start, end, variation)
-        { 
+        {
         }
         #endregion
 
         #region Method from base class
         public override void Apply(Particle p)
         {
-            p.InitialSpeed = RandomValue;
+            p.InitialRotation = RandomValue;
+            p.Rotation = p.InitialRotation;
         }
         #endregion
     }

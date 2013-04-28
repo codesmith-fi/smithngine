@@ -10,8 +10,10 @@
 
 namespace Codesmith.SmithNgine.Particles.Modifiers
 {
+    using System;
     using Codesmith.SmithNgine.MathUtil;
 
+    [Serializable]
     public class OpacityModifier1 : ParticleModifier
     {
         public float FinalOpacity { get; set; }

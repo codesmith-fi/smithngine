@@ -12,22 +12,29 @@ namespace Codesmith.SmithNgine.Particles.Generators
     using System;
     using Codesmith.SmithNgine.MathUtil;
 
+    /// <summary>
+    /// Generates a initial speed (float) for the particle
+    /// The given speed is always used for new particles
+    /// </summary>
     [Serializable]
-    class ConstantOpacityGenerator : ConstantPropertyGenerator
+    public class ConstantSpeedGenerator : ConstantPropertyGenerator
     {
-        public ConstantOpacityGenerator()
+        #region Constructors
+        public ConstantSpeedGenerator()
         {
         }
 
-        public ConstantOpacityGenerator(float opacity) 
-            : base(opacity)
+        public ConstantSpeedGenerator(float speed)
+            : base(speed)
         {
         }
+        #endregion
 
+        #region Method from base class
         public override void Apply(Particle p)
         {
-            p.InitialOpacity = Value;
-            p.Opacity = p.InitialOpacity;
+            p.InitialSpeed = Value;
         }
+        #endregion
     }
 }

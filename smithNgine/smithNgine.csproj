@@ -102,9 +102,14 @@
     <Compile Include="MathUtil\MathFunctions.cs" />
     <Compile Include="MathUtil\PseudoRandom.cs" />
     <Compile Include="Particles\Generators\ConstantOpacityGenerator.cs" />
+    <Compile Include="Particles\Generators\ConstantPropertyGenerator.cs" />
+    <Compile Include="Particles\Generators\ConstantRotationGenerator.cs" />
+    <Compile Include="Particles\Generators\ConstantSpeedGenerator.cs" />
     <Compile Include="Particles\Generators\PropertyGenerator.cs" />
     <Compile Include="Particles\Generators\RandomOpacityGenerator.cs" />
+    <Compile Include="Particles\Generators\RandomRotationGenerator.cs" />
     <Compile Include="Particles\Generators\RandomSpeedGenerator.cs" />
+    <Compile Include="Particles\Generators\RangePropertyGenerator.cs" />
     <Compile Include="Particles\Modifiers\OpacityModifier1.cs" />
     <Compile Include="Particles\Modifiers\ParticleModifier.cs" />
     <Compile Include="Particles\Modifiers\OpacityModifier2.cs" />

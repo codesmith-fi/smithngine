@@ -43,6 +43,7 @@ namespace Codesmith.SmithNgine.Particles
     /// <summary>
     /// Configuration parameters for ParticleEmitter
     /// </summary>
+    [Serializable]
     public class ParticleGenerationParams
     {
         private Random random;

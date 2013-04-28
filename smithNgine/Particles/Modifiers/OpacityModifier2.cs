@@ -6,8 +6,10 @@
  */
 namespace Codesmith.SmithNgine.Particles.Modifiers
 {
+    using System;
     using Codesmith.SmithNgine.MathUtil;
 
+    [Serializable]
     public class OpacityModifier2 : ParticleModifier
     {
         public float InitialOpacity { get; set; }

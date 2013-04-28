@@ -15,21 +15,6 @@ namespace Codesmith.SmithNgine.MathUtil
     public static class Interpolations
     {
         /// <summary>
-        /// Clamp the given value to range between 0.0f to 1.0f
-        /// </summary>
-        /// <param name="value">Value to clamp</param>
-        /// <returns>0.0f if value is smaller than 0.0f, 1.0f if value is larger than 1.0f</returns>
-        public static float ClampZeroOne(float value)
-        {
-            if (value < 0.0f) 
-                return 0.0f;
-            else if (value > 1.0f) 
-                return 1.0f;
-            else 
-                return value;
-        }
-
-        /// <summary>
         /// Linearly interpolate in a given range
         /// </summary>
         /// <param name="start">Start of the range</param>
@@ -38,7 +23,7 @@ namespace Codesmith.SmithNgine.MathUtil
         /// <returns></returns>
         public static float LinearInterpolate(float start, float end, float amount)
         {
-            amount = Interpolations.ClampZeroOne(amount);
+            amount = MathFunctions.Clamp(amount);
             return start + ((end - start) * amount);
         }
 

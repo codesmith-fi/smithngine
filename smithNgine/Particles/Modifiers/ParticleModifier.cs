@@ -1,9 +1,6 @@
 ﻿namespace Codesmith.SmithNgine.Particles.Modifiers
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
 
     /// <summary>
     /// Abstract base class for all ParticleModifiers which apply
