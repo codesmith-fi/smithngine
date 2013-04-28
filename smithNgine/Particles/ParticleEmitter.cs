@@ -226,13 +226,13 @@ namespace Codesmith.SmithNgine.Particles
         /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime)
         {
-            float elapsedMs = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+//            float elapsedMs = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             float elapsedSeconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
             for (int i = 0; i < particles.Count; i++)
             {
                 Particle p = particles[i];
 
-                p.TTLPercent += elapsedMs / p.TTL;
+                p.TTLPercent += elapsedSeconds / p.TTL;
                 foreach (ParticleModifier mod in modifiers)
                 {
                     mod.Apply(p, elapsedSeconds);

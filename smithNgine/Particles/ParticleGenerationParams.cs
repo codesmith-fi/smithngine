@@ -65,44 +65,6 @@ namespace Codesmith.SmithNgine.Particles
             set;
         }
   
-        public Vector2 DepthRange
-        {
-            get { return depth; }
-            set { depth = value; }
-        }
-
-        public float Depth
-        {
-            get
-            {
-                return MathHelper.Lerp(depth.X, depth.Y,
-                    (float)random.NextDouble());
-            }
-        }
-
-        public Color ColorRangeStart
-        {
-            get;
-            set;
-        }
-
-        public Color ColorRangeEnd
-        {
-            get;
-            set;
-        }
-
-        // Color of the created particle
-        public Color Color
-        {
-            get { return Color.Lerp(ColorRangeStart, ColorRangeEnd, (float)random.NextDouble()); }
-            set 
-            { 
-                ColorRangeStart = value;
-                ColorRangeEnd = value;
-            }
-        }
-
         // range for quantity of particles to create per trigger
         public Vector2 QuantityRange
         {
@@ -134,30 +96,12 @@ namespace Codesmith.SmithNgine.Particles
             }
         }
 
-        public Vector2 TTLRange
-        {
-            get { return ttl; }
-            set { ttl = Validators.ValidateRange(value); }
-        }
-
-        // milliseconds
-        public float TTL
-        {
-            get
-            {
-                return MathHelper.Lerp(ttl.X, ttl.Y, (float)random.NextDouble());
-            }
-        }
-
         public ParticleGenerationParams()
         {
             random = new PseudoRandom();
             ParticleBudget = -1;
             depth = new Vector2(1.0f, 1.0f);
-            ColorRangeEnd = Color.White;
-            ColorRangeStart = Color.White;
             quantity = Vector2.Zero;
-            Color = Color.White;
             textures = new List<Texture2D>();
             ttl = new Vector2(500.0f, 500.0f);
             Flags = EmitterModes.PositionRelative | EmitterModes.RotationRelative;

@@ -108,7 +108,8 @@ namespace Codesmith.SmithTest
             particleEffect.Rotation = 0f;
             particleEffect.Position = Vector2.Zero;
 
-            emitter = new LineEmitter(new Vector2(-50,0), new Vector2(50,0));
+//            emitter = new LineEmitter(new Vector2(-50,0), new Vector2(50,0));
+            emitter = new PointEmitter(Vector2.Zero);
             emitter.AddPropertyGenerator(
                 new RandomSpeedGenerator(30.0f, 30.0f, 1.0f) );
             emitter.AddPropertyGenerator(
@@ -119,7 +120,10 @@ namespace Codesmith.SmithTest
                 new RandomRotationGenerator(0.0f, MathConstants.TwoPI, 1.0f));
             emitter.AddPropertyGenerator(
                 new RandomAngularVelocityGenerator(-1.0f, 1.0f, 1.0f));
-
+            emitter.AddPropertyGenerator(
+                new RandomTTLGenerator(0.5f, 2.0f, 1.0f));
+            emitter.AddPropertyGenerator(
+                new RandomColorGenerator(Color.Yellow, Color.Red));
             emitter.AddParticleModifier(
                 new OpacityModifier1(0.0f) );
             emitter.AddParticleModifier(
@@ -127,9 +131,7 @@ namespace Codesmith.SmithTest
             emitter.AddParticleModifier(
                 new DampingLinearVelocityModifier(1.01f));
 
-
             ParticleGenerationParams ep = new ParticleGenerationParams();           
-            ep.TTLRange = new Vector2(500f, 2000f);
             ep.AddTexture(StateManager.Content.Load<Texture2D>("Images/smoke1"));
             ep.AddTexture(StateManager.Content.Load<Texture2D>("Images/smoke2"));
             ep.AddTexture(StateManager.Content.Load<Texture2D>("Images/smoke3"));
@@ -198,6 +200,8 @@ namespace Codesmith.SmithTest
             }
             animSprite.Draw(spriteBatch, gameTime);
             atlasSprite.Draw(spriteBatch, gameTime);
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
             ShowParticleStatus(spriteBatch);
             particleSystem.Draw(spriteBatch, gameTime);
             spriteBatch.End();

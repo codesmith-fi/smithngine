@@ -26,6 +26,7 @@ namespace Codesmith.SmithNgine.Particles
         public float InitialRotation { get; set; }
         public float InitialOpacity { get; set; }
         public float InitialAngularVelocity { get; set; }
+        public float InitialDepth { get; set; }
         public Vector2 Position { get; set; }
         public float Rotation { get; set; }
         public float AngularVelocity { get; set; }
@@ -56,6 +57,9 @@ namespace Codesmith.SmithNgine.Particles
             InitialOpacity = 1.0f;
             InitialRotation = 0.0f;
             InitialAngularVelocity = 0.0f;
+            InitialDepth = 0.0f;
+            Depth = 0.0f;
+            Color = Color.White;
 
             Opacity = InitialOpacity;
             Rotation = InitialRotation;
@@ -63,11 +67,9 @@ namespace Codesmith.SmithNgine.Particles
             AngularVelocity = InitialAngularVelocity;
 
             Texture = p.Texture;
-            Color = p.Color;
 
-            Depth = p.Depth;
+            TTL = 1.0f;
             TTLPercent = 0.0f;
-            TTL = p.TTL;
             Origin = new Vector2(Texture.Width / 2, Texture.Height / 2);
         }
 
