@@ -29,7 +29,7 @@ namespace Codesmith.SmithNgine.Particles
         {
             // Spawn randomly to any direction from the point
             float direction = Rotation;
-            if( Configuration.Flags.HasFlag( EmitterModes.RandomDirection ) )
+            if(Flags.HasFlag( EmitterModes.RandomDirection ) )
             {
                 direction = Interpolations.LinearInterpolate(
                     -MathConstants.PI, MathConstants.PI, random.NextFloat());

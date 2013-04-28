@@ -43,7 +43,7 @@ namespace Codesmith.SmithNgine.Particles
         {
             // Get a point along the line specified for this line emitter
             p.Position = line.Lerp(random.NextFloat());
-            if (Configuration.Flags.HasFlag(EmitterModes.PositionRelative))
+            if (Flags.HasFlag(EmitterModes.PositionRelative))
             {
                 p.Position+=Effect.Position;
             }
@@ -51,7 +51,7 @@ namespace Codesmith.SmithNgine.Particles
             // Spawn randomly to any direction (should change probably to 
             // cast the particle to perpendicular direction from the line
             float direction = Rotation;
-            if (Configuration.Flags.HasFlag(EmitterModes.RandomDirection))
+            if (Flags.HasFlag(EmitterModes.RandomDirection))
             {
                 direction = Interpolations.LinearInterpolate(
                     -MathConstants.PI, MathConstants.PI, random.NextFloat());

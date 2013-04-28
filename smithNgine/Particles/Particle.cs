@@ -50,7 +50,7 @@ namespace Codesmith.SmithNgine.Particles
         /// 
         /// </summary>
         /// <param name="p"></param>
-        public Particle(ParticleGenerationParams p)
+        public Particle(Texture2D texture)
         {
             InitialSpeed = 0.0f;
             InitialScale = 1.0f;
@@ -65,9 +65,7 @@ namespace Codesmith.SmithNgine.Particles
             Rotation = InitialRotation;
             Scale = InitialScale;
             AngularVelocity = InitialAngularVelocity;
-
-            Texture = p.Texture;
-
+            Texture = texture;
             TTL = 1.0f;
             TTLPercent = 0.0f;
             Origin = new Vector2(Texture.Width / 2, Texture.Height / 2);

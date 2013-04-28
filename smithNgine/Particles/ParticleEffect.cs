@@ -192,13 +192,13 @@ namespace Codesmith.SmithNgine.Particles
             {
                 if (ParticleCount < MaxParticles)
                 {
-                    if (em.Configuration.Flags.HasFlag(EmitterModes.AutoGenerate))
+                    if (em.Flags.HasFlag(EmitterModes.AutoGenerate))
                     {
-                        em.Generate(em.Configuration.Quantity);
+                        em.Generate((float)gameTime.ElapsedGameTime.TotalSeconds);
                     }
                     else if (timeLeft > TimeSpan.Zero)
                     {
-                        em.Generate(em.Configuration.Quantity);
+                        em.Generate((float)gameTime.ElapsedGameTime.TotalSeconds);
                         timeLeft -= gameTime.ElapsedGameTime;
                     }
                 }

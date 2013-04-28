@@ -110,10 +110,11 @@ namespace Codesmith.SmithTest
 
 //            emitter = new LineEmitter(new Vector2(-50,0), new Vector2(50,0));
             emitter = new PointEmitter(Vector2.Zero);
+            emitter.Quantity = 1000;
             emitter.AddPropertyGenerator(
                 new RandomSpeedGenerator(30.0f, 30.0f, 1.0f) );
             emitter.AddPropertyGenerator(
-                new RandomScaleGenerator(0.4f, 1.0f, 1.0f));
+                new RandomScaleGenerator(0.1f, 0.5f, 1.0f));
             emitter.AddPropertyGenerator(
                 new RandomOpacityGenerator(0.5f, 0.0f, 1.0f));
             emitter.AddPropertyGenerator(
@@ -123,7 +124,7 @@ namespace Codesmith.SmithTest
             emitter.AddPropertyGenerator(
                 new RandomTTLGenerator(0.5f, 2.0f, 1.0f));
             emitter.AddPropertyGenerator(
-                new RandomColorGenerator(Color.Yellow, Color.Red));
+                new RandomColorGenerator(Color.White, Color.Red));
             emitter.AddParticleModifier(
                 new OpacityModifier1(0.0f) );
             emitter.AddParticleModifier(
@@ -131,11 +132,10 @@ namespace Codesmith.SmithTest
             emitter.AddParticleModifier(
                 new DampingLinearVelocityModifier(1.01f));
 
-            ParticleGenerationParams ep = new ParticleGenerationParams();           
-            ep.AddTexture(StateManager.Content.Load<Texture2D>("Images/smoke1"));
-            ep.AddTexture(StateManager.Content.Load<Texture2D>("Images/smoke2"));
-            ep.AddTexture(StateManager.Content.Load<Texture2D>("Images/smoke3"));
-            emitter.Configuration = ep;
+            emitter.Flags |= EmitterModes.AutoGenerate;
+            emitter.AddTexture(StateManager.Content.Load<Texture2D>("Images/smoke1"));
+            emitter.AddTexture(StateManager.Content.Load<Texture2D>("Images/smoke2"));
+            emitter.AddTexture(StateManager.Content.Load<Texture2D>("Images/smoke3"));
             particleEffect.AddEmitter(emitter);
             particleSystem.AddEffect(particleEffect);
         }

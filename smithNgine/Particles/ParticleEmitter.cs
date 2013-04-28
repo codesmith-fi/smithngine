@@ -9,6 +9,7 @@
  */
 namespace Codesmith.SmithNgine.Particles
 {
+    #region Using Statements
     using System;
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
@@ -20,6 +21,34 @@ namespace Codesmith.SmithNgine.Particles
     using Codesmith.SmithNgine.Particles.Generators;
     using Codesmith.SmithNgine.Particles.Modifiers;
     using System.Diagnostics;
+    #endregion
+
+    #region Enumerations
+    /// <summary>
+    /// Enumeration flags for Emitter modes
+    /// </summary>
+    [Flags]
+    public enum EmitterModes : int
+    {
+        None = 0,
+        // Emitter spawns particles from random position, e.g. CircleEmitter
+        RandomPosition = 1,
+        // Movement direction of new particles is random
+        RandomDirection = 1 << 1,
+        // Emitter position is absolute instead of relative to the effect position
+        PositionAbsolute = 1 << 2,
+        // Emitter position is relative to the effect position
+        PositionRelative = 1 << 3,
+        // Emitter rotation is absolute instead of relative to the effect rotation
+        RotationAbsolute = 1 << 4,
+        // Emitter rotation is relative to the effect rotation
+        RotationRelative = 1 << 5,
+        // Emitter uses the given budget only and stops generating stuff
+        UseBudgetOnly = 1 << 6,
+        // Emitter generates stuff automatically when ParticlSystem is updated
+        AutoGenerate = 1 << 7
+    }
+    #endregion
 
     /// <summary>
     /// Base class for a particle emitter class, for extension only
@@ -34,8 +63,6 @@ namespace Codesmith.SmithNgine.Particles
         #region Fields
         // ParticleEffect which owns this emitter
         private ParticleEffect hostEffect;
-        // Configuration for particle generation
-        private ParticleGenerationParams configuration;
         // Random generator
         protected PseudoRandom random;
         // Managed particles
@@ -44,12 +71,16 @@ namespace Codesmith.SmithNgine.Particles
         private List<PropertyGenerator> generators;
         // List of modifiers for existing particles
         private List<ParticleModifier> modifiers;
+        // List of texture to use
+        private List<Texture2D> textures;
         // Current rotation of the emitter
         private float rotation;
         // Name of the emitter
         private string name;
         // How many particles this emitter can still generate
         private int budget;
+        // 
+        private float fraction;
         #endregion
 
         #region Events
@@ -68,21 +99,16 @@ namespace Codesmith.SmithNgine.Particles
             get { return name; }
             internal set { name = value; }
         }
-      
-        /// <summary>
-        /// Configuration for particle generation
-        /// </summary>
-        [Browsable(false)]
-        public ParticleGenerationParams Configuration
-        {
-            get { return configuration; }
-            set 
-            {
-                configuration = value;
-                budget = configuration.ParticleBudget;
-            }
-        }
 
+        /// <summary>
+        /// Flags for different modes for the emitter
+        /// </summary>
+        public EmitterModes Flags
+        {
+            get;
+            set;
+        }
+      
         /// <summary>
         /// Get the position of this emitter
         /// </summary>
@@ -90,7 +116,7 @@ namespace Codesmith.SmithNgine.Particles
         {
             get
             {
-                return (configuration.Flags.HasFlag(EmitterModes.PositionRelative) && hostEffect != null) ?
+                return (Flags.HasFlag(EmitterModes.PositionRelative) && hostEffect != null) ?
                     base.Position + hostEffect.Position : base.Position;
             }
         }
@@ -99,7 +125,7 @@ namespace Codesmith.SmithNgine.Particles
         {
             get
             {
-                return (Configuration.Flags.HasFlag(EmitterModes.RotationRelative) && hostEffect != null) ? 
+                return (Flags.HasFlag(EmitterModes.RotationRelative) && hostEffect != null) ? 
                     rotation + hostEffect.Rotation : rotation;
             }
             set
@@ -129,6 +155,15 @@ namespace Codesmith.SmithNgine.Particles
             get { return hostEffect; }
             internal set { hostEffect = value; }
         }
+
+        /// <summary>
+        /// How many particles per second to generate
+        /// </summary>
+        public float Quantity
+        {
+            get;
+            set;
+        }
         #endregion
 
         #region Constructors
@@ -138,13 +173,16 @@ namespace Codesmith.SmithNgine.Particles
         /// <param name="position"></param>
         public ParticleEmitter(Vector2 position)
         {
-            Configuration = new ParticleGenerationParams();
             particles = new List<Particle>();
             generators = new List<PropertyGenerator>();
             modifiers = new List<ParticleModifier>();
+            textures = new List<Texture2D>();
             random = new PseudoRandom();
             // by default, emitter is relative to the effect position
             Position = position;
+            Quantity = 1;
+            fraction = 0.0f;
+            Flags = EmitterModes.PositionRelative | EmitterModes.RotationRelative;
             name = "AbstractEmitter";            
         }
         #endregion
@@ -179,21 +217,45 @@ namespace Codesmith.SmithNgine.Particles
         }
 
         /// <summary>
+        /// Add a texture to this emitter
+        /// </summary>
+        /// <param name="tex"></param>
+        public void AddTexture(Texture2D tex)
+        {
+            Debug.Assert(!textures.Contains(tex),
+                "Tried adding a texture twice");
+            textures.Add(tex);
+        }
+
+        public void Generate(float elapsedSeconds)
+        {
+            // How many particles per frame to generate
+            float ppf = Quantity * elapsedSeconds;
+            fraction += ppf;
+            if (fraction >= 1.0f)
+            {
+                Generate((int)fraction);
+                fraction = 0f;
+            }
+        }
+
+        /// <summary>
         /// Immediately generates one or more particles, particle is created in the 
         /// concrete emitter class by the method GenerateParticle()
         /// </summary>
         /// <param name="count">How many particles to generate at once</param>
         /// <returns>List of particles generated, these will be added to the ParticleSys</returns>
-        public void Generate( int count = 1)
+        public void Generate( int count )
         {
+            Debug.Assert(textures.Count > 0, "No textures have been added to the emitter");
             for (int i = 0; i < count; i++)
             {
-                if (Configuration.Flags.HasFlag(EmitterModes.UseBudgetOnly))
+                if (Flags.HasFlag(EmitterModes.UseBudgetOnly))
                 {
                     budget--;
                     if (budget < 0) return;
                 }
-                Particle p = new Particle(Configuration);
+                Particle p = new Particle(textures[random.Next(textures.Count)]);
                 // Apply all generators to this particle
                 foreach (PropertyGenerator g in generators)
                 {

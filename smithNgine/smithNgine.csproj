@@ -279,7 +279,6 @@
     <Compile Include="Particles\Particle.cs" />
     <Compile Include="Particles\ParticleEffect.cs" />
     <Compile Include="Particles\ParticleEmitter.cs" />
-    <Compile Include="Particles\ParticleGenerationParams.cs" />
     <Compile Include="Particles\ParticleSystem.cs" />
     <Compile Include="Particles\PointEmitter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
