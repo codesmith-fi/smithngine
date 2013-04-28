@@ -11,11 +11,11 @@ namespace Codesmith.SmithNgine.MathUtil
     /// <summary>
     /// Constants
     /// </summary>
-    public static class Constants
+    public static class MathConstants
     {
-        const float PI = (float)Math.PI;
-        const float PIHalf = (float)Math.PI / 2f;
-        const float PIQuarter = (float)Math.PI / 4f;
-        const float PIDouble = (float)Math.PI * 2f;
+        public const float PI = (float)Math.PI;
+        public const float PIHalf = (float)Math.PI / 2f;
+        public const float PIQuarter = (float)Math.PI / 4f;
+        public const float PIDouble = (float)Math.PI * 2f;
     }
 }

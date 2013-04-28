@@ -12,14 +12,14 @@ namespace Codesmith.SmithNgine.MathUtil
     /// <summary>
     /// Extends Random class and gives new method for getting NextFloat()
     /// </summary>
-    public class Random2 : Random
+    public class PseudoRandom : Random
     {
-        public Random2() 
+        public PseudoRandom() 
             : base()
         {
         }
 
-        public Random2(int seed)
+        public PseudoRandom(int seed)
             : base(seed)
         {
         }
