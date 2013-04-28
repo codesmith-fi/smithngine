@@ -3,6 +3,9 @@
  * 
  * Copyright (C) 2013 by Erno Pakarinen / Codesmith (www.codesmith.fi)
  * All Rights Reserved
+ * 
+ * For licensing terms, see License.txt which reflects to the current license
+ * of this framework.
  */
 namespace Codesmith.SmithNgine.Particles.Modifiers
 {
@@ -12,19 +15,19 @@ namespace Codesmith.SmithNgine.Particles.Modifiers
     [Serializable]
     public class OpacityModifier2 : ParticleModifier
     {
-        public float InitialOpacity { get; set; }
-        public float FinalOpacity { get; set; }
+        public float Initial { get; set; }
+        public float Final { get; set; }
 
         public OpacityModifier2(float initial, float final)
         {
-            InitialOpacity = initial;
-            FinalOpacity = final;
+            Initial = initial;
+            Final = final;
         }
 
-        public override void Apply(Particle p)
+        public override void Apply(Particle p, float elapsedSeconds)
         {
             p.Opacity = Interpolations.LinearInterpolate(
-                InitialOpacity, FinalOpacity, p.TTLPercent);
+                Initial, Final, p.TTLPercent);
         }
     }
 }

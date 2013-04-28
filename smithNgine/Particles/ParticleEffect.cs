@@ -159,7 +159,6 @@ namespace Codesmith.SmithNgine.Particles
             Debug.Assert(!emitters.Contains(emitter), "Can't add emitter twice");
 
             emitter.Effect = this;
-            emitter.GlobalGravity = GravityVector;
             emitters.Add(emitter);
         }
 

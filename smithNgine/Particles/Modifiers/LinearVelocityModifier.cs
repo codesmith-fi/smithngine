@@ -12,21 +12,21 @@ namespace Codesmith.SmithNgine.Particles.Modifiers
 {
     using System;
     using Codesmith.SmithNgine.MathUtil;
+    using Microsoft.Xna.Framework;
 
     [Serializable]
-    public class OpacityModifier1 : ParticleModifier
+    public class LinearVelocityModifier : ParticleModifier
     {
-        public float Final { get; set; }
+        public Vector2 Gravity { get; set; }
 
-        public OpacityModifier1(float final)
+        public LinearVelocityModifier(Vector2 gravity)
         {
-            Final = final;
+            Gravity = gravity;
         }
 
         public override void Apply(Particle p, float elapsedSeconds)
         {
-            p.Opacity = Interpolations.LinearInterpolate(
-                p.InitialOpacity, Final, p.TTLPercent);
+            p.LinearVelocity += Gravity * elapsedSeconds;
         }
     }
 }

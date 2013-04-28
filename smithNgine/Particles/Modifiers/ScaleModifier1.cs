@@ -16,17 +16,17 @@ namespace Codesmith.SmithNgine.Particles.Modifiers
     [Serializable]
     public class ScaleModifier1 : ParticleModifier
     {
-        public float FinalScale { get; set; }
+        public float Final { get; set; }
 
         public ScaleModifier1(float final)
         {
-            FinalScale = final;
+            Final = final;
         }
 
-        public override void Apply(Particle p)
+        public override void Apply(Particle p, float elapsedSeconds)
         {
             p.Scale = Interpolations.LinearInterpolate(
-                p.InitialScale, FinalScale, p.TTLPercent);
+                p.InitialScale, Final, p.TTLPercent);
         }
     }
 }

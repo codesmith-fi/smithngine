@@ -16,6 +16,7 @@ using Codesmith.SmithNgine.Particles;
 using Codesmith.SmithNgine.Primitives;
 using Codesmith.SmithNgine.Particles.Generators;
 using Codesmith.SmithNgine.Particles.Modifiers;
+using Codesmith.SmithNgine.MathUtil;
 
 namespace Codesmith.SmithTest
 {
@@ -114,20 +115,21 @@ namespace Codesmith.SmithTest
                 new RandomScaleGenerator(0.4f, 1.0f, 1.0f));
             emitter.AddPropertyGenerator(
                 new RandomOpacityGenerator(0.5f, 0.0f, 1.0f));
+            emitter.AddPropertyGenerator(
+                new RandomRotationGenerator(0.0f, MathConstants.TwoPI, 1.0f));
+            emitter.AddPropertyGenerator(
+                new RandomAngularVelocityGenerator(-1.0f, 1.0f, 1.0f));
 
             emitter.AddParticleModifier(
                 new OpacityModifier1(0.0f) );
             emitter.AddParticleModifier(
-                new ScaleModifier1(2.0f) );
+                new ScaleModifier1(1.0f) );
+            emitter.AddParticleModifier(
+                new DampingLinearVelocityModifier(1.01f));
 
-            emitter.GlobalGravity = new Vector2(1.1f, 0.0f);
+
             ParticleGenerationParams ep = new ParticleGenerationParams();           
-            ep.RotationRange = new Vector2(0.0f, MathHelper.TwoPi);
-            ep.InitialRotationVariation = 1.0f;
-            ep.AngularVelocityRange = new Vector2(-1f, 1.0f);
-            ep.InitialAngularVelocityVariation = 1.0f;
-            ep.TTLRange = new Vector2(500f, 2000f);         
-            ep.SpeedDamping = 1.02f;
+            ep.TTLRange = new Vector2(500f, 2000f);
             ep.AddTexture(StateManager.Content.Load<Texture2D>("Images/smoke1"));
             ep.AddTexture(StateManager.Content.Load<Texture2D>("Images/smoke2"));
             ep.AddTexture(StateManager.Content.Load<Texture2D>("Images/smoke3"));

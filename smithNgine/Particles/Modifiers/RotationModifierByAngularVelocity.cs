@@ -7,26 +7,26 @@
  * For licensing terms, see License.txt which reflects to the current license
  * of this framework.
  */
-
 namespace Codesmith.SmithNgine.Particles.Modifiers
 {
     using System;
     using Codesmith.SmithNgine.MathUtil;
 
     [Serializable]
-    public class OpacityModifier1 : ParticleModifier
+    public class RotationModifierByAngularVelocity : ParticleModifier
     {
+        public float Initial { get; set; }
         public float Final { get; set; }
 
-        public OpacityModifier1(float final)
+        public RotationModifierByAngularVelocity(float initial, float final)
         {
+            Initial = initial;
             Final = final;
         }
 
         public override void Apply(Particle p, float elapsedSeconds)
         {
-            p.Opacity = Interpolations.LinearInterpolate(
-                p.InitialOpacity, Final, p.TTLPercent);
+            p.Rotation += p.AngularVelocity * elapsedSeconds; 
         }
     }
 }

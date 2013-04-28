@@ -46,18 +46,9 @@ namespace Codesmith.SmithNgine.Particles
     [Serializable]
     public class ParticleGenerationParams
     {
-        private Random random;
-        private Vector2 opacity;
-        private Vector2 rotation;
+        private PseudoRandom random;
         private Vector2 depth;
         private Vector2 quantity;
-        private Vector2 angularvelocity;
-        private float speedDamping;
-        private float speedVariation;
-        private float rotationSpeedVariation;
-        private float rotationVariation;
-        private float opacityVariation;
-        private float scaleVariation;
         private Vector2 ttl;
         private List<Texture2D> textures;
 
@@ -74,91 +65,6 @@ namespace Codesmith.SmithNgine.Particles
             set;
         }
   
-        /// <summary>
-        /// Speed damping, how much the particle slows down during update
-        /// </summary>
-        public float SpeedDamping
-        {
-            get { return speedDamping; }
-            set { speedDamping = value; }
-        }
-
-        /// <summary>
-        /// Get or set the range for rotation speed, radians per second
-        /// </summary>
-        public Vector2 AngularVelocityRange
-        {
-            get { return angularvelocity; }
-            set { angularvelocity = value; }
-        }
-
-        /// <summary>
-        /// Get or set the variation for initial angle
-        /// </summary>
-        public float InitialAngularVelocityVariation
-        {
-            get { return rotationSpeedVariation; }
-            set { rotationSpeedVariation = MathHelper.Clamp(value, 0.0f, 1.0f); }
-        }
-
-        /// <summary>
-        /// Get initial rotation speed.
-        /// <see cref="AngularVelocityRange"/>
-        /// <see cref="InitialAngularVelocityVariation"/>
-        /// </summary>
-        public float InitialAngularVelocity
-        {
-            get
-            {
-                return MathHelper.Lerp(angularvelocity.X, angularvelocity.Y,
-                    (float)random.NextDouble() * InitialAngularVelocityVariation);
-            }
-        }
-
-        // Opacity range for new particles, x=min, y=max
-        public Vector2 OpacityRange
-        {
-            get { return opacity; }
-            set { opacity = value; }
-        }
-
-        public float InitialOpacityVariation
-        {
-            get { return opacityVariation; }
-            set { opacityVariation = MathHelper.Clamp(value, 0.0f, 1.0f); }
-        }
-
-        public float InitialOpacity
-        {
-            get
-            {
-                return MathHelper.Lerp(opacity.X, opacity.Y,
-                    (float)random.NextDouble() * InitialOpacityVariation);
-            }
-        }
-
-        public float InitialRotationVariation
-        {
-            get { return rotationVariation; }
-            set { rotationVariation = MathHelper.Clamp(value, 0.0f, 1.0f); }
-        }
-
-        // Initial rotation range for new particles, x=min, y=max
-        public Vector2 RotationRange
-        {
-            get { return rotation; }
-            set { rotation = value; }
-        }
-
-        public float InitialRotation
-        {
-            get
-            {
-                return MathHelper.Lerp(rotation.X, rotation.Y,
-                    (float)random.NextDouble() * InitialRotationVariation);
-            }
-        }
-
         public Vector2 DepthRange
         {
             get { return depth; }
@@ -245,18 +151,11 @@ namespace Codesmith.SmithNgine.Particles
 
         public ParticleGenerationParams()
         {
-            random = new Random();
+            random = new PseudoRandom();
             ParticleBudget = -1;
-            speedDamping = 1.0f;
-            angularvelocity = Vector2.Zero;
             depth = new Vector2(1.0f, 1.0f);
-            InitialAngularVelocityVariation = 0.0f;
-            InitialRotationVariation = 0.0f;
-            InitialOpacityVariation = 0.0f;
             ColorRangeEnd = Color.White;
             ColorRangeStart = Color.White;
-            rotation = Vector2.Zero;
-            opacity = new Vector2(1.0f, 1.0f);
             quantity = Vector2.Zero;
             Color = Color.White;
             textures = new List<Texture2D>();

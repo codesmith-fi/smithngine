@@ -14,11 +14,11 @@ namespace Codesmith.SmithNgine.Particles.Modifiers
     using Codesmith.SmithNgine.MathUtil;
 
     [Serializable]
-    public class OpacityModifier1 : ParticleModifier
+    public class RotationModifier1 : ParticleModifier
     {
         public float Final { get; set; }
 
-        public OpacityModifier1(float final)
+        public RotationModifier1(float final)
         {
             Final = final;
         }
@@ -26,7 +26,7 @@ namespace Codesmith.SmithNgine.Particles.Modifiers
         public override void Apply(Particle p, float elapsedSeconds)
         {
             p.Opacity = Interpolations.LinearInterpolate(
-                p.InitialOpacity, Final, p.TTLPercent);
+                p.InitialRotation, Final, p.TTLPercent);
         }
     }
 }

@@ -14,19 +14,18 @@ namespace Codesmith.SmithNgine.Particles.Modifiers
     using Codesmith.SmithNgine.MathUtil;
 
     [Serializable]
-    public class OpacityModifier1 : ParticleModifier
+    public class DampingLinearVelocityModifier : ParticleModifier
     {
-        public float Final { get; set; }
+        public float Damping { get; set; }
 
-        public OpacityModifier1(float final)
+        public DampingLinearVelocityModifier(float amount)
         {
-            Final = final;
+            Damping = amount;
         }
 
         public override void Apply(Particle p, float elapsedSeconds)
         {
-            p.Opacity = Interpolations.LinearInterpolate(
-                p.InitialOpacity, Final, p.TTLPercent);
+            p.LinearVelocity *= Damping;
         }
     }
 }

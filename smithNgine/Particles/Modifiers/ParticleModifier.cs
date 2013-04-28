@@ -1,4 +1,13 @@
-﻿namespace Codesmith.SmithNgine.Particles.Modifiers
+﻿/**
+ * SmithNgine Game Framework
+ * 
+ * Copyright (C) 2013 by Erno Pakarinen / Codesmith (www.codesmith.fi)
+ * All Rights Reserved
+ * 
+ * For licensing terms, see License.txt which reflects to the current license
+ * of this framework.
+ */
+namespace Codesmith.SmithNgine.Particles.Modifiers
 {
     using System;
 
@@ -16,7 +25,7 @@
         /// Applies this modifier to the given particle with the given amount
         /// </summary>
         /// <param name="p">The particle to modify</param>
-        /// <param name="amount">The amount, value between 0.0 and 1.0</param>
-        public abstract void Apply(Particle p);
+        /// <param name="elapsedSeconds">The amount of seconds passed since previous update</param>
+        public abstract void Apply(Particle p, float elapsedSeconds);
     }
 }

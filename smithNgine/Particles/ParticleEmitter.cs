@@ -113,15 +113,6 @@ namespace Codesmith.SmithNgine.Particles
         }
 
         /// <summary>
-        /// Global "Gravity" which affects particles in this ParticleEmitter
-        /// </summary>
-        public Vector2 GlobalGravity
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
         /// Get the count of particles active in this emitter
         /// </summary>
         public int ParticleCount
@@ -154,7 +145,6 @@ namespace Codesmith.SmithNgine.Particles
             random = new PseudoRandom();
             // by default, emitter is relative to the effect position
             Position = position;
-            GlobalGravity = Vector2.Zero;
             name = "AbstractEmitter";            
         }
         #endregion
@@ -245,16 +235,14 @@ namespace Codesmith.SmithNgine.Particles
                 p.TTLPercent += elapsedMs / p.TTL;
                 foreach (ParticleModifier mod in modifiers)
                 {
-                    mod.Apply(p);
+                    mod.Apply(p, elapsedSeconds);
                 }
 
-                p.AngularVelocity = Interpolations.LinearInterpolate(
-                    p.InitialAngularVelocity, Configuration.AngularVelocityRange.Y, p.TTLPercent);
                 p.Position += p.LinearVelocity * elapsedSeconds;
-                p.Rotation += p.AngularVelocity * elapsedSeconds;
-                p.LinearVelocity *= p.SpeedDamping;
 
-                p.LinearVelocity += GlobalGravity;
+                // Finally apply the gravity from the effect
+                p.LinearVelocity += hostEffect.GravityVector;
+
                 if (p.TTLPercent >= 1.0f)
                 {
                     particles.RemoveAt(i);
