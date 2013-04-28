@@ -2,6 +2,8 @@
 using Codesmith.SmithNgine.Input;
 using Codesmith.SmithNgine.MathUtil;
 using Codesmith.SmithNgine.Particles;
+using Codesmith.SmithNgine.Particles.Generators;
+using Codesmith.SmithNgine.Particles.Modifiers;
 using Codesmith.SmithNgine.View;
 using Codesmith.SmithShooter.Entities;
 using Codesmith.SmithShooter.Items;
@@ -100,14 +102,11 @@ namespace Codesmith.SmithShooter.Gameplay
             ResetGame();
             EntityLayer.AddParticleEffect(shipEffect);
             EntityLayer.AddParticleEffect(shipEffect2);
-
-//            CurrentLevel.PhysicsWorld.ContactManager.OnBroadphaseCollision += world_OnBroadPhaseCollision;
         }
 
         private PlayerShip CreatePlayer(Texture2D shipTexture)
         {
             Body body = BodyFromTexture(shipTexture, WorldConversions.ShipDensity);
-//            Body body = null;
             PlayerShip ship = new PlayerShip(shipTexture, CurrentLevel.Bounds, 
                 CurrentLevel.PhysicsWorld, body );
 
@@ -137,7 +136,6 @@ namespace Codesmith.SmithShooter.Gameplay
         public void ResetGame()
         {
             Body body = BodyFromTexture(shipTexture, WorldConversions.ShipDensity);
-//            Body body = null;
             CurrentEnemy = new EnemyShip(shipTexture, CurrentLevel.Bounds, 
                 CurrentLevel.PhysicsWorld, body);
             CurrentEnemy.Body.IsStatic = false;
@@ -231,39 +229,37 @@ namespace Codesmith.SmithShooter.Gameplay
 
             ParticleEmitter shipEmitter = new ConeEmitter(Vector2.Zero,
                 MathHelper.ToRadians(90));
-            ParticleGenerationParams smokeEmitterParams1 = new ParticleGenerationParams();
-            smokeEmitterParams1.AddTexture(texture1);
-            smokeEmitterParams1.AddTexture(texture2);
-            smokeEmitterParams1.QuantityRange = new Vector2(10, 10);
-            smokeEmitterParams1.ScaleRange = new Vector2(0.1f, 2.0f);
-            smokeEmitterParams1.DepthRange = new Vector2(0.0f, 1.0f);
-            smokeEmitterParams1.OpacityRange = new Vector2(0.6f, 0f);
-            smokeEmitterParams1.SpeedRange = new Vector2(2.1f, 4.0f);
-            smokeEmitterParams1.SpeedDamping = 0.99f;
-            smokeEmitterParams1.RotationRange = new Vector2(-1.0f, 1.0f);
-            smokeEmitterParams1.Color = Color.Green * 0.7f;
-            smokeEmitterParams1.TTLRange = new Vector2(2000.0f, 5000.0f);
-
-            shipEmitter.Configuration = smokeEmitterParams1;
+            shipEmitter.AddTexture(texture1);
+            shipEmitter.AddTexture(texture2);
+            shipEmitter.Quantity = 10;
+            shipEmitter.AddPropertyGenerator(new RandomSpeedGenerator(2.01f, 4.0f, 1.0f));
+            shipEmitter.AddPropertyGenerator(new ConstantColorGenerator(Color.Green * 0.7f));
+            shipEmitter.AddPropertyGenerator(new RandomTTLGenerator(2.0f, 5.0f, 1.0f));
+            shipEmitter.AddParticleModifier(new ScaleModifier2(0.1f, 2.0f));
+            shipEmitter.AddParticleModifier(new DepthModifier2(0.0f, 1.0f));
+            shipEmitter.AddParticleModifier(new OpacityModifier2(0.6f, 0f));
+            shipEmitter.AddParticleModifier(new DampingLinearVelocityModifier(0.99f));
+            shipEmitter.AddParticleModifier(new RotationModifier2(-1.0f, 1.0f));
             shipEffect.AddEmitter(shipEmitter);
             particleSystem.AddEffect(shipEffect);
 
             shipEffect2 = new ParticleEffect(); 
             ParticleEmitter shipEmitter2 = new ConeEmitter(Vector2.Zero, 
                 MathHelper.ToRadians(90));
-            ParticleGenerationParams smokeEmitterParams2 = new ParticleGenerationParams();
-            smokeEmitterParams2.AddTexture(texture1);
-            smokeEmitterParams2.AddTexture(texture2);
-            smokeEmitterParams2.QuantityRange = new Vector2(10, 10);
-            smokeEmitterParams2.ScaleRange = new Vector2(0.1f, 2.0f);
-            smokeEmitterParams2.DepthRange = new Vector2(0.0f, 1.0f);
-            smokeEmitterParams2.OpacityRange = new Vector2(0.6f, 0f);
-            smokeEmitterParams2.SpeedRange = new Vector2(2.1f, 4.0f);
-            smokeEmitterParams2.SpeedDamping = 0.99f;
-            smokeEmitterParams2.RotationRange = new Vector2(-1.0f, 1.0f);
-            smokeEmitterParams2.Color = Color.Yellow;
-            smokeEmitterParams2.TTLRange = new Vector2(2000.0f, 5000.0f);
-            shipEmitter2.Configuration = smokeEmitterParams2;
+            shipEmitter2.AddTexture(texture1);
+            shipEmitter2.AddTexture(texture2);
+            shipEmitter2.Quantity = 10;
+            shipEmitter2.AddPropertyGenerator(new RandomSpeedGenerator(2.01f, 4.0f, 1.0f));
+            shipEmitter2.AddPropertyGenerator(new ConstantColorGenerator(Color.Yellow * 0.7f));
+            shipEmitter2.AddPropertyGenerator(new RandomTTLGenerator(2.0f, 5.0f, 1.0f));
+            shipEmitter2.AddParticleModifier(
+                new ScaleModifier2(0.1f, 2.0f));
+            shipEmitter2.AddParticleModifier(
+                new DepthModifier2(0.0f, 1.0f));
+            shipEmitter2.AddParticleModifier(
+                new OpacityModifier2(0.6f, 0f));
+            shipEmitter2.AddParticleModifier(new DampingLinearVelocityModifier(0.99f));
+            shipEmitter2.AddParticleModifier(new RotationModifier2(-1.0f, 1.0f));
             shipEffect2.AddEmitter(shipEmitter2);
             particleSystem.AddEffect(shipEffect2);
 
