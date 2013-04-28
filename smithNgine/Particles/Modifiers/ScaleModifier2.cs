@@ -26,7 +26,7 @@ namespace Codesmith.SmithNgine.Particles.Modifiers
 
         public override void Apply(Particle p, float elapsedSeconds)
         {
-            p.Opacity = Interpolations.LinearInterpolate(
+            p.Scale = Interpolations.LinearInterpolate(
                 Initial, Final, p.TTLPercent);
         }
     }

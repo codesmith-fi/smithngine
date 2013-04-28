@@ -25,7 +25,7 @@ namespace Codesmith.SmithNgine.Particles.Modifiers
 
         public override void Apply(Particle p, float elapsedSeconds)
         {
-            p.Opacity = Interpolations.LinearInterpolate(
+            p.Rotation = Interpolations.LinearInterpolate(
                 p.InitialRotation, Final, p.TTLPercent);
         }
     }
