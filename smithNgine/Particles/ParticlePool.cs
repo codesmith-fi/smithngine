@@ -35,7 +35,7 @@ namespace Codesmith.SmithNgine.Particles
         #region Fields
         private const int PoolGrowTreshold = 100;
         private const int PoolGrowAmount = 1000;
-        private List<Particle> cache;
+        private Queue<Particle> cache;
         private int initialCacheSize;
         private int maximumCache;
         #endregion
@@ -79,7 +79,7 @@ namespace Codesmith.SmithNgine.Particles
         {
             initialCacheSize = initialCache;
             maximumCache = maxLimit;
-            cache = new List<Particle>(initialCache);
+            cache = new Queue<Particle>(initialCacheSize);
             Grow(initialCacheSize);
         }
         #endregion
@@ -96,7 +96,7 @@ namespace Codesmith.SmithNgine.Particles
             if (cache.Count < maximumCache)
             {
                 p.Reset();
-                cache.Add(p);
+                cache.Enqueue(p);
             }
         }
 
@@ -114,8 +114,7 @@ namespace Codesmith.SmithNgine.Particles
             }
 
             // Get a first free radical (err. particle) from the pool 
-            p = cache[0];
-            cache.RemoveAt(0);
+            p = cache.Dequeue();
             Debug.Assert(p != null, "ParticlePool retrieved a null Particle, thats certainly a free radical!:)");
             return p;
         }
@@ -137,7 +136,7 @@ namespace Codesmith.SmithNgine.Particles
             Debug.Assert(cache != null, "Particle List is null");
             for (int i = 0; i < amount; ++i)
             {
-                cache.Add(new Particle(null));
+                cache.Enqueue(new Particle(null));
             }
         }
         #endregion

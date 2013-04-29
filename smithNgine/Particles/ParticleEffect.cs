@@ -112,6 +112,9 @@ namespace Codesmith.SmithNgine.Particles
             }
         }
 
+        /// <summary>
+        /// The particle system owning this effect
+        /// </summary>
         internal ParticleSystem ParticleSystem
         {
             set;

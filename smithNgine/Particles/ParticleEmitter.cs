@@ -247,9 +247,9 @@ namespace Codesmith.SmithNgine.Particles
         /// <returns>List of particles generated, these will be added to the ParticleSys</returns>
         public void Generate( int count )
         {
+            Debug.Assert(textures.Count > 0, "No textures have been added to the emitter");
             Debug.Assert(hostEffect != null, "This emitter is not added to any ParticleEffect");
             ParticlePool pool = hostEffect.ParticleSystem.Pool;
-            Debug.Assert(textures.Count > 0, "No textures have been added to the emitter");
             for (int i = 0; i < count; i++)
             {
                 if (Flags.HasFlag(EmitterModes.UseBudgetOnly))

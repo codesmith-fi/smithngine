@@ -105,12 +105,9 @@ namespace Codesmith.SmithNgine.Particles
             }
         }
 
-        public bool IsPooled
-        {
-            get;
-            internal set;
-        }
-
+        /// <summary>
+        /// The particle bool/cache
+        /// </summary>
         internal ParticlePool Pool
         {
             set;
@@ -125,7 +122,6 @@ namespace Codesmith.SmithNgine.Particles
         {
             effects = new List<ParticleEffect>();
             this.status = ParticleSystemStatus.Idle;
-            IsPooled = false;
             Resume();
         }
         #endregion
@@ -177,11 +173,13 @@ namespace Codesmith.SmithNgine.Particles
         }
         #endregion
 
+        /// <summary>
+        /// Enable particle pool/cache 
+        /// </summary>
+        /// <param name="amount"></param>
         public void EnableCache(int amount = 1000)
         {
             Pool = new ParticlePool(amount);
-            IsPooled = true;
-
         }
 
         #region From Base class
