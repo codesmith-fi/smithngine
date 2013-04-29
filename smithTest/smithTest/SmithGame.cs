@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 using Codesmith.SmithNgine.GameState;
+using Codesmith.SmithNgine.General;
 
 namespace Codesmith.SmithTest
 {
@@ -22,6 +23,7 @@ namespace Codesmith.SmithTest
         MainMenuState state1;
         PauseState pauseState;
         PhysicsState physicsState;
+        FpsCounter fpsCounter;
 
         public SmithGame()
         {
@@ -30,7 +32,7 @@ namespace Codesmith.SmithTest
             graphics.PreferredBackBufferWidth = 1280;
             graphics.PreferredBackBufferHeight = 720;
             Content.RootDirectory = "Content";
-
+            graphics.SynchronizeWithVerticalRetrace = false;
             IsFixedTimeStep = false;
         }
 
@@ -69,6 +71,8 @@ namespace Codesmith.SmithTest
 
         protected override void LoadContent()
         {
+            fpsCounter = new FpsCounter();
+            base.LoadContent();
         }
 
         protected override void UnloadContent()
@@ -87,6 +91,8 @@ namespace Codesmith.SmithTest
 
         protected override void Draw(GameTime gameTime)
         {
+            fpsCounter.Update(gameTime);
+            Window.Title = "FPS: " + fpsCounter.Fps + " AvgTime: " + fpsCounter.AvgTimePerFrame;
             base.Draw(gameTime);
         }
 
