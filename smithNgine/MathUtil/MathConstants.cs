@@ -14,8 +14,9 @@ namespace Codesmith.SmithNgine.MathUtil
     public static class MathConstants
     {
         public const float PI = (float)Math.PI;
-        public const float PIHalf = (float)Math.PI / 2f;
-        public const float PIQuarter = (float)Math.PI / 4f;
+        public const float PIOver2 = (float)Math.PI / 2f;
+        public const float PIOver4 = (float)Math.PI / 4f;
         public const float TwoPI = (float)Math.PI * 2f;
+        public const float PIOver180 = (float)Math.PI / 180;
     }
 }
