@@ -179,9 +179,9 @@ namespace Codesmith.SmithNgine.Particles
         /// Enable particle pool/cache 
         /// </summary>
         /// <param name="amount"></param>
-        public void EnableCache(int amount = 1000)
+        public void EnableCache(int amount, int maxsize)
         {
-            Pool = new ParticlePool(amount, 5000);
+            Pool = new ParticlePool(amount, maxsize);
         }
 
         #region From Base class

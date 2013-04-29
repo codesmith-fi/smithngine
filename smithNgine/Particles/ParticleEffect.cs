@@ -25,7 +25,7 @@ namespace Codesmith.SmithNgine.Particles
     public class ParticleEffect : DrawableGameObject, IRotatableObject
     {
         #region Fields
-        const int MaxParticles = 10000;
+        private readonly int MaxParticles;
         private List<ParticleEmitter> emitters;
         private TimeSpan timeLeft = TimeSpan.Zero;
         private float rotation;
@@ -124,10 +124,18 @@ namespace Codesmith.SmithNgine.Particles
 
         #region Constructors
         /// <summary>
+        /// Default constructor
+        /// </summary>
+        public ParticleEffect() : this(10000)
+        {
+        }
+
+        /// <summary>
         /// Constructor
         /// </summary>
-        public ParticleEffect()
+        public ParticleEffect(int limit)
         {
+            MaxParticles = limit;
             emitters = new List<ParticleEmitter>();
             GravityVector = new Vector2(0.0f, 0.0f);
             Name = "Default Effect";

@@ -104,8 +104,8 @@ namespace Codesmith.SmithTest
 
             // Set up a simple smoke effect
             particleSystem = new ParticleSystem();
-            particleSystem.EnableCache(1000);
-            particleEffect = new ParticleEffect();
+//            particleSystem.EnableCache(6000, 10000);
+            particleEffect = new ParticleEffect(20000);
             particleEffect.Rotation = 0f;
             particleEffect.Position = Vector2.Zero;
 
@@ -113,7 +113,7 @@ namespace Codesmith.SmithTest
 //            emitter = new PointEmitter(Vector2.Zero);
 //            emitter = new ConeEmitter(Vector2.Zero, MathHelper.ToRadians(45));
             emitter = new CircleEmitter(new Circle(50.0f, new Vector2(0, 0)));
-            emitter.Quantity = 1000;
+            emitter.Quantity = 2000;
             emitter.AddPropertyGenerator(
                 new RandomSpeedGenerator(30.0f, 30.0f, 1.0f) );
             emitter.AddPropertyGenerator(
