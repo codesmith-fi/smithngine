@@ -16,10 +16,24 @@ namespace Codesmith.SmithNgine.Particles
     /// <summary>
     /// Implements a particle
     /// </summary>
-    public class Particle
+    public class Particle : IDisposable
     {
+        #region Fields
+        private Texture2D texture;
+        #endregion
+
         #region Properties
-        public Texture2D Texture { get; set; }
+        public Texture2D Texture 
+        {
+            get { return texture; }
+            set
+            {
+                texture = value;
+                Origin = (texture != null) ? 
+                    ( new Vector2(texture.Width / 2, texture.Height / 2)) 
+                    : Vector2.Zero;
+            }
+        }
         public Vector2 Origin { get; set; }
         public float InitialScale { get; set; }
         public float InitialSpeed { get; set; }
@@ -52,23 +66,8 @@ namespace Codesmith.SmithNgine.Particles
         /// <param name="p"></param>
         public Particle(Texture2D texture)
         {
-            InitialSpeed = 0.0f;
-            InitialScale = 1.0f;
-            InitialOpacity = 1.0f;
-            InitialRotation = 0.0f;
-            InitialAngularVelocity = 0.0f;
-            InitialDepth = 0.0f;
-            Depth = 0.0f;
-            Color = Color.White;
-
-            Opacity = InitialOpacity;
-            Rotation = InitialRotation;
-            Scale = InitialScale;
-            AngularVelocity = InitialAngularVelocity;
             Texture = texture;
-            TTL = 1.0f;
-            TTLPercent = 0.0f;
-            Origin = new Vector2(Texture.Width / 2, Texture.Height / 2);
+            Reset();
         }
 
         #endregion
@@ -84,5 +83,29 @@ namespace Codesmith.SmithNgine.Particles
                 Color * Opacity, Rotation, Origin, Scale, SpriteEffects.None, Depth);
         }
         #endregion
+
+        public void Dispose()
+        {
+            Texture.Dispose();
+            Texture = null;
+        }
+
+        public void Reset()
+        {
+            InitialSpeed = 0.0f;
+            InitialScale = 1.0f;
+            InitialOpacity = 1.0f;
+            InitialRotation = 0.0f;
+            InitialAngularVelocity = 0.0f;
+            InitialDepth = 0.0f;
+            Depth = 0.0f;
+            Color = Color.White;
+            Opacity = InitialOpacity;
+            Rotation = InitialRotation;
+            Scale = InitialScale;
+            AngularVelocity = InitialAngularVelocity;
+            TTL = 1.0f;
+            TTLPercent = 0.0f;
+        }
     }
 }

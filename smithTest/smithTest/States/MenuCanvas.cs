@@ -104,12 +104,13 @@ namespace Codesmith.SmithTest
 
             // Set up a simple smoke effect
             particleSystem = new ParticleSystem();
+            particleSystem.EnableCache(1000);
             particleEffect = new ParticleEffect();
             particleEffect.Rotation = 0f;
             particleEffect.Position = Vector2.Zero;
 
-//            emitter = new LineEmitter(new Vector2(-50,0), new Vector2(50,0));
-            emitter = new PointEmitter(Vector2.Zero);
+            emitter = new LineEmitter(new Vector2(-200,0), new Vector2(200,0));
+//            emitter = new PointEmitter(Vector2.Zero);
             emitter.Quantity = 1000;
             emitter.AddPropertyGenerator(
                 new RandomSpeedGenerator(30.0f, 30.0f, 1.0f) );
@@ -122,7 +123,7 @@ namespace Codesmith.SmithTest
             emitter.AddPropertyGenerator(
                 new RandomAngularVelocityGenerator(-1.0f, 1.0f, 1.0f));
             emitter.AddPropertyGenerator(
-                new RandomTTLGenerator(0.5f, 2.0f, 1.0f));
+                new RandomTTLGenerator(0.5f, 10.0f, 1.0f));
             emitter.AddPropertyGenerator(
                 new RandomColorGenerator(Color.White, Color.Red));
             emitter.AddParticleModifier(
@@ -130,7 +131,7 @@ namespace Codesmith.SmithTest
             emitter.AddParticleModifier(
                 new ScaleModifier1(1.0f) );
             emitter.AddParticleModifier(
-                new DampingLinearVelocityModifier(1.01f));
+                new DampingLinearVelocityModifier(1.001f));
 
             emitter.Flags |= EmitterModes.AutoGenerate;
             emitter.AddTexture(StateManager.Content.Load<Texture2D>("Images/smoke1"));

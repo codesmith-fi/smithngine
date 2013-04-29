@@ -105,6 +105,18 @@ namespace Codesmith.SmithNgine.Particles
             }
         }
 
+        public bool IsPooled
+        {
+            get;
+            internal set;
+        }
+
+        internal ParticlePool Pool
+        {
+            set;
+            get;
+        }
+
         #region Constructor
         /// <summary>
         /// Constructs a new particle system
@@ -113,6 +125,7 @@ namespace Codesmith.SmithNgine.Particles
         {
             effects = new List<ParticleEffect>();
             this.status = ParticleSystemStatus.Idle;
+            IsPooled = false;
             Resume();
         }
         #endregion
@@ -125,6 +138,7 @@ namespace Codesmith.SmithNgine.Particles
         public void AddEffect(ParticleEffect newEffect)
         {
             Debug.Assert(!effects.Contains(newEffect), "Can't add same effect twice");
+            newEffect.ParticleSystem = this;
             effects.Add(newEffect);
         }
 
@@ -162,6 +176,13 @@ namespace Codesmith.SmithNgine.Particles
             effects.Clear();
         }
         #endregion
+
+        public void EnableCache(int amount = 1000)
+        {
+            Pool = new ParticlePool(amount);
+            IsPooled = true;
+
+        }
 
         #region From Base class
         public override void Update(GameTime gameTime)

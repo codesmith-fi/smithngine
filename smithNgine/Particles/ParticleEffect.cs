@@ -48,7 +48,6 @@ namespace Codesmith.SmithNgine.Particles
             get;
             set;
         }
-        #endregion
 
         /// <summary>
         /// Gravity vector which gives a velocity modifier for every particle
@@ -113,6 +112,13 @@ namespace Codesmith.SmithNgine.Particles
             }
         }
 
+        internal ParticleSystem ParticleSystem
+        {
+            set;
+            get;
+        }
+        #endregion
+
         #region Constructors
         /// <summary>
         /// Constructor
@@ -157,7 +163,6 @@ namespace Codesmith.SmithNgine.Particles
         public void AddEmitter(ParticleEmitter emitter)
         {
             Debug.Assert(!emitters.Contains(emitter), "Can't add emitter twice");
-
             emitter.Effect = this;
             emitters.Add(emitter);
         }

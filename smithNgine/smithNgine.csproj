@@ -132,6 +132,7 @@
     <Compile Include="Particles\Modifiers\ScaleModifier1.cs" />
     <Compile Include="Particles\Modifiers\ScaleModifier2.cs" />
     <Compile Include="Particles\Modifiers\DampingLinearVelocityModifier.cs" />
+    <Compile Include="Particles\ParticlePool.cs" />
     <Compile Include="View\Camera.cs" />
     <Compile Include="View\SimpleCamera.cs" />
     <Compile Include="Collision\CollisionEventArgs.cs" />

@@ -247,15 +247,30 @@ namespace Codesmith.SmithNgine.Particles
         /// <returns>List of particles generated, these will be added to the ParticleSys</returns>
         public void Generate( int count )
         {
+            Debug.Assert(hostEffect != null, "This emitter is not added to any ParticleEffect");
+            ParticlePool pool = hostEffect.ParticleSystem.Pool;
             Debug.Assert(textures.Count > 0, "No textures have been added to the emitter");
             for (int i = 0; i < count; i++)
             {
                 if (Flags.HasFlag(EmitterModes.UseBudgetOnly))
                 {
                     budget--;
-                    if (budget < 0) return;
+                    if (budget < 0) break;
                 }
-                Particle p = new Particle(textures[random.Next(textures.Count)]);
+
+                Particle p = null;
+                if (pool != null)
+                {
+                    p = pool.Get();
+                    p.Texture = textures[random.Next(textures.Count)];
+                }
+                else
+                {
+                    p = new Particle(textures[random.Next(textures.Count)]);
+                }
+
+                Debug.Assert(p != null, "Particle was not instantiated or fetched from cache!");
+
                 // Apply all generators to this particle
                 foreach (PropertyGenerator g in generators)
                 {
@@ -288,7 +303,8 @@ namespace Codesmith.SmithNgine.Particles
         /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime)
         {
-//            float elapsedMs = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+            Debug.Assert(hostEffect != null, "This emitter is not added to any ParticleEffect");
+            ParticlePool pool = hostEffect.ParticleSystem.Pool;
             float elapsedSeconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
             for (int i = 0; i < particles.Count; i++)
             {
@@ -307,6 +323,10 @@ namespace Codesmith.SmithNgine.Particles
 
                 if (p.TTLPercent >= 1.0f)
                 {
+                    if (pool != null)
+                    {
+                        pool.Insert(p);
+                    }
                     particles.RemoveAt(i);
                     i--;
                 }
