@@ -55,6 +55,15 @@ namespace Codesmith.SmithNgine.Particles
 
         #region Constructors
         /// <summary>
+        /// Default constructor
+        /// </summary>
+        public Particle()
+        {
+            Texture = null;
+            Reset();
+        }
+
+        /// <summary>
         /// Constructs the particle from given parameters
         /// 
         /// TODO: This will change a lot in the future. I intend

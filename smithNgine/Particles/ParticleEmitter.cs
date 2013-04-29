@@ -11,16 +11,16 @@ namespace Codesmith.SmithNgine.Particles
 {
     #region Using Statements
     using System;
-    using Microsoft.Xna.Framework;
-    using Microsoft.Xna.Framework.Graphics;
     using System.Collections.Generic;
     using System.ComponentModel;
-    using Codesmith.SmithNgine.Gfx;
+    using System.Diagnostics;
     using Codesmith.SmithNgine.General;
+    using Codesmith.SmithNgine.Gfx;
     using Codesmith.SmithNgine.MathUtil;
     using Codesmith.SmithNgine.Particles.Generators;
     using Codesmith.SmithNgine.Particles.Modifiers;
-    using System.Diagnostics;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
     #endregion
 
     #region Enumerations
@@ -121,6 +121,9 @@ namespace Codesmith.SmithNgine.Particles
             }
         }
 
+        /// <summary>
+        /// Get or set the rotation (in Radians)
+        /// </summary>
         public float Rotation
         {
             get
@@ -227,6 +230,11 @@ namespace Codesmith.SmithNgine.Particles
             textures.Add(tex);
         }
 
+        /// <summary>
+        /// Generate particles. Used when there is a need to generate a fixed
+        /// amount of particles per second.
+        /// </summary>
+        /// <param name="elapsedSeconds">Elapsed time, in seconds</param>
         public void Generate(float elapsedSeconds)
         {
             // How many particles per frame to generate
@@ -250,6 +258,7 @@ namespace Codesmith.SmithNgine.Particles
             Debug.Assert(textures.Count > 0, "No textures have been added to the emitter");
             Debug.Assert(hostEffect != null, "This emitter is not added to any ParticleEffect");
             ParticlePool pool = hostEffect.ParticleSystem.Pool;
+ 
             for (int i = 0; i < count; i++)
             {
                 if (Flags.HasFlag(EmitterModes.UseBudgetOnly))
@@ -292,15 +301,6 @@ namespace Codesmith.SmithNgine.Particles
             }
         }
 
-        /// <summary>
-        /// Called by the host ParticleEffects
-        /// 
-        /// Updates particles during their lifetime.
-        /// 
-        /// TODO! This will be refactored in future to use ParticleModifiers 
-        /// instead of directly modifying the particle here.
-        /// </summary>
-        /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime)
         {
             Debug.Assert(hostEffect != null, "This emitter is not added to any ParticleEffect");
@@ -325,6 +325,7 @@ namespace Codesmith.SmithNgine.Particles
                 {
                     if (pool != null)
                     {
+                        p.Reset();
                         pool.Insert(p);
                     }
                     particles.RemoveAt(i);

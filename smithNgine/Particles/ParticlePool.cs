@@ -9,11 +9,6 @@
  */
 namespace Codesmith.SmithNgine.Particles
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Linq;
-    using System.Text;
     using Codesmith.SmithNgine.Datatypes;
 
     /// <summary>

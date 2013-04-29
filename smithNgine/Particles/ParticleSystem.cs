@@ -9,12 +9,15 @@
  */
 namespace Codesmith.SmithNgine.Particles
 {
-    using Microsoft.Xna.Framework;
-    using Microsoft.Xna.Framework.Graphics;
     using System.Collections.Generic;
     using System.Diagnostics;
     using Codesmith.SmithNgine.Gfx;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
 
+    /// <summary>
+    /// Statuses of the ParticleSystem
+    /// </summary>
     public enum ParticleSystemStatus
     {
         Idle,
@@ -28,7 +31,6 @@ namespace Codesmith.SmithNgine.Particles
     /// Particle system manages a set of ParticleEffects.
     /// 
     /// Call Update() in gameloop.
-    /// 
     /// 
     /// </summary>
     public class ParticleSystem : DrawableGameObject
@@ -179,7 +181,7 @@ namespace Codesmith.SmithNgine.Particles
         /// <param name="amount"></param>
         public void EnableCache(int amount = 1000)
         {
-            Pool = new ParticlePool(amount);
+            Pool = new ParticlePool(amount, 5000);
         }
 
         #region From Base class

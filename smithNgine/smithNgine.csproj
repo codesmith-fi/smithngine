@@ -95,6 +95,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Datatypes\ObjectPool.cs" />
     <Compile Include="Gfx\AtlasSprite.cs" />
     <Compile Include="Gfx\DrawableGameObject.cs" />
     <Compile Include="Gfx\ScaleEventArgs.cs" />
@@ -103,6 +104,7 @@
     <Compile Include="MathUtil\PseudoRandom.cs" />
     <Compile Include="Particles\Generators\ConstantAngularVelocityGenerator.cs" />
     <Compile Include="Particles\Generators\ConstantColorGenerator.cs" />
+    <Compile Include="Particles\Generators\ConstantDepthGenerator.cs" />
     <Compile Include="Particles\Generators\ConstantOpacityGenerator.cs" />
     <Compile Include="Particles\Generators\ConstantPropertyGenerator.cs" />
     <Compile Include="Particles\Generators\ConstantRotationGenerator.cs" />
@@ -112,6 +114,7 @@
     <Compile Include="Particles\Generators\PropertyGenerator.cs" />
     <Compile Include="Particles\Generators\RandomAngularVelocityGenerator.cs" />
     <Compile Include="Particles\Generators\RandomColorGenerator.cs" />
+    <Compile Include="Particles\Generators\RandomDepthGenerator.cs" />
     <Compile Include="Particles\Generators\RandomOpacityGenerator.cs" />
     <Compile Include="Particles\Generators\RandomRotationGenerator.cs" />
     <Compile Include="Particles\Generators\RandomScaleGenerator.cs" />

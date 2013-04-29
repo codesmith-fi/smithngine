@@ -32,7 +32,7 @@ namespace Codesmith.SmithNgine.Particles
 
         protected override void GenerateParticle(Particle p)
         {
-            float angle = (float)random.NextDouble() * MathHelper.TwoPi;
+            float angle = random.NextFloat() * MathConstants.TwoPI;
 
             emitCircle.Position = Position;
             if (Flags.HasFlag(EmitterModes.RandomPosition))

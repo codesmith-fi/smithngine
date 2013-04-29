@@ -10,8 +10,8 @@
 namespace Codesmith.SmithNgine.Particles
 {
     using System;
-    using System.Diagnostics;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using Codesmith.SmithNgine.General;
     using Codesmith.SmithNgine.Gfx;
     using Microsoft.Xna.Framework;
@@ -189,10 +189,6 @@ namespace Codesmith.SmithNgine.Particles
         #endregion
 
         #region From base class
-        /// <summary>
-        /// Update method, should be called periodically for active effects
-        /// </summary>
-        /// <param name="gameTime">The game time</param>
         public override void Update(GameTime gameTime)
         {
             // Create new particles with emitters
@@ -214,10 +210,6 @@ namespace Codesmith.SmithNgine.Particles
             }
         }
 
-        /// <summary>
-        /// Draws all the particles in this effect
-        /// </summary>
-        /// <param name="spriteBatch">SpriteBatch</param>
         public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             // Draw all existing particles on emitters
