@@ -13,10 +13,11 @@ namespace Codesmith.SmithNgine.MathUtil
     /// </summary>
     public static class MathConstants
     {
-        public const float PI = (float)Math.PI;
-        public const float PIOver2 = (float)Math.PI / 2f;
-        public const float PIOver4 = (float)Math.PI / 4f;
-        public const float TwoPI = (float)Math.PI * 2f;
-        public const float PIOver180 = (float)Math.PI / 180;
+        public const float PI = 3.1415926535898f;
+        public const float PIOver2 = PI / 2f;
+        public const float PIOver4 = PI / 4f;
+        public const float TwoPI = PI * 2f;
+        public const float PIOver180 = PI / 180f;
+        public const float PIUnder180 = 180f / PI;
     }
 }

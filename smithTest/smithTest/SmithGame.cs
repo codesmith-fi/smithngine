@@ -32,7 +32,7 @@ namespace Codesmith.SmithTest
             graphics.PreferredBackBufferWidth = 1280;
             graphics.PreferredBackBufferHeight = 720;
             Content.RootDirectory = "Content";
-            graphics.SynchronizeWithVerticalRetrace = false;
+//            graphics.SynchronizeWithVerticalRetrace = false;
             IsFixedTimeStep = false;
         }
 
