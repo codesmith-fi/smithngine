@@ -85,7 +85,7 @@ namespace Codesmith.SmithTest
             // AnimatedSprite
             // This will make a sprite which animates when mouse is clicked in it.
 /*
-            animSprite = new AnimatedSprite(StateManager.Content, "Images/soniccd", 11, 1);
+            animSprite = new AnimatedSprite(StateManager.Content.Load<Texture2D>("Images/soniccd"), 11, 1);
             animSprite.Position = new Vector2(Bounds.Width / 2, 400);
             animSprite.Style = AnimatedSprite.AnimationStyle.Manual;
             animSprite.InputEventSource = StateManager.Input;

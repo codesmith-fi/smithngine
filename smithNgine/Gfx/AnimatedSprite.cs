@@ -29,8 +29,8 @@ namespace Codesmith.SmithNgine.Gfx
         #endregion
 
         #region Fields
-        private int countRows = 0;
-        private int countColumns = 0;
+//        private int countRows = 0;
+//        private int countColumns = 0;
         private float timePerFrame = 0;
         private float totalElapsed = 0;
         private int fpsValue = 0;
@@ -91,15 +91,14 @@ namespace Codesmith.SmithNgine.Gfx
             atlas = frameAtlas;
             animFirstFrame = firstFrame;
             animLastFrame = lastFrame;
-            countRows = frameAtlas.Rows;
-            countColumns = frameAtlas.Columns;
             currentFrame = firstFrame;
             Fps = fps;
             Continue(true);
         }
 
         /// <summary>
-        /// Instantiate a new AnimatedSprite using a Texture2D
+        /// Instantiate a new AnimatedSprite using a Texture2D. Uses all the subimages in the texture
+        /// for the animation
         /// </summary>
         /// <param name="frameAtlas">The texture to be used for frames</param>
         /// <param name="columnCount">How many columns of frames there are in the atlas</param>
@@ -108,14 +107,16 @@ namespace Codesmith.SmithNgine.Gfx
         public AnimatedSprite(Texture2D frameAtlas, int columnCount = 1, int rowCount = 1, int frameCount = 0)
             : base(Rectangle.Empty)
         {
-            Texture = frameAtlas;
-            FrameSize = new Rectangle(0, 0, Texture.Width / columnCount, Texture.Height / rowCount);
+            Debug.Assert(columnCount > 0, "Argument: No columns for the animation in the texture");
+            Debug.Assert(rowCount > 0, "Argument: No rows for the animation in the texture");
+
+            atlas = new TextureAtlas(frameAtlas, columnCount, rowCount, frameCount);
+            Texture = atlas.Texture;
+            FrameSize = atlas.FrameSize;
             animFirstFrame = 0;
-            int countFrames = frameCount > 0 ? frameCount : rowCount * columnCount;
-            animLastFrame = countFrames - 1;
-            countRows = rowCount;
-            countColumns = columnCount;
-            currentFrame = 0;
+            int frames = frameCount > 0 ? frameCount : rowCount * columnCount;
+            animLastFrame = frames - 1;
+            currentFrame = animFirstFrame;
             Fps = 25;
             Continue(true);
         }
@@ -155,20 +156,8 @@ namespace Codesmith.SmithNgine.Gfx
 
         public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            if (atlas != null)
-            {
-                spriteBatch.Draw(atlas.Texture, Position, atlas.FrameRectangle(currentFrame), 
-                    Color, Rotation, Origin, Scale, SpriteEffects.None, Order);
-            }
-            else if (Texture != null)
-            {
-                int currentRow = this.currentFrame / countColumns;
-                int currentColumn = this.currentFrame % countColumns;
-                Rectangle frameRect = FrameSize;
-                frameRect.X = frameRect.Width * currentColumn;
-                frameRect.Y = frameRect.Height * currentRow;
-                spriteBatch.Draw(this.Texture, Position, frameRect, Color, Rotation, Origin, Scale, SpriteEffects.None, Order);
-            }
+            spriteBatch.Draw(atlas.Texture, Position, atlas.FrameRectangle(currentFrame), 
+                Color, Rotation, Origin, Scale, SpriteEffects.None, Order);
         }
 
         public override void GainFocus()
