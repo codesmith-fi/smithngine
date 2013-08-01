@@ -119,28 +119,6 @@ namespace Codesmith.SmithNgine.Gfx
             Fps = 25;
             Continue(true);
         }
-
-        /// <summary>
-        /// Instantiate new AnimatedSprite from content asset
-        /// </summary>
-        /// <param name="content">ContentManager instance</param>
-        /// <param name="assetName">Name of the texture asset to load</param>
-        /// <param name="columnCount">How many columns of frames there are in the atlas</param>
-        /// <param name="rowCount">How many rows of frames there are in the atlas</param>
-        /// <param name="frameCount">Framecount, use this in case bottom row is full. If not specified, framecount is calculated using rows*cols</param>
-        public AnimatedSprite(ContentManager content, string assetName, int columnCount = 1, int rowCount = 1, int frameCount = 0) 
-            : base(Rectangle.Empty)
-        {
-            Texture = content.Load<Texture2D>(assetName);
-            FrameSize = new Rectangle(0, 0, Texture.Width / columnCount, Texture.Height / rowCount);
-            animFirstFrame = 0;
-            int countFrames = frameCount > 0 ? frameCount : rowCount * columnCount;
-            animLastFrame = countFrames - 1;
-            countRows = rowCount;
-            countColumns = columnCount;
-            Fps = 25;
-            Continue(true);
-        }
         #endregion 
 
         #region New methods
