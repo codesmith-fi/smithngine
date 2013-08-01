@@ -29,8 +29,6 @@ namespace Codesmith.SmithNgine.Gfx
         #endregion
 
         #region Fields
-//        private int countRows = 0;
-//        private int countColumns = 0;
         private float timePerFrame = 0;
         private float totalElapsed = 0;
         private int fpsValue = 0;
