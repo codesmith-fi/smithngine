@@ -8,6 +8,7 @@
 namespace Codesmith.SmithNgine.Gfx
 {
     using System;
+    using System.Diagnostics;
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Content;
     using Microsoft.Xna.Framework.Graphics;
@@ -30,11 +31,13 @@ namespace Codesmith.SmithNgine.Gfx
         #region Fields
         private int countRows = 0;
         private int countColumns = 0;
-        private int countFrames = 0;
         private float timePerFrame = 0;
         private float totalElapsed = 0;
         private int fpsValue = 0;
         private int currentFrame = 0;
+        private int animFirstFrame = 0;
+        private int animLastFrame = 0;
+        private TextureAtlas atlas = null;
         #endregion
 
         #region Properties
@@ -64,12 +67,37 @@ namespace Codesmith.SmithNgine.Gfx
         {
             get
             {
-                return this.countFrames;
+                return 1 + animLastFrame - animFirstFrame;
             }
         }
         #endregion
 
         #region Constructors
+
+        /// <summary>
+        /// Constructs an AnimatedSprite using a TextureAtlas allowing to have multiple separate
+        /// animations in the same TextureAtlas. 
+        /// </summary>
+        /// <param name="frameAtlas">TextureAtlas to be used</param>
+        /// <param name="firstFrame">Number of the first the animation</param>
+        /// <param name="lastFrame">Number of the last frame in the animation</param>
+        /// <param name="fps">The speed of the animation (FPS), default is 25</param>
+        public AnimatedSprite(TextureAtlas frameAtlas, int firstFrame, int lastFrame, int fps = 25)
+            : base(Rectangle.Empty)
+        {
+            Debug.Assert(lastFrame >= firstFrame, "Arguments: lastFrame cannot exist before firstFrame!");
+            Texture = frameAtlas.Texture;
+            FrameSize = frameAtlas.FrameSize;
+            atlas = frameAtlas;
+            animFirstFrame = firstFrame;
+            animLastFrame = lastFrame;
+            countRows = frameAtlas.Rows;
+            countColumns = frameAtlas.Columns;
+            currentFrame = firstFrame;
+            Fps = fps;
+            Continue(true);
+        }
+
         /// <summary>
         /// Instantiate a new AnimatedSprite using a Texture2D
         /// </summary>
@@ -77,16 +105,18 @@ namespace Codesmith.SmithNgine.Gfx
         /// <param name="columnCount">How many columns of frames there are in the atlas</param>
         /// <param name="rowCount">How many rows of frames there are in the atlas</param>
         /// <param name="frameCount">Framecount, use this in case bottom row is full. If not specified, framecount is calculated using rows*cols</param>
-        public AnimatedSprite(Texture2D frameAtlas, int columnCount = 1, int rowCount = 1, int frameCount = -1)
+        public AnimatedSprite(Texture2D frameAtlas, int columnCount = 1, int rowCount = 1, int frameCount = 0)
             : base(Rectangle.Empty)
         {
-            FrameSize = new Rectangle(0, 0, frameAtlas.Bounds.Width / columnCount, frameAtlas.Bounds.Height / rowCount);
-            countFrames = frameCount >= 0 ? frameCount : rowCount * columnCount;
+            Texture = frameAtlas;
+            FrameSize = new Rectangle(0, 0, Texture.Width / columnCount, Texture.Height / rowCount);
+            animFirstFrame = 0;
+            int countFrames = frameCount > 0 ? frameCount : rowCount * columnCount;
+            animLastFrame = countFrames - 1;
             countRows = rowCount;
             countColumns = columnCount;
             currentFrame = 0;
-            Fps = 60;
-            Texture = frameAtlas;
+            Fps = 25;
             Continue(true);
         }
 
@@ -98,15 +128,17 @@ namespace Codesmith.SmithNgine.Gfx
         /// <param name="columnCount">How many columns of frames there are in the atlas</param>
         /// <param name="rowCount">How many rows of frames there are in the atlas</param>
         /// <param name="frameCount">Framecount, use this in case bottom row is full. If not specified, framecount is calculated using rows*cols</param>
-        public AnimatedSprite(ContentManager content, string assetName, int columnCount = 1, int rowCount = 1, int frameCount = -1) 
+        public AnimatedSprite(ContentManager content, string assetName, int columnCount = 1, int rowCount = 1, int frameCount = 0) 
             : base(Rectangle.Empty)
         {
             Texture = content.Load<Texture2D>(assetName);
             FrameSize = new Rectangle(0, 0, Texture.Width / columnCount, Texture.Height / rowCount);
-            countFrames = frameCount >= 0 ? frameCount : rowCount * columnCount;
+            animFirstFrame = 0;
+            int countFrames = frameCount > 0 ? frameCount : rowCount * columnCount;
+            animLastFrame = countFrames - 1;
             countRows = rowCount;
             countColumns = columnCount;
-            Fps = 10;
+            Fps = 25;
             Continue(true);
         }
         #endregion 
@@ -116,7 +148,7 @@ namespace Codesmith.SmithNgine.Gfx
         {
             if (reset)
             {
-                currentFrame = 0;
+                currentFrame = animFirstFrame;
                 totalElapsed = 0;
             }
             IsAnimating = true;
@@ -125,6 +157,11 @@ namespace Codesmith.SmithNgine.Gfx
         public void Pause()
         {
             IsAnimating = false;
+        }
+
+        public void Restart()
+        {
+            Continue(true);
         }
         #endregion
 
@@ -140,7 +177,12 @@ namespace Codesmith.SmithNgine.Gfx
 
         public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            if (Texture != null)
+            if (atlas != null)
+            {
+                spriteBatch.Draw(atlas.Texture, Position, atlas.FrameRectangle(currentFrame), 
+                    Color, Rotation, Origin, Scale, SpriteEffects.None, Order);
+            }
+            else if (Texture != null)
             {
                 int currentRow = this.currentFrame / countColumns;
                 int currentColumn = this.currentFrame % countColumns;
@@ -169,17 +211,17 @@ namespace Codesmith.SmithNgine.Gfx
             if (totalElapsed > timePerFrame)
             {
                 currentFrame++;
-                // Keep the Frame between 0 and the total frames, minus one.
-                if (currentFrame >= countFrames)
+                // Keep the Frame between firstFrame and the lastFrame.
+                if (currentFrame >= animLastFrame)
                 {
                     if (Style.HasFlag(AnimationStyle.Loop))
                     {
-                        currentFrame = 0;
+                        currentFrame = animFirstFrame;
                     }
                     else
                     {
                         animating = false;
-                        currentFrame = countFrames - 1;
+                        currentFrame = animLastFrame;
                     }
                 }
                 totalElapsed -= timePerFrame;

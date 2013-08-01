@@ -1,10 +1,9 @@
-﻿// ***************************************************************************
-// ** SmithTest - demo app for smithNgine framework                         **
-// **                                                                       **
-// ** Copyright (C) 2013 by Erno Pakarinen. All Rights Reserved.            **
-// ** Contact: erno@codesmith.fi                                            **
-// ***************************************************************************
-
+﻿/**
+ * SmithNgine Game Framework
+ * 
+ * Copyright (C) 2013 by Erno Pakarinen / Codesmith (www.codesmith.fi)
+ * All Rights Reserved
+ */
 using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
@@ -85,16 +84,26 @@ namespace Codesmith.SmithTest
 
             // AnimatedSprite
             // This will make a sprite which animates when mouse is clicked in it.
+/*
             animSprite = new AnimatedSprite(StateManager.Content, "Images/soniccd", 11, 1);
             animSprite.Position = new Vector2(Bounds.Width / 2, 400);
             animSprite.Style = AnimatedSprite.AnimationStyle.Manual;
             animSprite.InputEventSource = StateManager.Input;
             AddComponent(animSprite);
-
+*/
             // TextureAtlas
+            // Make textureatlas from the example image
+            atlas = new TextureAtlas(StateManager.Content.Load<Texture2D>("Images/soniccd"), 11, 1);
+
+            // Make AnimatedSprite from the atlas
+            animSprite = new AnimatedSprite(atlas, 0, atlas.Frames - 1, 25);
+            animSprite.Position = new Vector2(Bounds.Width / 2, 400);
+            animSprite.Style = AnimatedSprite.AnimationStyle.Manual;
+            animSprite.InputEventSource = StateManager.Input;
+            AddComponent(animSprite);
+
             // This will use a image with 11 columns and 1 rows. And makes a 
             // sprite for frame 2 (second frame).
-            atlas = new TextureAtlas(StateManager.Content.Load<Texture2D>("Images/soniccd"), 11, 1);
             atlasSprite = atlas.MakeSprite(1);
             atlasSprite.Position = new Vector2(Bounds.Width / 2, 600);
             atlasSprite.Scale = 4.0f;
@@ -114,26 +123,16 @@ namespace Codesmith.SmithTest
 //            emitter = new ConeEmitter(Vector2.Zero, MathHelper.ToRadians(45));
             emitter = new CircleEmitter(new Circle(50.0f, new Vector2(0, 0)));
             emitter.Quantity = 2000;
-            emitter.AddPropertyGenerator(
-                new RandomSpeedGenerator(30.0f, 30.0f, 1.0f) );
-            emitter.AddPropertyGenerator(
-                new RandomScaleGenerator(0.1f, 0.5f, 1.0f));
-            emitter.AddPropertyGenerator(
-                new RandomOpacityGenerator(0.5f, 0.0f, 1.0f));
-            emitter.AddPropertyGenerator(
-                new RandomRotationGenerator(0.0f, MathConstants.TwoPI, 1.0f));
-            emitter.AddPropertyGenerator(
-                new RandomAngularVelocityGenerator(-1.0f, 1.0f, 1.0f));
-            emitter.AddPropertyGenerator(
-                new RandomTTLGenerator(0.5f, 10.0f, 1.0f));
-            emitter.AddPropertyGenerator(
-                new RandomColorGenerator(Color.White, Color.Red));
-            emitter.AddParticleModifier(
-                new OpacityModifier1(0.0f) );
-            emitter.AddParticleModifier(
-                new ScaleModifier1(1.0f) );
-            emitter.AddParticleModifier(
-                new DampingLinearVelocityModifier(1.001f));
+            emitter.AddPropertyGenerator(new RandomSpeedGenerator(30.0f, 30.0f, 1.0f) );
+            emitter.AddPropertyGenerator(new RandomScaleGenerator(0.1f, 0.5f, 1.0f));
+            emitter.AddPropertyGenerator(new RandomOpacityGenerator(0.5f, 0.0f, 1.0f));
+            emitter.AddPropertyGenerator(new RandomRotationGenerator(0.0f, MathConstants.TwoPI, 1.0f));
+            emitter.AddPropertyGenerator(new RandomAngularVelocityGenerator(-1.0f, 1.0f, 1.0f));
+            emitter.AddPropertyGenerator(new RandomTTLGenerator(0.5f, 10.0f, 1.0f));
+            emitter.AddPropertyGenerator(new RandomColorGenerator(Color.White, Color.Red));
+            emitter.AddParticleModifier(new OpacityModifier1(0.0f) );
+            emitter.AddParticleModifier(new ScaleModifier1(1.0f) );
+            emitter.AddParticleModifier(new DampingLinearVelocityModifier(1.001f));
 
             emitter.Flags |= EmitterModes.AutoGenerate;
             emitter.AddTexture(StateManager.Content.Load<Texture2D>("Images/smoke1"));
