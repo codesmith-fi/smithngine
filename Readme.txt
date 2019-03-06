@@ -43,6 +43,4 @@ https://github.com/codesmith-fi/smithngine
 
 Author:
 Erno Pakarinen / Codesmith
-smithngine@codesmith.fi
-
-Please follow my blog @ http://blog.codesmith.fi
+erpakari@gmail.com
