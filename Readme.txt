@@ -36,9 +36,17 @@ SmithNgine is licenced under MIT License. Please read the License.txt in the sam
 
 SmithNgine uses, and distributes the source code of, Farseer Physics Library which is licensed under terms of the respective owners, currently Ms-Pl (Microsoft Permissive License v1.1).
 
+Some videos in Youtube of the engine from back in the day: 
+
+Demo of technology implemented in that engine:
+https://youtu.be/HLBqHS3TtYU
+
+Some early game footage with physics and my particle system:
+https://youtu.be/jsMPip-iNfY
+
+
 Sourcecode is available as a Git repository at Bitbucket and Github
 
-https://bitbucket.org/codesmith/smithngine
 https://github.com/codesmith-fi/smithngine
 
 Author:
